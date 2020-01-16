@@ -3,11 +3,15 @@ import data from "../data"
 import TwitterIcon from "../public/assets/svgs/twitter.svg"
 import GithubIcon from "../public/assets/svgs/github.svg"
 import LinkedInIcon from "../public/assets/svgs/linkedin.svg"
+import MailIcon from "../public/assets/svgs/email.svg"
 
 const Index = () => {
   return (
     <React.Fragment>
       <div className="container mx-auto">
+        <section className="min-w-full mb-10 flex justify-center sm:justify-end ">
+          <a aria-label="Link to blog" href="#" className="no-underline font-sans antialiased font-normal text-xs text-gray-300">Blog</a>
+        </section>
         <section className="min-w-full flex justify-center">
           <div className=" profile-bg bg-cover bg-no-repeat bg-center border-solid border-2 border-gray-100 rounded-full shadow-2xl w-40 h-40" />
         </section>
@@ -42,7 +46,7 @@ const Index = () => {
                 <GithubIcon />
               </a>
             </div>
-            <div className="w-5 h-5">
+            <div className="w-5 h-5 mr-4">
               <a
                 aria-label="LinkedIn"
                 href="https://www.linkedin.com/in/tarang-hirani-72a9b83a/"
@@ -50,6 +54,16 @@ const Index = () => {
                 rel="noopener noreferrer"
               >
                 <LinkedInIcon />
+              </a>
+            </div>
+            <div className="w-5 h-5">
+              <a
+                aria-label="Email"
+                href="https://www.linkedin.com/in/tarang-hirani-72a9b83a/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MailIcon />
               </a>
             </div>
           </div>
