@@ -59,7 +59,7 @@ const Index = () => {
             <div className="w-5 h-5">
               <a
                 aria-label="Email"
-                href="https://www.linkedin.com/in/tarang-hirani-72a9b83a/"
+                href="mailto:tarang9211@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
               >
