@@ -3,7 +3,7 @@
 @import "tailwindcss/components";
 
 html {
-  --main-bg-color: rgb(54, 54, 56);
+  --main-bg-color: #282c35;
 }
 
 body {

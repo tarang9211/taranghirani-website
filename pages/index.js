@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link";
 import data from "../data"
 import Container from '../components/container';
 import TwitterIcon from "../public/assets/svgs/twitter.svg"
@@ -11,7 +12,9 @@ const Index = () => {
     <React.Fragment>
       <Container>
         <section className="min-w-full mb-2 flex justify-center sm:justify-end italic">
-          <a aria-label="Link to blog" href="#" className="no-underline font-sans antialiased font-normal text-xs text-gray-300 projects-link">Blog</a>
+          <Link href="/blog">
+            <a aria-label="Link to blog" className="no-underline font-sans antialiased font-normal text-sm text-gray-300 projects-link">Blog</a>
+          </Link>
         </section>
         <section className="min-w-full flex justify-center">
           <div className=" profile-bg bg-cover bg-no-repeat bg-center border-solid border-2 border-gray-100 rounded-full shadow-2xl w-40 h-40" />

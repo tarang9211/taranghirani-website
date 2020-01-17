@@ -6,7 +6,11 @@ module.exports = withCSS(
   withImages({
     exclude: path.resolve(__dirname, 'assets/svgs'),
     webpack: (config, options) => {
-      return config
+      config.module.rules.push({
+        test: /\.md/,
+        use: 'raw-loader'
+      })
+      return config;
     }
   })
 );
