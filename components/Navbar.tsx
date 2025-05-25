@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Navbar: React.FC = () => (
   <nav className="sticky top-0 z-50 w-full bg-black text-white py-4 px-6">
