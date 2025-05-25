@@ -1,9 +1,10 @@
-import React from "react"
+// pages/index.tsx
+import Hero from '../components/Hero';
 
-function Index() {
+export default function Home() {
   return (
-    <div>Index</div>
-  )
-};
-
-export default Index;
+    <>
+      <Hero />
+    </>
+  );
+}
