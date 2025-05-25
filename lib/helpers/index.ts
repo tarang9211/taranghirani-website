@@ -7,16 +7,15 @@ interface HeroImage {
   alt: string;
 }
 
-
 export async function getHeroImage(): Promise<HeroImage | null> {
   const { resources } = await cloudinary.search
-    .expression('tags:hero')
-    .with_field('context')
+    .expression("tags:hero")
+    .with_field("context")
     .max_results(1)
     .execute();
   const hero = resources.at(0);
   return {
     url: hero.secure_url,
-    alt: hero.context?.custom?.alt ?? 'Hero image',
+    alt: hero.context?.custom?.alt ?? "Hero image",
   };
 }
