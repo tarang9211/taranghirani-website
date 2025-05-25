@@ -28,16 +28,16 @@ export default function Hero() {
   return (
     <section className="relative w-full">
       {/* Hero image or a gray placeholder while loading */}
-      {src ? (
-        <img src={src} alt={alt} className="w-full h-[60vh] object-cover" />
-      ) : (
-        <div className="w-full h-[60vh] bg-gray-800 flex items-center justify-center">
-          <span className="text-gray-400">Loading hero…</span>
-        </div>
-      )}
+{src ? (
+  <img src={src} alt={alt} className="w-full h-auto" />
+) : (
+  <div className="w-full h-[60vh] bg-gray-800 flex items-center justify-center">
+    <span className="text-gray-400">Loading hero…</span>
+  </div>
+)}
 
       {/* Overlay heading */}
-      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+      <div className="absolute inset-0 flex items-center justify-center">
         <h1 className="text-4xl md:text-6xl font-bold text-center">
           Capturing&nbsp;Nature&rsquo;s&nbsp;Majesty
         </h1>
