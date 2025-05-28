@@ -29,8 +29,8 @@ export interface GalleryImage {
 
 export async function listImages(limit = 9): Promise<GalleryImage[]> {
   const { resources } = await cloudinary.search
-    .expression('folder=wildlife')
-    .sort_by('public_id', 'desc')
+    .expression("tags:home-gallery AND folder=wildlife")
+    .sort_by("metadata.home_gallery_sort_order", "asc")
     .max_results(limit)
     .execute();
 
