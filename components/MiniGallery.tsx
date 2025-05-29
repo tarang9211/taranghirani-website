@@ -27,10 +27,11 @@ export default function MiniGallery({ images }: MiniGalleryProps) {
         ))}
       </div>
       <div className="mt-10 flex justify-center">
-        <Link href="/gallery" legacyBehavior>
-          <button className="border border-white px-6 py-2 hover:bg-white hover:text-black transition">
-            View&nbsp;More
-          </button>
+        <Link
+          href="/gallery"
+          className="border border-white px-6 py-2 hover:bg-white hover:text-black transition"
+        >
+          View More
         </Link>
       </div>
     </section>
