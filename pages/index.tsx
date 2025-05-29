@@ -16,7 +16,6 @@ export async function getStaticProps() {
 }
 
 export default function Home({ url, alt, images }) {
-  console.log(images);
   return (
     <>
       <Hero src={url} alt={alt} />
