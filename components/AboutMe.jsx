@@ -15,13 +15,18 @@ export default function AboutSection({ featuredImage }) {
         className="w-96 md:w-[28rem] h-auto object-cover shadow-lg"
       />
       <div className="max-w-2xl lg:max-w-3xl">
-        <h2 className="text-3xl font-semibold mb-4">About&nbsp;Tarang</h2>
+        <h2 className="text-3xl font-semibold mb-4">
+          My Journey into the Wild
+        </h2>
 
         <p className="mb-4">
-          I’ve been fascinated by wildlife since childhood — travelling to
-          various parks around India. The camera came later. On a leisure trip
-          to the forests of Central India, I decided to document what I’d been
-          watching all my life, and that first roll of images set the course.
+          I’ve been fascinated by wildlife since childhood — starting from
+          various parks in India, seemingly endless plains of Serengeti,
+          stunning landscapes of the Masai Mara, and the dusty savannahs of
+          Amboseli admist the mighty Mt. Kilimanjaro . The camera came later. On
+          a leisure trip to the forests of Central India, I decided to document
+          what I’d been watching all my life, and that first roll of images set
+          the course.
         </p>
 
         <p className="mb-4">
@@ -32,7 +37,7 @@ export default function AboutSection({ featuredImage }) {
         </p>
 
         <p>
-          My kit has grown up with me—from an entry-level Nikon DSLR to the
+          My kit has grown up with me—from entry-level Nikon DSLRs to the
           mirrorless flagship&nbsp;
           <strong>Nikon Z9</strong>, letting me work quickly and unobtrusively
           in the wild.
