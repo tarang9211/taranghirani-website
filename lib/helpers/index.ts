@@ -27,12 +27,25 @@ export interface GalleryImage {
   url: string;
 }
 
-export async function listImages(limit = 9): Promise<GalleryImage[]> {
-  const { resources } = await cloudinary.search
-    .expression("tags:home-gallery AND folder=wildlife")
-    .sort_by("metadata.home_gallery_sort_order", "asc")
-    .max_results(limit)
-    .execute();
+export async function listImages(
+  limit = 9,
+  includeAll = false,
+): Promise<GalleryImage[]> {
+  const expression = includeAll
+    ? "folder=wildlife"
+    : "tags:home-gallery AND folder=wildlife";
+
+  let searchQuery = cloudinary.search.expression(expression).max_results(limit);
+
+  // Only apply sorting for home-gallery images
+  if (!includeAll) {
+    searchQuery = searchQuery.sort_by(
+      "metadata.home_gallery_sort_order",
+      "asc",
+    );
+  }
+
+  const { resources } = await searchQuery.execute();
 
   return resources.map((r) => ({
     id: r.public_id,
