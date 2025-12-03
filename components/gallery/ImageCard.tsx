@@ -1,14 +1,21 @@
 import React from "react";
+import { GalleryImage } from "../../lib/helpers";
 
 interface ImageCardProps {
-  id: string;
-  url: string;
+  image: GalleryImage;
   alt?: string;
+  onSelect?: (image: GalleryImage) => void;
 }
 
-const ImageCard: React.FC<ImageCardProps> = ({ id, url, alt }) => {
+const ImageCard: React.FC<ImageCardProps> = ({ image, alt, onSelect }) => {
+  const { id, url } = image;
+
   return (
-    <div className="group cursor-pointer w-full">
+    <button
+      type="button"
+      onClick={() => onSelect?.(image)}
+      className="group cursor-pointer w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+    >
       <div className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
         <img
           src={url}
@@ -17,10 +24,9 @@ const ImageCard: React.FC<ImageCardProps> = ({ id, url, alt }) => {
           loading="lazy"
           style={{ display: "block" }}
         />
-        {/* Optional overlay for hover effects */}
         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300" />
       </div>
-    </div>
+    </button>
   );
 };
 
