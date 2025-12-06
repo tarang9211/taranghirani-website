@@ -27,6 +27,12 @@ export interface GalleryImage {
   url: string;
 }
 
+/**
+ * For images to be displayed in the website they needs to be uploaded in the "widlife" folder on Cloudinary
+ * @param limit 
+ * @param includeAll 
+ * @returns 
+ */
 export async function listImages(
   limit = 9,
   includeAll = false,

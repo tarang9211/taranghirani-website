@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import ImageLightbox from "../components/gallery/ImageLightbox";
 import MasonryGrid from "../components/gallery/MasonryGrid";
@@ -35,6 +36,30 @@ export async function getStaticProps() {
 
 export default function Gallery({ images }: GalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [hasHydratedFromQuery, setHasHydratedFromQuery] = useState(false);
+  const router = useRouter();
+  const imageQueryParam = router.query.image;
+  const imageQueryId =
+    typeof imageQueryParam === "string" ? imageQueryParam : undefined;
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    if (imageQueryId) {
+      const matchIndex = images.findIndex((img) => img.id === imageQueryId);
+
+      if (matchIndex !== -1) {
+        setSelectedIndex((current) =>
+          current === matchIndex ? current : matchIndex,
+        );
+        setHasHydratedFromQuery(true);
+        return;
+      }
+    }
+
+    setSelectedIndex((current) => (current === null ? current : null));
+    setHasHydratedFromQuery(true);
+  }, [router.isReady, imageQueryId, images]);
 
   const selectedImage = useMemo(() => {
     if (
@@ -47,6 +72,36 @@ export default function Gallery({ images }: GalleryProps) {
 
     return images[selectedIndex] ?? null;
   }, [selectedIndex, images]);
+
+  useEffect(() => {
+    if (!router.isReady || !hasHydratedFromQuery) return;
+
+    const currentId =
+      selectedIndex === null ? undefined : images[selectedIndex]?.id;
+
+    if (currentId === imageQueryId) return;
+
+    const nextQuery = { ...router.query };
+
+    if (currentId) {
+      nextQuery.image = currentId;
+    } else {
+      delete nextQuery.image;
+    }
+
+    router.replace(
+      { pathname: router.pathname, query: nextQuery },
+      undefined,
+      { shallow: true, scroll: false },
+    );
+  }, [
+    router,
+    router.isReady,
+    images,
+    selectedIndex,
+    imageQueryId,
+    hasHydratedFromQuery,
+  ]);
 
   // Opens the lightbox at the index of the image that was clicked in the grid.
   const handleSelect = useCallback(
