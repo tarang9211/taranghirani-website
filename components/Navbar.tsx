@@ -17,7 +17,6 @@ const Navbar: React.FC = () => (
         <Link href="/gallery" className="hover:text-gray-300 transition-colors">
           Gallery
         </Link>
-        <span className="hover:text-gray-300 transition-colors">About</span>
       </div>
     </div>
   </nav>
