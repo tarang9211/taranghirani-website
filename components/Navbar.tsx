@@ -9,7 +9,7 @@ const navItems = [
 
 const getLinkClasses = (currentPath: string, href: string) => {
   const isActive = currentPath === href;
-  const baseClasses = "transition-colors";
+  const baseClasses = "font-display tracking-[0.1em] uppercase transition-colors";
   const inactiveClasses = "text-gray-400 hover:text-gray-200";
   const activeClasses = "text-white border-b border-white";
 
@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
         >
           Tarang Hirani
         </Link>
-        <div className="flex space-x-8 text-lg font-medium">
+        <div className="flex space-x-8 text-sm font-medium">
           {navItems.map(({ href, label }) => (
             <Link
               key={href}
