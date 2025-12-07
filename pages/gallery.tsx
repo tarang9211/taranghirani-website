@@ -183,7 +183,7 @@ export default function Gallery({ images }: GalleryProps) {
       </Head>
 
       <div className="min-h-screen bg-charcoal py-16 text-parchment">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
           {images.length > 0 ? (
             <MasonryGrid images={images} onSelect={handleSelect} />
           ) : (
