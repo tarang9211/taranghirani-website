@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { INSTAGRAM_URL } from "../lib/constants";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -39,6 +40,14 @@ const Navbar: React.FC = () => {
               {label}
             </Link>
           ))}
+          <Link
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-display tracking-[0.1em] uppercase transition-colors text-gray-400 hover:text-gray-200"
+          >
+            Instagram
+          </Link>
         </div>
       </div>
     </nav>
