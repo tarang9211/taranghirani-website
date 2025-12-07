@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
   const { pathname } = useRouter();
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-black text-white py-4 px-6">
+    <nav className="sticky top-0 z-50 w-full bg-charcoal text-white py-4 px-6">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link
           href="/"
