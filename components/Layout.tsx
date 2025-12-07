@@ -1,6 +1,7 @@
 import React from "react";
 import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -23,10 +24,11 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div
-      className={`${playfair.variable} ${sourceSans.variable} min-h-screen bg-black text-white font-body`}
+      className={`${playfair.variable} ${sourceSans.variable} min-h-screen bg-black text-white font-body flex flex-col`}
     >
       <Navbar />
-      <main>{children}</main>
+      <main className="flex-grow">{children}</main>
+      <Footer />
     </div>
   );
 };
