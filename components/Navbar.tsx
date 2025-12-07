@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link
           href="/"
-          className="text-4xl font-semibold hover:text-gray-300 transition-colors"
+          className="text-4xl font-semibold font-display hover:text-gray-300 transition-colors"
         >
           Tarang Hirani
         </Link>
