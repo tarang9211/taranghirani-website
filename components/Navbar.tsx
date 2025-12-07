@@ -22,14 +22,14 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-charcoal text-white py-4 px-6">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0">
         <Link
           href="/"
-          className="text-4xl font-semibold font-display hover:text-gray-300 transition-colors"
+          className="text-3xl md:text-4xl font-semibold font-display hover:text-gray-300 transition-colors"
         >
           Tarang Hirani
         </Link>
-        <div className="flex space-x-8 text-sm font-medium">
+        <div className="flex space-x-6 md:space-x-8 text-xs md:text-sm font-medium">
           {navItems.map(({ href, label }) => (
             <Link
               key={href}
