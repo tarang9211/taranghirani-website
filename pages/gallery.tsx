@@ -182,13 +182,13 @@ export default function Gallery({ images }: GalleryProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <div className="min-h-screen bg-black py-16">
+      <div className="min-h-screen bg-charcoal py-16 text-parchment">
         <div className="max-w-7xl mx-auto">
           {images.length > 0 ? (
             <MasonryGrid images={images} onSelect={handleSelect} />
           ) : (
             <div className="flex items-center justify-center min-h-64">
-              <div className="text-center text-gray-600">
+              <div className="text-center text-gray-400">
                 <p className="text-lg">No images found in the gallery.</p>
               </div>
             </div>

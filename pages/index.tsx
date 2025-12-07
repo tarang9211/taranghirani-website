@@ -25,10 +25,10 @@ export async function getStaticProps() {
 
 export default function Home({ url, alt, images, featuredImage }) {
   return (
-    <>
+    <div className="bg-charcoal text-parchment">
       <Hero src={url} alt={alt} />
       <MiniGallery images={images} />
       <AboutMe featuredImage={featuredImage} />
-    </>
+    </div>
   );
 }
