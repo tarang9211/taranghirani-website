@@ -8,31 +8,26 @@ interface MiniGalleryProps {
 
 export default function MiniGallery({ images }: MiniGalleryProps) {
   return (
-    <section className="py-10 px-6 md:px-12 lg:px-20">
-      <div className="flex flex-wrap gap-4">
-        {images.map((img) => (
-          <img
-            key={img.id}
-            src={img.url}
-            alt={img.id}
-            /* 1⨉ columns on small, 2⨉ on md, 3⨉ on lg  */
-            className="
-              w-full
-              md:w-[calc(50%-1rem)]      /* 2 columns minus gap */
-              lg:w-[calc(33.333%-1rem)]  /* 3 columns minus gap */
-              object-contain
-              bg-black
-            "
-          />
-        ))}
-      </div>
-      <div className="mt-10 flex justify-center">
-        <Link
-          href="/gallery"
-          className="border border-white px-6 py-2 hover:bg-white hover:text-black transition"
-        >
-          View More
-        </Link>
+    <section className="bg-espresso/80 py-16">
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-6 md:px-12 lg:px-20">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+          {images.map((img) => (
+            <img
+              key={img.id}
+              src={img.url}
+              alt={img.id}
+              className="h-full w-full rounded-2xl border border-smoke/40 bg-charcoal object-cover shadow-lg md:aspect-[4/3]"
+            />
+          ))}
+        </div>
+        <div className="flex justify-center">
+          <Link
+            href="/gallery"
+            className="rounded-full border border-gold/60 bg-gold px-8 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-transparent hover:text-gold"
+          >
+            View Full Gallery
+          </Link>
+        </div>
       </div>
     </section>
   );
