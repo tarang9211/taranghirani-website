@@ -1,10 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import { Instagram } from "lucide-react";
+import { INSTAGRAM_URL } from "../lib/constants";
+
+// Defined once when the module loads
+const currentYear = new Date().getFullYear();
 
 const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
-
   return (
     <footer className="w-full bg-charcoal text-white py-8 px-6 mt-auto">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
@@ -16,7 +18,7 @@ const Footer: React.FC = () => {
         
         <div>
           <Link
-            href="https://www.instagram.com/tarang.hirani/?hl=en"
+            href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white transition-colors"
