@@ -1,6 +1,7 @@
 import Hero from "../components/Hero";
 import MiniGallery from "../components/MiniGallery";
 import AboutMe from "../components/AboutMe";
+import Head from "next/head";
 
 import {
   getHeroImage,
@@ -26,6 +27,13 @@ export async function getStaticProps() {
 export default function Home({ url, alt, images, featuredImage }) {
   return (
     <div className="bg-charcoal text-parchment">
+      <Head>
+        <title>Home</title>
+        <meta
+          name="description"
+          content="Tarang Hirani | Wildlife Photography | Wildlife Photography Portfolio"
+        />
+      </Head>
       <Hero src={url} alt={alt} />
       <MiniGallery images={images} />
       <AboutMe featuredImage={featuredImage} />
