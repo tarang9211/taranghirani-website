@@ -28,10 +28,10 @@ export default function Home({ url, alt, images, featuredImage }) {
   return (
     <div className="bg-charcoal text-parchment">
       <Head>
-        <title>Home</title>
+        <title>Wildlife Photographer</title>
         <meta
           name="description"
-          content="Tarang Hirani | Wildlife Photography | Wildlife Photography Portfolio"
+          content="Wildlife photography portfolio featuring big cats, birds, and wild places across India and Africa. Immersive storytelling from the wild."
         />
       </Head>
       <Hero src={url} alt={alt} />
