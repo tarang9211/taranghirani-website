@@ -27,13 +27,6 @@ export async function getStaticProps() {
 export default function Home({ url, alt, images, featuredImage }) {
   return (
     <div className="bg-charcoal text-parchment">
-      <Head>
-        <title>Wildlife Photographer</title>
-        <meta
-          name="description"
-          content="Wildlife photography portfolio featuring big cats, birds, and wild places across India and Africa. Immersive storytelling from the wild."
-        />
-      </Head>
       <Hero src={url} alt={alt} />
       <MiniGallery images={images} />
       <AboutMe featuredImage={featuredImage} />
