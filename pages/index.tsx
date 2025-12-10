@@ -1,6 +1,7 @@
 import Hero from "../components/Hero";
 import MiniGallery from "../components/MiniGallery";
 import AboutMe from "../components/AboutMe";
+import Head from "next/head";
 
 import {
   getHeroImage,

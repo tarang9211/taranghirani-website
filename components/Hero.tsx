@@ -4,7 +4,7 @@ function Hero({ src, alt }: { src: string; alt?: string }) {
       <img
         src={src}
         alt={alt}
-        className="w-full h-[60vh] md:h-auto md:max-h-[80vh] object-cover"
+        className="w-full h-auto object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-charcoal/95 via-charcoal/60 to-transparent">
         <div className="flex h-full items-center justify-center">

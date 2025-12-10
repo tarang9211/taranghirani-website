@@ -174,10 +174,10 @@ export default function Gallery({ images }: GalleryProps) {
   return (
     <>
       <Head>
-        <title>Gallery</title>
+        <title>Gallery | Wildlife Photographer</title>
         <meta
           name="description"
-          content="Explore our photo gallery showcasing beautiful moments and memories."
+          content="Wildlife photography portfolio featuring big cats, birds, and wild places across India and Africa. Immersive storytelling from the wild."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
