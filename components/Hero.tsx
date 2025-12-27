@@ -6,13 +6,13 @@ function Hero({ src, alt }: { src: string; alt?: string }) {
         alt={alt}
         className="w-full h-auto object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/95 via-charcoal/60 to-transparent">
+      <div className="absolute inset-0 bg-black/40">
         <div className="flex h-full items-center justify-center">
           <div className="max-w-3xl px-6 text-center">
-            <h1 className="text-3xl md:text-5xl font-semibold text-parchment">
+            <h1 className="text-3xl md:text-5xl font-semibold text-white">
               Capturing Nature’s Majesty
             </h1>
-            <p className="mt-6 text-sm md:text-lg text-gold">
+            <p className="mt-6 text-sm md:text-lg text-gray-200">
               Immersive storytelling from the wild
             </p>
           </div>
