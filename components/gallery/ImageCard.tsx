@@ -14,7 +14,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ image, alt, onSelect }) => {
     <button
       type="button"
       onClick={() => onSelect?.(image)}
-      className="group cursor-pointer w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+      className="group cursor-pointer w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-charcoal focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
     >
       <div className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
         <img
@@ -24,7 +24,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ image, alt, onSelect }) => {
           loading="lazy"
           style={{ display: "block" }}
         />
-        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300" />
+        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
       </div>
     </button>
   );

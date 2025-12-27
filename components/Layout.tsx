@@ -24,7 +24,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div
-      className={`${playfair.variable} ${sourceSans.variable} min-h-screen bg-black text-white font-body flex flex-col`}
+      className={`${playfair.variable} ${sourceSans.variable} min-h-screen bg-paper text-charcoal font-body flex flex-col`}
     >
       <Navbar />
       <main className="flex-grow">{children}</main>

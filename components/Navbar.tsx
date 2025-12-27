@@ -11,8 +11,8 @@ const navItems = [
 const getLinkClasses = (currentPath: string, href: string) => {
   const isActive = currentPath === href;
   const baseClasses = "font-display tracking-[0.1em] uppercase transition-colors";
-  const inactiveClasses = "text-gray-400 hover:text-gray-200";
-  const activeClasses = "text-white border-b border-white";
+  const inactiveClasses = "text-gray-500 hover:text-charcoal";
+  const activeClasses = "text-charcoal border-b border-charcoal";
 
   return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`;
 };
@@ -21,11 +21,11 @@ const Navbar: React.FC = () => {
   const { pathname } = useRouter();
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-charcoal text-white py-4 px-6">
+    <nav className="sticky top-0 z-50 w-full bg-paper text-charcoal py-4 px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0">
         <Link
           href="/"
-          className="text-3xl md:text-4xl font-semibold font-display hover:text-gray-300 transition-colors"
+          className="text-3xl md:text-4xl font-semibold font-display hover:text-gray-600 transition-colors"
         >
           Tarang Hirani
         </Link>
@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-display tracking-[0.1em] uppercase transition-colors text-gray-400 hover:text-gray-200"
+            className="font-display tracking-[0.1em] uppercase transition-colors text-gray-500 hover:text-charcoal"
           >
             Instagram
           </Link>

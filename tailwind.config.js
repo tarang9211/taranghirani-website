@@ -11,12 +11,9 @@ module.exports = {
     extend: {
       colors: {
         charcoal: "#0F0F0F",
-        espresso: "#1B1A1F",
-        taupe: "#2B292F",
-        gold: "#C6A76B",
         parchment: "#F4F1EA",
-        lilac: "#A6A2B2",
         smoke: "#3A3842",
+        paper: "#F9F9F9",
       },
       fontFamily: {
         display: ["var(--font-display)", "serif"],
