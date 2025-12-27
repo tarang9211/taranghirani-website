@@ -12,8 +12,8 @@ module.exports = {
       colors: {
         charcoal: "#0F0F0F",
         parchment: "#F4F1EA",
-        smoke: "#3A3842",
-        paper: "#F9F9F9",
+        smoke: "#2F362F",
+        paper: "#D9D3C6",
       },
       fontFamily: {
         display: ["var(--font-display)", "serif"],
