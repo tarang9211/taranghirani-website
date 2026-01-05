@@ -9,7 +9,7 @@ export default function AboutSection({ featuredImage }) {
           alt={featuredImage.alt}
           className="h-auto w-full max-w-md rounded-2xl border border-gray-200 bg-gray-100 object-cover shadow-xl lg:max-w-lg"
         />
-        <div className="max-w-2xl rounded-3xl border border-gray-200 bg-white px-8 py-10 text-smoke shadow-lg lg:max-w-3xl">
+        <div className="max-w-2xl px-4 py-6 text-smoke lg:max-w-3xl lg:px-0">
           <h2 className="text-3xl font-semibold text-charcoal md:text-4xl">
             My Journey into the Wild
           </h2>
