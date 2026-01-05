@@ -14,6 +14,7 @@ module.exports = {
         parchment: "#F4F1EA",
         smoke: "#2F362F",
         paper: "#D9D3C6",
+        sage: '#788978'
       },
       fontFamily: {
         display: ["var(--font-display)", "serif"],

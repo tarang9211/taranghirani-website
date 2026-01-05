@@ -16,7 +16,7 @@ export default function MiniGallery({ images }: MiniGalleryProps) {
               key={img.id}
               src={img.url}
               alt={img.id}
-              className="h-full w-full rounded-2xl border border-gray-200 bg-gray-100 object-cover shadow-lg md:aspect-[4/3]"
+              className="h-full w-full rounded-2xl object-cover shadow-lg md:aspect-[4/3]"
             />
           ))}
         </div>
