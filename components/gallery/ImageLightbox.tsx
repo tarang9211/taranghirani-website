@@ -88,4 +88,3 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
 };
 
 export default ImageLightbox;
-

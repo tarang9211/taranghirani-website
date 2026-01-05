@@ -1,9 +1,13 @@
+import Image from "next/image";
 function Hero({ src, alt }: { src: string; alt?: string }) {
   return (
     <section className="relative w-full overflow-hidden">
-      <img
+      <Image
+        priority={true}
         src={src}
         alt={alt}
+        width="1000"
+        height="1000"
         className="w-full h-auto object-cover"
       />
       <div className="absolute inset-0 bg-black/40">

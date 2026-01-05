@@ -5,7 +5,8 @@ import "../styles/globals.css";
 export default function MyApp({ Component, pageProps }) {
   const meta = {
     title: "Tarang Hirani | Wildlife Photographer",
-    description: "Wildlife photography portfolio featuring big cats, birds, and wild places across India and Africa. Immersive storytelling from the wild.",
+    description:
+      "Wildlife photography portfolio featuring big cats, birds, and wild places across India and Africa. Immersive storytelling from the wild.",
     url: "https://www.taranghirani.com",
   };
 
