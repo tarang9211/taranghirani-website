@@ -10,7 +10,8 @@ const navItems = [
 
 const getLinkClasses = (currentPath: string, href: string) => {
   const isActive = currentPath === href;
-  const baseClasses = "font-display tracking-[0.1em] uppercase transition-colors";
+  const baseClasses =
+    "font-display tracking-[0.1em] uppercase transition-colors";
   const inactiveClasses = "text-gray-500 hover:text-charcoal";
   const activeClasses = "text-charcoal border-b border-sage";
 

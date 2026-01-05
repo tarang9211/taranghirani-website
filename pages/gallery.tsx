@@ -89,11 +89,10 @@ export default function Gallery({ images }: GalleryProps) {
       delete nextQuery.image;
     }
 
-    router.replace(
-      { pathname: router.pathname, query: nextQuery },
-      undefined,
-      { shallow: true, scroll: false },
-    );
+    router.replace({ pathname: router.pathname, query: nextQuery }, undefined, {
+      shallow: true,
+      scroll: false,
+    });
   }, [
     router,
     router.isReady,
@@ -104,12 +103,9 @@ export default function Gallery({ images }: GalleryProps) {
   ]);
 
   // Opens the lightbox at the index of the image that was clicked in the grid.
-  const handleSelect = useCallback(
-    (_image: GalleryImage, index: number) => {
-      setSelectedIndex(index);
-    },
-    [],
-  );
+  const handleSelect = useCallback((_image: GalleryImage, index: number) => {
+    setSelectedIndex(index);
+  }, []);
 
   // Closes the lightbox and returns the gallery to its default state.
   const handleClose = useCallback(() => {
