@@ -15,7 +15,7 @@ export default function AboutSection({ featuredImage }) {
           </h2>
 
           <p className="mt-6 text-smoke">
-            I’ve been fascinated by wildlife since childhood — starting from
+            I’ve been fascinated by wildlife since childhood. Starting from
             various parks in India, seemingly endless plains of Serengeti,
             stunning landscapes of the Masai Mara, and the dusty savannahs of
             Amboseli admist the mighty Mt. Kilimanjaro . The camera came later.
@@ -32,10 +32,8 @@ export default function AboutSection({ featuredImage }) {
           </p>
 
           <p className="mt-6 text-smoke">
-            My kit has grown up with me—from entry-level Nikon DSLRs to the
-            mirrorless flagship&nbsp;
-            <strong className="font-semibold text-charcoal">Nikon Z9</strong>,
-            letting me work quickly and unobtrusively in the wild.
+            My kit has grown up with me, from Nikon DSLRs to the&nbsp;
+            <strong className="font-semibold text-charcoal">Z9</strong>, Nikon's mirrorless flagship,&nbsp;letting me work quickly and unobtrusively in the wild.
           </p>
         </div>
       </div>
