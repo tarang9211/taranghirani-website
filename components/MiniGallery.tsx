@@ -8,7 +8,7 @@ interface MiniGalleryProps {
 
 export default function MiniGallery({ images }: MiniGalleryProps) {
   return (
-    <section className="bg-espresso/80 py-16">
+    <section className="bg-paper py-16">
       <div className="mx-auto flex max-w-7xl flex-col gap-12 px-6 md:px-12 lg:px-20">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
           {images.map((img) => (
@@ -16,14 +16,14 @@ export default function MiniGallery({ images }: MiniGalleryProps) {
               key={img.id}
               src={img.url}
               alt={img.id}
-              className="h-full w-full rounded-2xl border border-smoke/40 bg-charcoal object-cover shadow-lg md:aspect-[4/3]"
+              className="h-full w-full rounded-2xl object-cover shadow-lg md:aspect-[4/3]"
             />
           ))}
         </div>
         <div className="flex justify-center">
           <Link
             href="/gallery"
-            className="rounded-full border border-gold/60 bg-gold px-8 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-transparent hover:text-gold"
+            className="rounded-full border border-gray-300 bg-white px-8 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-charcoal hover:text-white shadow-sm"
           >
             View Full Gallery
           </Link>

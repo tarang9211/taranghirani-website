@@ -11,12 +11,10 @@ module.exports = {
     extend: {
       colors: {
         charcoal: "#0F0F0F",
-        espresso: "#1B1A1F",
-        taupe: "#2B292F",
-        gold: "#C6A76B",
         parchment: "#F4F1EA",
-        lilac: "#A6A2B2",
-        smoke: "#3A3842",
+        smoke: "#2F362F",
+        paper: "#D9D3C6",
+        sage: '#788978'
       },
       fontFamily: {
         display: ["var(--font-display)", "serif"],
