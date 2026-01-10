@@ -1765,10 +1765,10 @@ clone@^1.0.2:
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==
 
-cloudinary@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-2.6.1.tgz#19859befb47ca88d356cd9cad5185067bf34f004"
-  integrity sha512-Dt7o3p4VzxYoTi+EqWkVQmGy6WiXIyMcG5Gbr9kPR/EQ+jZa+3FFzlDKfDx1uDsaB1aTR1gYeO6wZqrgLFaByQ==
+cloudinary@2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-2.7.0.tgz#571572409493b9ccc1dd57df3ddbdf56b91072c9"
+  integrity sha512-qrqDn31+qkMCzKu1GfRpzPNAO86jchcNwEHCUiqvPHNSFqu7FTNF9FuAkBUyvM1CFFgFPu64NT0DyeREwLwK0w==
   dependencies:
     lodash "^4.17.21"
     q "^1.5.1"
@@ -2768,12 +2768,7 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
 
-lodash@^4.17.13:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
-
-lodash@^4.17.15, lodash@^4.17.21:
+lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
