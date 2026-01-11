@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import type { GalleryImage } from "../lib/helpers";
+import Image from "next/image";
 
 interface MiniGalleryProps {
   images: GalleryImage[];
@@ -12,10 +13,12 @@ export default function MiniGallery({ images }: MiniGalleryProps) {
       <div className="mx-auto flex max-w-7xl flex-col gap-12 px-6 md:px-12 lg:px-20">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
           {images.map((img) => (
-            <img
+            <Image
               key={img.id}
               src={img.url}
-              alt={img.id}
+              width="200"
+              height="200"
+              alt="Placeholder"
               className="h-full w-full rounded-2xl object-cover shadow-lg md:aspect-[4/3]"
             />
           ))}

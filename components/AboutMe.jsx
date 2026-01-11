@@ -33,7 +33,9 @@ export default function AboutSection({ featuredImage }) {
 
           <p className="mt-6 text-smoke">
             My kit has grown up with me from Nikon DSLRs to the&nbsp;
-            <strong className="font-semibold text-charcoal">Z9</strong>, Nikon's mirrorless flagship,&nbsp;letting me work quickly and unobtrusively in the wild.
+            <strong className="font-semibold text-charcoal">Z9</strong>, Nikon's
+            mirrorless flagship,&nbsp;letting me work quickly and unobtrusively
+            in the wild.
           </p>
         </div>
       </div>
