@@ -22,6 +22,14 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-JBM6SPGXWS"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)}
+          gtag('js', new Date());
+
+          gtag('config', 'G-JBM6SPGXWS');
+        </script>
       </Head>
       <Component {...pageProps} />
     </Layout>
