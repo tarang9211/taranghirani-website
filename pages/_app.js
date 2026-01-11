@@ -1,6 +1,9 @@
 import Head from "next/head";
+import Script from "next/script";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
+
+const GA_MEASUREMENT_ID = "G-JBM6SPGXWS";
 
 export default function MyApp({ Component, pageProps }) {
   const meta = {
@@ -23,6 +26,18 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
       </Head>
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA_MEASUREMENT_ID}');
+        `}
+      </Script>
       <Component {...pageProps} />
     </Layout>
   );
