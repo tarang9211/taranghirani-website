@@ -25,6 +25,8 @@ export interface GalleryImage {
   id: string;
   /** HTTPS URL to the transformed or original asset */
   url: string;
+  /** Alt text from Cloudinary context or fallback */
+  alt: string;
 }
 
 /**
@@ -41,7 +43,10 @@ export async function listImages(
     ? "folder=wildlife"
     : "tags:home-gallery AND folder=wildlife";
 
-  let searchQuery = cloudinary.search.expression(expression).max_results(limit);
+  let searchQuery = cloudinary.search
+    .expression(expression)
+    .with_field("context")
+    .max_results(limit);
 
   // Only apply sorting for home-gallery images
   if (!includeAll) {
@@ -56,6 +61,7 @@ export async function listImages(
   return resources.map((r) => ({
     id: r.public_id,
     url: r.secure_url,
+    alt: r.context?.custom?.alt ?? "Wildlife photograph",
   }));
 }
 
