@@ -14,7 +14,7 @@ const MasonryGrid: React.FC<MasonryGridProps> = ({ images, onSelect }) => {
         <div key={image.id} className="break-inside-avoid mb-4">
           <ImageCard
             image={image}
-            alt={`Gallery image ${index + 1}`}
+            alt={image.alt}
             onSelect={(currentImage) => onSelect?.(currentImage, index)}
           />
         </div>

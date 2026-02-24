@@ -12,9 +12,9 @@ export default function MiniGallery({ images }: MiniGalleryProps) {
   const supporting = rest.slice(0, 4);
 
   return (
-    <section className="bg-paper py-16 md:py-20">
+    <section className="bg-parchment py-16 md:py-20">
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-6 md:px-12 lg:px-20">
-        <h2 className="text-2xl md:text-3xl font-semibold text-charcoal tracking-tight">
+        <h2 className="font-display text-2xl md:text-3xl font-semibold text-charcoal tracking-tight">
           From the Field
         </h2>
 

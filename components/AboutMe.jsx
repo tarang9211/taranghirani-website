@@ -13,7 +13,7 @@ export default function AboutSection({ featuredImage }) {
           className="h-auto w-full max-w-md rounded-2xl border border-gray-200 bg-gray-100 object-cover shadow-xl lg:max-w-lg"
         />
         <div className="max-w-2xl py-4 text-smoke lg:max-w-3xl">
-          <h2 className="text-3xl font-semibold text-charcoal md:text-4xl tracking-tight">
+          <h2 className="font-display text-3xl font-semibold text-charcoal md:text-4xl tracking-tight">
             My Journey into the Wild
           </h2>
 
