@@ -12,7 +12,7 @@ import {
 
 export async function getStaticProps() {
   const hero = await getHeroImage();
-  const images: GalleryImage[] = await listImages(9);
+  const images: GalleryImage[] = await listImages(5);
   const featuredImage = await getFeaturedImage();
   return {
     props: {

@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 function Hero({ src, alt }: { src: string; alt?: string }) {
   return (
     <section className="relative w-full overflow-hidden">
@@ -6,17 +7,17 @@ function Hero({ src, alt }: { src: string; alt?: string }) {
         priority={true}
         src={src}
         alt={alt}
-        width="1000"
-        height="1000"
-        className="w-full h-auto object-cover"
+        width="1920"
+        height="1080"
+        className="w-full h-auto"
       />
-      <div className="absolute inset-0 bg-black/40">
-        <div className="flex h-full items-center justify-center">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
+        <div className="flex h-full items-end justify-center pb-16 md:pb-20">
           <div className="max-w-3xl px-6 text-center">
-            <h1 className="text-3xl md:text-5xl font-semibold text-white">
-              Capturing Nature’s Majesty
+            <h1 className="font-display text-4xl md:text-6xl font-semibold text-white tracking-tight">
+              Capturing Nature&apos;s Majesty
             </h1>
-            <p className="mt-6 text-sm md:text-lg text-gray-200">
+            <p className="mt-4 text-base md:text-xl font-light text-gray-200/90 tracking-wide">
               Immersive storytelling from the wild
             </p>
           </div>
