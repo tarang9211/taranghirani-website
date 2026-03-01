@@ -25,13 +25,15 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { pathname } = useRouter();
   const isHome = pathname === "/";
+  const isGallery = pathname === "/gallery";
+  const needsTopPadding = !isHome && !isGallery;
 
   return (
     <div
       className={`${playfair.variable} ${sourceSans.variable} min-h-screen bg-paper text-charcoal font-body flex flex-col`}
     >
       <Navbar />
-      <main className={`flex-grow ${isHome ? "" : "pt-24"}`}>{children}</main>
+      <main className={`flex-grow ${needsTopPadding ? "pt-24" : ""}`}>{children}</main>
       <Footer />
     </div>
   );

@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Link from "next/link";
 import ImageLightbox from "../components/gallery/ImageLightbox";
 import MasonryGrid from "../components/gallery/MasonryGrid";
 import { listImages, GalleryImage } from "../lib/helpers";
+
+import { useInView } from "../lib/useInView";
 
 interface GalleryProps {
   images: GalleryImage[];
@@ -11,14 +14,12 @@ interface GalleryProps {
 
 export async function getStaticProps() {
   try {
-    // Fetch all images from wildlife folder (not just home-gallery tagged ones)
     const images = await listImages(30, true);
 
     return {
       props: {
         images,
       },
-      // Revalidate every hour to get new images
       revalidate: 3600,
     };
   } catch (error) {
@@ -28,7 +29,6 @@ export async function getStaticProps() {
       props: {
         images: [],
       },
-      // Retry more frequently if there was an error
       revalidate: 300,
     };
   }
@@ -41,6 +41,8 @@ export default function Gallery({ images }: GalleryProps) {
   const imageQueryParam = router.query.image;
   const imageQueryId =
     typeof imageQueryParam === "string" ? imageQueryParam : undefined;
+
+  const { ref: ctaRef, visible: ctaVisible } = useInView(0.2);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -102,17 +104,14 @@ export default function Gallery({ images }: GalleryProps) {
     hasHydratedFromQuery,
   ]);
 
-  // Opens the lightbox at the index of the image that was clicked in the grid.
   const handleSelect = useCallback((_image: GalleryImage, index: number) => {
     setSelectedIndex(index);
   }, []);
 
-  // Closes the lightbox and returns the gallery to its default state.
   const handleClose = useCallback(() => {
     setSelectedIndex(null);
   }, []);
 
-  // Moves forward to the next image, wrapping to the start when needed.
   const handleNext = useCallback(() => {
     if (images.length === 0) return;
 
@@ -122,7 +121,6 @@ export default function Gallery({ images }: GalleryProps) {
     });
   }, [images.length]);
 
-  // Moves backward to the previous image, wrapping to the end when needed.
   const handlePrevious = useCallback(() => {
     if (images.length === 0) return;
 
@@ -170,7 +168,7 @@ export default function Gallery({ images }: GalleryProps) {
   return (
     <>
       <Head>
-        <title>Gallery | Wildlife Photographer</title>
+        <title>Gallery | Tarang Hirani</title>
         <meta
           name="description"
           content="Wildlife photography portfolio featuring big cats, birds, and wild places across India and Africa. Immersive storytelling from the wild."
@@ -178,19 +176,77 @@ export default function Gallery({ images }: GalleryProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <div className="min-h-screen bg-paper py-16 text-charcoal">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
+      {/* Gallery Header */}
+      <section className="bg-charcoal pt-32 pb-12 md:pt-36 md:pb-20">
+        <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
+          <p className="text-sm font-medium uppercase tracking-[0.2em] text-sage opacity-0 animate-fade-up">
+            <span className="font-display text-base">Portfolio</span>
+          </p>
+          <h1 className="mt-4 font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-parchment tracking-tight opacity-0 animate-fade-up">
+            The Gallery
+          </h1>
+          <p className="mt-5 text-base md:text-lg font-light text-white/45 tracking-wide max-w-xl leading-relaxed opacity-0 animate-fade-up-delay">
+            Each frame is a moment of stillness in the wild — an invitation to
+            look closer and feel the pulse of nature.
+          </p>
+          <div className="mt-8 h-px w-16 bg-sage/30 opacity-0 animate-fade-up-delay" />
+        </div>
+      </section>
+
+      {/* Gallery Grid */}
+      <section className="bg-charcoal pb-24 md:pb-32">
+        <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
           {images.length > 0 ? (
             <MasonryGrid images={images} onSelect={handleSelect} />
           ) : (
             <div className="flex items-center justify-center min-h-64">
-              <div className="text-center text-gray-500">
-                <p className="text-lg">No images found in the gallery.</p>
+              <div className="text-center text-white/40">
+                <p className="text-lg font-light">
+                  No images found in the gallery.
+                </p>
               </div>
             </div>
           )}
         </div>
-      </div>
+      </section>
+
+      {/* Safari CTA */}
+      <section className="bg-paper py-24 md:py-32">
+        <div
+          ref={ctaRef}
+          className={`mx-auto max-w-7xl px-6 md:px-12 lg:px-20 text-center transition-all duration-700 ${
+            ctaVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
+          }`}
+        >
+          <p className="text-sm font-medium uppercase tracking-[0.2em] text-sage">
+            Experience the Wild
+          </p>
+          <h2 className="mt-4 font-display text-3xl md:text-4xl font-semibold text-charcoal tracking-tight">
+            Join Me on Safari
+          </h2>
+          <p className="mt-6 text-smoke max-w-2xl mx-auto leading-relaxed">
+            These photographs are just a glimpse. The real magic is being there
+            — the early morning light, the quiet tension before a sighting, the
+            raw beauty of untouched wilderness. I lead small-group safaris across
+            Africa and India for those who want to see the wild up close.
+          </p>
+          <Link
+            href="https://ig.me/m/tarang.hirani"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-10 inline-flex items-center gap-2 font-display text-sm uppercase tracking-[0.15em] text-charcoal transition-colors duration-300 hover:text-sage group"
+          >
+            Get in Touch
+            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+              &rarr;
+            </span>
+          </Link>
+        </div>
+      </section>
+
+      {/* Lightbox */}
       {selectedImage && (
         <ImageLightbox
           image={selectedImage}
@@ -199,6 +255,8 @@ export default function Gallery({ images }: GalleryProps) {
           onPrevious={hasMultipleImages ? handlePrevious : undefined}
           hasNext={hasMultipleImages}
           hasPrevious={hasMultipleImages}
+          currentIndex={selectedIndex ?? undefined}
+          totalCount={images.length}
         />
       )}
     </>
