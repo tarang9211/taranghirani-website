@@ -15,7 +15,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
   onSelect,
   delay = 0,
 }) => {
-  const { id, url } = image;
+  const { id, thumbnailUrl } = image;
   const { ref, visible } = useInView(0.1);
 
   return (
@@ -33,7 +33,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
       >
         <div className="relative overflow-hidden">
           <img
-            src={url}
+            src={thumbnailUrl}
             alt={alt || `Image ${id}`}
             className="w-full h-auto block transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             loading="lazy"

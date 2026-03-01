@@ -1,11 +1,13 @@
 import cloudinary from "../cloudinary";
 
 /**
- * Inserts f_auto,q_auto transforms into a Cloudinary secure_url
- * so images are served in the best format and quality for each browser.
+ * Inserts Cloudinary transforms (format, quality, optional width) into a secure_url.
  */
-function optimizeUrl(url: string): string {
-  return url.replace("/upload/", "/upload/f_auto,q_auto/");
+function optimizeUrl(url: string, width?: number): string {
+  const transforms = width
+    ? `f_auto,q_auto,w_${width}`
+    : "f_auto,q_auto";
+  return url.replace("/upload/", `/upload/${transforms}/`);
 }
 
 interface HeroImage {
@@ -31,8 +33,10 @@ export async function getHeroImage(): Promise<HeroImage | null> {
 export interface GalleryImage {
   /** Cloudinary public_id (unique key) */
   id: string;
-  /** HTTPS URL to the transformed or original asset */
+  /** HTTPS URL — optimized for lightbox / full view (w_1920) */
   url: string;
+  /** HTTPS URL — smaller thumbnail for grid cards (w_800) */
+  thumbnailUrl: string;
   /** Alt text from Cloudinary context or fallback */
   alt: string;
 }
@@ -68,7 +72,8 @@ export async function listImages(
 
   return resources.map((r) => ({
     id: r.public_id,
-    url: r.secure_url,
+    url: optimizeUrl(r.secure_url, 1920),
+    thumbnailUrl: optimizeUrl(r.secure_url, 800),
     alt: r.context?.custom?.alt ?? "Wildlife photograph",
   }));
 }
@@ -89,7 +94,7 @@ export async function getFeaturedImage(): Promise<FeaturedImage | null> {
   const img = resources[0];
 
   return {
-    url: img.secure_url,
+    url: optimizeUrl(img.secure_url),
     alt: img.context?.custom?.alt ?? "Featured image",
   };
 }
