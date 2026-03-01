@@ -1,5 +1,13 @@
 import cloudinary from "../cloudinary";
 
+/**
+ * Inserts f_auto,q_auto transforms into a Cloudinary secure_url
+ * so images are served in the best format and quality for each browser.
+ */
+function optimizeUrl(url: string): string {
+  return url.replace("/upload/", "/upload/f_auto,q_auto/");
+}
+
 interface HeroImage {
   /** HTTPS URL to the asset sized as uploaded */
   url: string;
@@ -15,7 +23,7 @@ export async function getHeroImage(): Promise<HeroImage | null> {
     .execute();
   const hero = resources.at(0);
   return {
-    url: hero.secure_url,
+    url: optimizeUrl(hero.secure_url),
     alt: hero.context?.custom?.alt ?? "Hero image",
   };
 }

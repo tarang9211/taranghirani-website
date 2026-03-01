@@ -43,7 +43,13 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
       onClick={handleBackdropClick}
     >
       {/* Top bar */}
-      <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-5 py-4 md:px-8 md:py-6">
+      <div
+        className="absolute top-0 left-0 right-0 flex items-center justify-between px-5 py-4 md:px-8 md:py-6"
+        style={{
+          paddingTop: "max(1rem, env(safe-area-inset-top, 1rem))",
+          paddingRight: "max(1.25rem, env(safe-area-inset-right, 1.25rem))",
+        }}
+      >
         {showCounter ? (
           <span className="font-body text-xs tracking-[0.15em] uppercase text-white/40">
             {currentIndex + 1} / {totalCount}
@@ -54,7 +60,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
         <button
           type="button"
           onClick={onClose}
-          className="rounded-full p-2 text-white/60 transition-colors hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className="rounded-full p-3 text-white/60 transition-colors hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           aria-label="Close image"
         >
           <X size={20} strokeWidth={1.5} />

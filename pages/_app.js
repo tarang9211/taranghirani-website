@@ -16,6 +16,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <Layout>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
         <meta property="og:type" content="website" />
