@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Script from "next/script";
 import Layout from "../components/Layout";
@@ -6,6 +7,9 @@ import "../styles/globals.css";
 const GA_MEASUREMENT_ID = "G-JBM6SPGXWS";
 
 export default function MyApp({ Component, pageProps }) {
+  const { asPath } = useRouter();
+  const canonicalUrl = `https://www.taranghirani.com${asPath === "/" ? "" : asPath.split("?")[0]}`;
+
   const meta = {
     title: "Tarang Hirani | Wildlife Photographer",
     description:
@@ -27,6 +31,7 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
+        <link rel="canonical" href={canonicalUrl} />
       </Head>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
