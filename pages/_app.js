@@ -17,6 +17,7 @@ export default function MyApp({ Component, pageProps }) {
     <Layout>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="google-site-verification" content="RTlg1RFRuCDiwJq2fNrrZP_qVqUzIEJe4vkH2xLrTXU" />
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
         <meta property="og:type" content="website" />
