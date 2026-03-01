@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { GalleryImage } from "../../lib/helpers";
 
 interface ImageLightboxProps {
@@ -8,6 +9,8 @@ interface ImageLightboxProps {
   onPrevious?: () => void;
   hasNext?: boolean;
   hasPrevious?: boolean;
+  currentIndex?: number;
+  totalCount?: number;
 }
 
 const ImageLightbox: React.FC<ImageLightboxProps> = ({
@@ -17,6 +20,8 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
   onPrevious,
   hasNext = false,
   hasPrevious = false,
+  currentIndex,
+  totalCount,
 }) => {
   const handleBackdropClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
@@ -27,24 +32,36 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
     [onClose],
   );
 
-  const altText = `Gallery image ${image.id}`;
+  const showCounter =
+    currentIndex !== undefined && totalCount !== undefined && totalCount > 1;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 px-4 py-10"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95 px-4 py-6 md:py-10"
       role="dialog"
       aria-modal="true"
       onClick={handleBackdropClick}
     >
-      <button
-        type="button"
-        onClick={onClose}
-        className="absolute right-6 top-6 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-        aria-label="Close image"
-      >
-        <span className="text-2xl leading-none">&times;</span>
-      </button>
+      {/* Top bar */}
+      <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-5 py-4 md:px-8 md:py-6">
+        {showCounter ? (
+          <span className="font-body text-xs tracking-[0.15em] uppercase text-white/40">
+            {currentIndex + 1} / {totalCount}
+          </span>
+        ) : (
+          <span />
+        )}
+        <button
+          type="button"
+          onClick={onClose}
+          className="rounded-full p-2 text-white/60 transition-colors hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          aria-label="Close image"
+        >
+          <X size={20} strokeWidth={1.5} />
+        </button>
+      </div>
 
+      {/* Navigation arrows */}
       {hasPrevious && onPrevious ? (
         <button
           type="button"
@@ -52,10 +69,10 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
             event.stopPropagation();
             onPrevious();
           }}
-          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full p-2.5 text-white/40 transition-colors hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black md:left-6"
           aria-label="View previous image"
         >
-          <span className="text-2xl leading-none">&#8592;</span>
+          <ChevronLeft size={28} strokeWidth={1.5} />
         </button>
       ) : null}
 
@@ -66,22 +83,28 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
             event.stopPropagation();
             onNext();
           }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-2.5 text-white/40 transition-colors hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black md:right-6"
           aria-label="View next image"
         >
-          <span className="text-2xl leading-none">&#8594;</span>
+          <ChevronRight size={28} strokeWidth={1.5} />
         </button>
       ) : null}
 
+      {/* Image + Caption */}
       <div
-        className="max-h-full w-full max-w-5xl"
+        className="flex max-h-full w-full max-w-6xl flex-col items-center"
         onClick={(event) => event.stopPropagation()}
       >
         <img
           src={image.url}
-          alt={altText}
-          className="max-h-[80vh] w-full rounded-lg object-contain shadow-2xl"
+          alt={image.alt}
+          className="max-h-[78vh] w-auto max-w-full object-contain"
         />
+        {image.alt && image.alt !== "Wildlife photograph" && (
+          <p className="mt-4 font-body text-sm text-white/40 tracking-wide">
+            {image.alt}
+          </p>
+        )}
       </div>
     </div>
   );

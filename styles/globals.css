@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     font-family: var(--font-body);
   }
@@ -15,5 +19,10 @@
   h6 {
     font-family: var(--font-display);
     letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: #C4956A;
+    color: #FFFFFF;
   }
 }

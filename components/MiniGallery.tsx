@@ -2,61 +2,104 @@ import React from "react";
 import Link from "next/link";
 import type { GalleryImage } from "../lib/helpers";
 import Image from "next/image";
+import { useInView } from "../lib/useInView";
 
 interface MiniGalleryProps {
   images: GalleryImage[];
 }
 
+function GalleryTile({
+  img,
+  className,
+  width,
+  height,
+  delay = 0,
+}: {
+  img: GalleryImage;
+  className?: string;
+  width: number;
+  height: number;
+  delay?: number;
+}) {
+  const { ref, visible } = useInView();
+
+  return (
+    <div
+      ref={ref}
+      className={`overflow-hidden rounded-xl transition-all duration-700 ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      } ${className || ""}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      <Image
+        src={img.url}
+        width={width}
+        height={height}
+        alt={img.alt}
+        className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+      />
+    </div>
+  );
+}
+
 export default function MiniGallery({ images }: MiniGalleryProps) {
   const [featured, ...rest] = images;
   const supporting = rest.slice(0, 4);
+  const { ref: headingRef, visible: headingVisible } = useInView();
 
   return (
-    <section className="bg-parchment py-16 md:py-20">
-      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-6 md:px-12 lg:px-20">
-        <h2 className="font-display text-2xl md:text-3xl font-semibold text-charcoal tracking-tight">
-          From the Field
-        </h2>
+    <section className="bg-parchment py-24 md:py-32">
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-6 md:px-12 lg:px-20">
+        <div
+          ref={headingRef}
+          className={`transition-all duration-700 ${
+            headingVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-6"
+          }`}
+        >
+          <p className="text-sm font-medium uppercase tracking-[0.2em] text-sage">
+            Portfolio
+          </p>
+          <h2 className="mt-3 font-display text-3xl md:text-4xl font-semibold text-charcoal tracking-tight">
+            From the Field
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:grid-rows-2">
-          {/* Featured large image */}
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:grid-rows-2">
           {featured && (
-            <div className="lg:row-span-2 overflow-hidden rounded-2xl">
-              <Image
-                src={featured.url}
-                width="800"
-                height="1000"
-                alt={featured.alt}
-                className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
-              />
-            </div>
+            <GalleryTile
+              img={featured}
+              width={800}
+              height={1000}
+              className="lg:row-span-2"
+              delay={0}
+            />
           )}
 
-          {/* Supporting images in 2×2 grid */}
-          <div className="grid grid-cols-2 gap-4 lg:row-span-2">
-            {supporting.map((img) => (
-              <div
+          <div className="grid grid-cols-2 gap-3 lg:row-span-2">
+            {supporting.map((img, i) => (
+              <GalleryTile
                 key={img.id}
-                className="overflow-hidden rounded-2xl"
-              >
-                <Image
-                  src={img.url}
-                  width="400"
-                  height="400"
-                  alt={img.alt}
-                  className="h-full w-full object-cover aspect-square transition-transform duration-500 hover:scale-[1.03]"
-                />
-              </div>
+                img={img}
+                width={400}
+                height={400}
+                delay={(i + 1) * 100}
+                className="aspect-square"
+              />
             ))}
           </div>
         </div>
 
-        <div className="flex justify-center pt-2">
+        <div className="flex justify-center pt-4">
           <Link
             href="/gallery"
-            className="rounded-full border border-gray-300 bg-white px-8 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-charcoal hover:text-white shadow-sm"
+            className="group inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-charcoal transition-colors duration-300 hover:text-sage"
           >
             View Full Gallery
+            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+              &rarr;
+            </span>
           </Link>
         </div>
       </div>

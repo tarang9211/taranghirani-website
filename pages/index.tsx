@@ -1,5 +1,6 @@
 import Hero from "../components/Hero";
-import MiniGallery from "../components/MiniGallery";
+import EditorialGallery from "../components/EditorialGallery";
+import Statement from "../components/Statement";
 import AboutMe from "../components/AboutMe";
 import Head from "next/head";
 
@@ -28,7 +29,8 @@ export default function Home({ url, alt, images, featuredImage }) {
   return (
     <div className="bg-charcoal text-parchment">
       <Hero src={url} alt={alt} />
-      <MiniGallery images={images} />
+      <EditorialGallery images={images} />
+      <Statement />
       <AboutMe featuredImage={featuredImage} />
     </div>
   );
