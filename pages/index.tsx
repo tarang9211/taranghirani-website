@@ -22,6 +22,7 @@ export async function getStaticProps() {
       images,
       featuredImage,
     },
+    revalidate: 3600,
   };
 }
 
