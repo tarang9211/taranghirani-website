@@ -26,7 +26,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { pathname } = useRouter();
   const isHome = pathname === "/";
   const isGallery = pathname === "/gallery";
-  const needsTopPadding = !isHome && !isGallery;
+  const isBlog = pathname.startsWith("/blog");
+  const needsTopPadding = !isHome && !isGallery && !isBlog;
 
   return (
     <div

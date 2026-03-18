@@ -7,6 +7,7 @@ import { INSTAGRAM_URL } from "../lib/constants";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/blog", label: "Field Notes" },
 ];
 
 const getLinkClasses = (
@@ -14,7 +15,9 @@ const getLinkClasses = (
   href: string,
   scrolled: boolean
 ) => {
-  const isActive = currentPath === href;
+  const isActive =
+    currentPath === href ||
+    (href !== "/" && currentPath.startsWith(href + "/"));
   const baseClasses =
     "font-display tracking-[0.12em] uppercase transition-colors text-xs";
   const inactiveClasses = scrolled
@@ -139,11 +142,11 @@ const Navbar: React.FC = () => {
                 key={href}
                 href={href}
                 className={`block py-3 font-display tracking-[0.12em] uppercase text-sm transition-colors ${
-                  pathname === href
+                  pathname === href || (href !== "/" && pathname.startsWith(href + "/"))
                     ? "text-charcoal"
                     : "text-smoke/60 hover:text-charcoal"
                 }`}
-                aria-current={pathname === href ? "page" : undefined}
+                aria-current={pathname === href || (href !== "/" && pathname.startsWith(href + "/")) ? "page" : undefined}
               >
                 {label}
               </Link>
