@@ -143,38 +143,40 @@ export default function BlogPost({ post, ogImage, prevPost, nextPost }) {
       {/* Footer nav */}
       <section className="bg-paper border-t border-charcoal/10 py-12 md:py-16">
         <div className="mx-auto max-w-3xl px-6 md:px-12">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              {prevPost && (
-                <Link
-                  href={`/blog/${prevPost.slug}`}
-                  className="group text-left"
-                >
-                  <p className="text-xs uppercase tracking-[0.15em] text-smoke/50">
-                    Previous
-                  </p>
-                  <p className="mt-1 font-display text-base md:text-lg text-charcoal group-hover:text-sage transition-colors duration-300">
-                    <span>&larr;</span> {prevPost.title}
-                  </p>
-                </Link>
-              )}
+          <FadeIn>
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                {prevPost && (
+                  <Link
+                    href={`/blog/${prevPost.slug}`}
+                    className="group text-left"
+                  >
+                    <p className="text-xs uppercase tracking-[0.15em] text-smoke/50">
+                      Previous
+                    </p>
+                    <p className="mt-1 font-display text-base md:text-lg text-charcoal group-hover:text-sage transition-colors duration-300">
+                      <span>&larr;</span> {prevPost.title}
+                    </p>
+                  </Link>
+                )}
+              </div>
+              <div className="text-right">
+                {nextPost && (
+                  <Link
+                    href={`/blog/${nextPost.slug}`}
+                    className="group text-right"
+                  >
+                    <p className="text-xs uppercase tracking-[0.15em] text-smoke/50">
+                      Next
+                    </p>
+                    <p className="mt-1 font-display text-base md:text-lg text-charcoal group-hover:text-sage transition-colors duration-300">
+                      {nextPost.title} <span>&rarr;</span>
+                    </p>
+                  </Link>
+                )}
+              </div>
             </div>
-            <div className="text-right">
-              {nextPost && (
-                <Link
-                  href={`/blog/${nextPost.slug}`}
-                  className="group text-right"
-                >
-                  <p className="text-xs uppercase tracking-[0.15em] text-smoke/50">
-                    Next
-                  </p>
-                  <p className="mt-1 font-display text-base md:text-lg text-charcoal group-hover:text-sage transition-colors duration-300">
-                    {nextPost.title} <span>&rarr;</span>
-                  </p>
-                </Link>
-              )}
-            </div>
-          </div>
+          </FadeIn>
 
           <FadeIn className="mt-12 text-center">
             <Link
