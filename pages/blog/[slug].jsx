@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { getAllPosts, getPostBySlug } from "../../lib/blog/posts";
+import { getAllPosts, getPostBySlug, getPostOgImage } from "../../lib/blog/posts";
 import ContentRenderer from "../../components/blog/ContentRenderer";
 import FadeIn from "../../components/FadeIn";
 
@@ -24,9 +24,12 @@ export async function getStaticProps({ params }) {
   const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
+  const ogImage = getPostOgImage(post);
+
   return {
     props: {
       post,
+      ogImage,
       prevPost: prevPost ? { slug: prevPost.slug, title: prevPost.title } : null,
       nextPost: nextPost ? { slug: nextPost.slug, title: nextPost.title } : null,
     },
@@ -41,12 +44,47 @@ function formatDate(dateStr) {
   });
 }
 
-export default function BlogPost({ post, prevPost, nextPost }) {
+export default function BlogPost({ post, ogImage, prevPost, nextPost }) {
+  const pageTitle = `${post.title} | Tarang Hirani`;
+  const pageUrl = `https://www.taranghirani.com/blog/${post.slug}`;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    author: {
+      "@type": "Person",
+      name: "Tarang Hirani",
+      url: "https://www.taranghirani.com",
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Tarang Hirani",
+    },
+    url: pageUrl,
+    ...(ogImage && { image: ogImage }),
+  };
+
   return (
     <>
       <Head>
-        <title>{post.title} | Tarang Hirani</title>
+        <title>{pageTitle}</title>
         <meta name="description" content={post.excerpt} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="article:published_time" content={post.date} />
+        {ogImage && <meta property="og:image" content={ogImage} />}
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={post.excerpt} />
+        {ogImage && <meta name="twitter:image" content={ogImage} />}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </Head>
 
       {/* Header */}

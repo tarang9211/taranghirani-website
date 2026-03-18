@@ -17,9 +17,20 @@ export default function BlogIndex({ posts }) {
   return (
     <>
       <Head>
-        <title>Journal | Tarang Hirani</title>
+        <title>Field Notes | Tarang Hirani</title>
         <meta
           name="description"
+          content="Stories from the field — reflections on wildlife photography, conservation, and the wild places that shape us."
+        />
+        <meta property="og:title" content="Field Notes | Tarang Hirani" />
+        <meta
+          property="og:description"
+          content="Stories from the field — reflections on wildlife photography, conservation, and the wild places that shape us."
+        />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:title" content="Field Notes | Tarang Hirani" />
+        <meta
+          name="twitter:description"
           content="Stories from the field — reflections on wildlife photography, conservation, and the wild places that shape us."
         />
       </Head>
