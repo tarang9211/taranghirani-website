@@ -4,6 +4,7 @@ import { GalleryImage } from "../../lib/helpers";
 
 interface ImageLightboxProps {
   image: GalleryImage;
+  caption?: string;
   onClose: () => void;
   onNext?: () => void;
   onPrevious?: () => void;
@@ -15,6 +16,7 @@ interface ImageLightboxProps {
 
 const ImageLightbox: React.FC<ImageLightboxProps> = ({
   image,
+  caption,
   onClose,
   onNext,
   onPrevious,
@@ -106,11 +108,17 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
           alt={image.alt}
           className="max-h-[78vh] w-auto max-w-full object-contain"
         />
-        {image.alt && image.alt !== "Wildlife photograph" && (
-          <p className="mt-4 font-body text-sm text-white/40 tracking-wide">
-            {image.alt}
-          </p>
-        )}
+        {caption !== undefined
+          ? caption && (
+              <p className="mt-4 font-body text-sm text-white/40 tracking-wide">
+                {caption}
+              </p>
+            )
+          : image.alt && image.alt !== "Wildlife photograph" && (
+              <p className="mt-4 font-body text-sm text-white/40 tracking-wide">
+                {image.alt}
+              </p>
+            )}
       </div>
     </div>
   );
