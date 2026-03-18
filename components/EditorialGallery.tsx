@@ -2,33 +2,10 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { GalleryImage } from "../lib/helpers";
-import { useInView } from "../lib/useInView";
+import FadeIn from "./FadeIn";
 
 interface EditorialGalleryProps {
   images: GalleryImage[];
-}
-
-function FadeIn({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  const { ref, visible } = useInView();
-  return (
-    <div
-      ref={ref}
-      className={`transition-all duration-700 ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      } ${className || ""}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {children}
-    </div>
-  );
 }
 
 export default function EditorialGallery({ images }: EditorialGalleryProps) {
