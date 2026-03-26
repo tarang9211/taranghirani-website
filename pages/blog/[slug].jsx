@@ -1,7 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { getAllPosts, getPostBySlug, getPostOgImage } from "../../lib/blog/posts";
+import {
+  getAllPosts,
+  getPostBySlug,
+  getPostOgImage,
+} from "../../lib/blog/posts";
 import ContentRenderer from "../../components/blog/ContentRenderer";
 import FadeIn from "../../components/FadeIn";
 
@@ -21,7 +25,8 @@ export async function getStaticProps({ params }) {
 
   const allPosts = getAllPosts();
   const currentIndex = allPosts.findIndex((p) => p.slug === post.slug);
-  const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+  const prevPost =
+    currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
   const ogImage = getPostOgImage(post);
@@ -30,8 +35,12 @@ export async function getStaticProps({ params }) {
     props: {
       post,
       ogImage,
-      prevPost: prevPost ? { slug: prevPost.slug, title: prevPost.title } : null,
-      nextPost: nextPost ? { slug: nextPost.slug, title: nextPost.title } : null,
+      prevPost: prevPost
+        ? { slug: prevPost.slug, title: prevPost.title }
+        : null,
+      nextPost: nextPost
+        ? { slug: nextPost.slug, title: nextPost.title }
+        : null,
     },
   };
 }

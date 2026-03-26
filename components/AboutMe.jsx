@@ -39,25 +39,25 @@ export default function AboutSection({ featuredImage }) {
               <p className="mt-8 text-base md:text-lg leading-relaxed text-gray-400">
                 I've been fascinated by wildlife since childhood. Starting from
                 various parks in India, seemingly endless plains of Serengeti,
-                stunning landscapes of the Masai Mara, and the dusty savannahs of
-                Amboseli admist the mighty Mt. Kilimanjaro . The camera came later.
-                On a leisure trip to the forests of Central India, I decided to
-                document what I'd been watching all my life, and that first roll of
-                images set the course.
+                stunning landscapes of the Masai Mara, and the dusty savannahs
+                of Amboseli admist the mighty Mt. Kilimanjaro . The camera came
+                later. On a leisure trip to the forests of Central India, I
+                decided to document what I'd been watching all my life, and that
+                first roll of images set the course.
               </p>
 
               <p className="mt-6 text-base md:text-lg leading-relaxed text-gray-400">
-                Now I spend every spare stretch of daylight in the field, chasing
-                real behaviour rather than staged moments. Some frames are tight
-                portraits; others are <em>small in frame</em> scenes that show how
-                tiny an animal can look in its own vast habitat.
+                Now I spend every spare stretch of daylight in the field,
+                chasing real behaviour rather than staged moments. Some frames
+                are tight portraits; others are <em>small in frame</em> scenes
+                that show how tiny an animal can look in its own vast habitat.
               </p>
 
               <p className="mt-6 text-base md:text-lg leading-relaxed text-gray-400">
                 My kit has grown up with me from Nikon DSLRs to the&nbsp;
                 <strong className="font-medium text-white">Z9</strong>, Nikon's
-                mirrorless flagship,&nbsp;letting me work quickly and unobtrusively
-                in the wild.
+                mirrorless flagship,&nbsp;letting me work quickly and
+                unobtrusively in the wild.
               </p>
             </div>
 

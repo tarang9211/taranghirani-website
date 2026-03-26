@@ -34,7 +34,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       className={`${playfair.variable} ${sourceSans.variable} min-h-screen bg-paper text-charcoal font-body flex flex-col`}
     >
       <Navbar />
-      <main className={`flex-grow ${needsTopPadding ? "pt-24" : ""}`}>{children}</main>
+      <main className={`flex-grow ${needsTopPadding ? "pt-24" : ""}`}>
+        {children}
+      </main>
       <Footer />
     </div>
   );

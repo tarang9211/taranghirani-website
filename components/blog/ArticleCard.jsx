@@ -13,7 +13,7 @@ function formatDate(dateStr) {
 export function FeaturedArticleCard({ post, delay = 0 }) {
   return (
     <FadeIn delay={delay}>
-      <Link href={`/blog/${post.slug}`} className="group block">
+      <Link href={`/blog/${post.slug}`} className="group block cursor-pointer">
         {post.heroImage && (
           <div className="relative overflow-hidden rounded-lg aspect-[16/9]">
             <Image
@@ -41,7 +41,7 @@ export function FeaturedArticleCard({ post, delay = 0 }) {
           <p className="mt-4 text-smoke leading-relaxed line-clamp-2 text-base md:text-lg">
             {post.excerpt}
           </p>
-          <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-sage">
+          <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-sage border border-sage/40 px-5 py-2.5 rounded-sm transition-colors duration-300 group-hover:border-sage group-hover:bg-sage group-hover:text-white">
             Read Article
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">
               &rarr;
@@ -56,7 +56,7 @@ export function FeaturedArticleCard({ post, delay = 0 }) {
 export function ArticleCard({ post, delay = 0 }) {
   return (
     <FadeIn delay={delay}>
-      <Link href={`/blog/${post.slug}`} className="group block">
+      <Link href={`/blog/${post.slug}`} className="group block cursor-pointer">
         {post.heroImage && (
           <div className="relative overflow-hidden rounded-lg aspect-[16/9]">
             <Image
@@ -84,7 +84,7 @@ export function ArticleCard({ post, delay = 0 }) {
           <p className="mt-3 text-smoke leading-relaxed line-clamp-3">
             {post.excerpt}
           </p>
-          <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-sage">
+          <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-sage border border-sage/40 px-5 py-2.5 rounded-sm transition-colors duration-300 group-hover:border-sage group-hover:bg-sage group-hover:text-white">
             Read Article
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">
               &rarr;

@@ -215,9 +215,7 @@ export default function Gallery({ images }: GalleryProps) {
         <div
           ref={ctaRef}
           className={`mx-auto max-w-7xl px-6 md:px-12 lg:px-20 text-center transition-all duration-700 ${
-            ctaVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-8"
+            ctaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-sage">
@@ -229,8 +227,8 @@ export default function Gallery({ images }: GalleryProps) {
           <p className="mt-6 text-smoke max-w-2xl mx-auto leading-relaxed">
             These photographs are just a glimpse. The real magic is being there
             — the early morning light, the quiet tension before a sighting, the
-            raw beauty of untouched wilderness. I lead small-group safaris across
-            Africa and India for those who want to see the wild up close.
+            raw beauty of untouched wilderness. I lead small-group safaris
+            across Africa and India for those who want to see the wild up close.
           </p>
           <Link
             href="https://ig.me/m/tarang.hirani"

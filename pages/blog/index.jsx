@@ -1,7 +1,10 @@
 import Head from "next/head";
 import Link from "next/link";
 import { getAllPosts } from "../../lib/blog/posts";
-import { FeaturedArticleCard, ArticleCard } from "../../components/blog/ArticleCard";
+import {
+  FeaturedArticleCard,
+  ArticleCard,
+} from "../../components/blog/ArticleCard";
 import FadeIn from "../../components/FadeIn";
 import { useInView } from "../../lib/useInView";
 
@@ -77,9 +80,7 @@ export default function BlogIndex({ posts }) {
         <div
           ref={ctaRef}
           className={`mx-auto max-w-7xl px-6 md:px-12 lg:px-20 text-center transition-all duration-700 ${
-            ctaVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-8"
+            ctaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-sage">
