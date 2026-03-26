@@ -114,7 +114,8 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
                 {caption}
               </p>
             )
-          : image.alt && image.alt !== "Wildlife photograph" && (
+          : image.alt &&
+            image.alt !== "Wildlife photograph" && (
               <p className="mt-4 font-body text-sm text-white/40 tracking-wide">
                 {image.alt}
               </p>

@@ -8,7 +8,9 @@ function TextBlock({ body, isFirst }) {
     <FadeIn className="mt-6">
       <p
         className={`text-base md:text-lg leading-relaxed text-smoke ${
-          isFirst ? "first-letter:float-left first-letter:font-display first-letter:text-[3.5rem] first-letter:md:text-[4.5rem] first-letter:font-semibold first-letter:leading-[0.75] first-letter:mr-3 first-letter:mt-[0.1em] first-letter:text-charcoal" : ""
+          isFirst
+            ? "first-letter:float-left first-letter:font-display first-letter:text-[3.5rem] first-letter:md:text-[4.5rem] first-letter:font-semibold first-letter:leading-[0.75] first-letter:mr-3 first-letter:mt-[0.1em] first-letter:text-charcoal"
+            : ""
         }`}
       >
         {body}
@@ -114,16 +116,20 @@ export default function ContentRenderer({ content }) {
     return offsets;
   }, [content]);
 
-  const lightboxImage = lightboxIndex !== null ? {
-    id: String(lightboxIndex),
-    url: allImages[lightboxIndex].url,
-    thumbnailUrl: allImages[lightboxIndex].url,
-    alt: allImages[lightboxIndex].alt || "Blog image",
-  } : null;
+  const lightboxImage =
+    lightboxIndex !== null
+      ? {
+          id: String(lightboxIndex),
+          url: allImages[lightboxIndex].url,
+          thumbnailUrl: allImages[lightboxIndex].url,
+          alt: allImages[lightboxIndex].alt || "Blog image",
+        }
+      : null;
 
-  const lightboxCaption = lightboxIndex !== null
-    ? allImages[lightboxIndex].caption || allImages[lightboxIndex].alt || ""
-    : "";
+  const lightboxCaption =
+    lightboxIndex !== null
+      ? allImages[lightboxIndex].caption || allImages[lightboxIndex].alt || ""
+      : "";
 
   const handleClose = useCallback(() => setLightboxIndex(null), []);
 
@@ -167,7 +173,9 @@ export default function ContentRenderer({ content }) {
 
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = originalOverflow; };
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
   }, [lightboxIndex]);
 
   return (
@@ -175,8 +183,12 @@ export default function ContentRenderer({ content }) {
       {content.map((block, index) => {
         switch (block.type) {
           case "text": {
-            const isFirstText = !content.slice(0, index).some((b) => b.type === "text");
-            return <TextBlock key={index} body={block.body} isFirst={isFirstText} />;
+            const isFirstText = !content
+              .slice(0, index)
+              .some((b) => b.type === "text");
+            return (
+              <TextBlock key={index} body={block.body} isFirst={isFirstText} />
+            );
           }
           case "image":
             return (
@@ -191,7 +203,9 @@ export default function ContentRenderer({ content }) {
               <GalleryBlock
                 key={index}
                 images={block.images}
-                onImageClick={(i) => setLightboxIndex(blockImageOffset[index] + i)}
+                onImageClick={(i) =>
+                  setLightboxIndex(blockImageOffset[index] + i)
+                }
               />
             );
           case "quote":

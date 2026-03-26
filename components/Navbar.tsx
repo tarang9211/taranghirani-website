@@ -13,7 +13,7 @@ const navItems = [
 const getLinkClasses = (
   currentPath: string,
   href: string,
-  scrolled: boolean
+  scrolled: boolean,
 ) => {
   const isActive =
     currentPath === href ||
@@ -23,9 +23,7 @@ const getLinkClasses = (
   const inactiveClasses = scrolled
     ? "text-smoke/60 hover:text-charcoal"
     : "text-white/60 hover:text-white";
-  const activeClasses = scrolled
-    ? "text-charcoal"
-    : "text-white";
+  const activeClasses = scrolled ? "text-charcoal" : "text-white";
 
   return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`;
 };
@@ -67,9 +65,10 @@ const Navbar: React.FC = () => {
   }, []);
 
   const textColor = scrolled || mobileOpen ? "text-charcoal" : "text-white";
-  const textColorMuted = scrolled || mobileOpen
-    ? "text-smoke/60 hover:text-charcoal"
-    : "text-white/60 hover:text-white";
+  const textColorMuted =
+    scrolled || mobileOpen
+      ? "text-smoke/60 hover:text-charcoal"
+      : "text-white/60 hover:text-white";
 
   return (
     <nav
@@ -142,11 +141,17 @@ const Navbar: React.FC = () => {
                 key={href}
                 href={href}
                 className={`block py-3 font-display tracking-[0.12em] uppercase text-sm transition-colors ${
-                  pathname === href || (href !== "/" && pathname.startsWith(href + "/"))
+                  pathname === href ||
+                  (href !== "/" && pathname.startsWith(href + "/"))
                     ? "text-charcoal"
                     : "text-smoke/60 hover:text-charcoal"
                 }`}
-                aria-current={pathname === href || (href !== "/" && pathname.startsWith(href + "/")) ? "page" : undefined}
+                aria-current={
+                  pathname === href ||
+                  (href !== "/" && pathname.startsWith(href + "/"))
+                    ? "page"
+                    : undefined
+                }
               >
                 {label}
               </Link>

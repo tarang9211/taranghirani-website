@@ -4,9 +4,7 @@ import cloudinary from "../cloudinary";
  * Inserts Cloudinary transforms (format, quality, optional width) into a secure_url.
  */
 function optimizeUrl(url: string, width?: number): string {
-  const transforms = width
-    ? `f_auto,q_auto,w_${width}`
-    : "f_auto,q_auto";
+  const transforms = width ? `f_auto,q_auto,w_${width}` : "f_auto,q_auto";
   return url.replace("/upload/", `/upload/${transforms}/`);
 }
 
