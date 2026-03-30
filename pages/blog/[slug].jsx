@@ -39,7 +39,7 @@ export async function getStaticProps({ params }) {
       const publicId = extractPublicId(block.image.url);
       const exif = publicId ? await getImageExif(publicId) : null;
       return { ...block, image: { ...block.image, exif } };
-    })
+    }),
   );
 
   return {
