@@ -8,7 +8,8 @@
     "start": "next start",
     "export": "next export",
     "deploy": "yarn build && yarn export",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "carousel": "tsx scripts/generate-carousel.ts"
   },
   "engines": {
     "node": "22.x"
@@ -24,13 +25,18 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@fontsource/playfair-display": "5.2.8",
+    "@fontsource/source-sans-3": "5.2.9",
     "@types/node": "22.15.18",
     "@types/react": "19.1.4",
     "autoprefixer": "10.4.19",
     "postcss": "8.4.38",
     "postcss-import": "15.1.0",
     "prettier": "3.5.3",
+    "satori": "^0.26.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "3.4.1",
+    "tsx": "^4.21.0",
     "typescript": "5.8.3"
   }
 }
