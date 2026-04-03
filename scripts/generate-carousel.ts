@@ -40,19 +40,27 @@ async function loadFonts() {
 
 async function generateSlide1(post: any, fonts: Awaited<ReturnType<typeof loadFonts>>): Promise<Buffer> {
   const images = post.content.filter((b: any) => b.type === 'image');
-  const heroUrl = images[images.length - 1].image.url;
+  const heroUrl = 'https://res.cloudinary.com/duiyn8wll/image/upload/_Z9_20260212_100758_TMH_website_s3qioq.jpg';
 
   process.stdout.write('  Fetching photo... ');
   const imgBuffer = await fetch(heroUrl).then((r) => r.arrayBuffer()).then((a) => Buffer.from(a));
   console.log('done');
 
-  // Resize background photo to 4:5 canvas
+  // Resize background photo to 4:5 canvas, zoomed in on subject
+  const metadata = await sharp(imgBuffer).metadata();
+  const origW = metadata.width!;
+  const origH = metadata.height!;
+  const cropW = Math.round(origW * 0.7);
+  const cropH = Math.round(origH * 0.7);
+  const cropLeft = Math.round((origW - cropW) / 2);
+  const cropTop = Math.round((origH - cropH) / 2);
   const bg = await sharp(imgBuffer)
+    .extract({ left: cropLeft, top: cropTop, width: cropW, height: cropH })
     .resize(WIDTH, HEIGHT, { fit: 'cover', position: 'centre' })
     .png()
     .toBuffer();
 
-  // Satori overlay: dark tint + headline + accent line + location text
+  // Satori overlay: bottom gradient + vertical accent + headline + location
   const overlay = {
     type: 'div',
     props: {
@@ -63,31 +71,44 @@ async function generateSlide1(post: any, fonts: Awaited<ReturnType<typeof loadFo
         position: 'relative' as const,
       },
       children: [
-        // Dark overlay tint
+        // Bottom gradient — photo breathes at top, fades to black at bottom
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute' as const,
-              top: 0,
+              bottom: 0,
               left: 0,
               right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(8,8,8,0.65)',
+              height: Math.round(HEIGHT * 0.5),
+              backgroundImage: 'linear-gradient(to bottom, rgba(8,8,8,0), rgba(8,8,8,0.75) 70%, rgba(8,8,8,0.9))',
             },
           },
         },
-        // Headline — centered, upper half
+        // Vertical sage accent bar — left edge
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute' as const,
-              top: 420,
-              left: 80,
-              right: 80,
+              bottom: 80,
+              left: 60,
+              width: 3,
+              height: 320,
+              backgroundColor: C.sage,
+            },
+          },
+        },
+        // Headline — left-aligned, bottom portion
+        {
+          type: 'div',
+          props: {
+            style: {
+              position: 'absolute' as const,
+              bottom: 200,
+              left: 88,
+              right: 60,
               display: 'flex',
-              justifyContent: 'center',
             },
             children: {
               type: 'span',
@@ -95,42 +116,28 @@ async function generateSlide1(post: any, fonts: Awaited<ReturnType<typeof loadFo
                 style: {
                   fontFamily: 'Playfair Display',
                   fontWeight: 700,
-                  fontSize: 72,
+                  fontSize: 80,
                   color: C.white,
-                  textAlign: 'center' as const,
-                  lineHeight: 1.25,
+                  lineHeight: 1.2,
                 },
                 children: 'You don\u2019t simply visit Dhikala.',
               },
             },
           },
         },
-        // Accent line above location text
+        // Location text — below headline, left-aligned
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute' as const,
-              bottom: 110,
-              left: 60,
-              width: 100,
-              height: 2,
-              backgroundColor: C.sage,
-            },
-          },
-        },
-        // Location text
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              bottom: 72,
-              left: 60,
+              bottom: 100,
+              left: 88,
               fontFamily: 'Source Sans 3',
-              fontWeight: 400,
-              fontSize: 20,
+              fontWeight: 600,
+              fontSize: 34,
               color: C.sage,
+              letterSpacing: 1.5,
             },
             children: 'Dhikala, Jim Corbett National Park',
           },
@@ -159,9 +166,14 @@ async function generateSlide2(post: any, fonts: Awaited<ReturnType<typeof loadFo
   const imgBuffer = await fetch(photoUrl).then((r) => r.arrayBuffer()).then((a) => Buffer.from(a));
   console.log('done');
 
-  // Resize photo to fill the top panel only
-  const photo = await sharp(imgBuffer)
-    .resize(WIDTH, PHOTO_HEIGHT, { fit: 'cover', position: 'centre' })
+  // Crop bottom 12% to remove watermark, then resize to fill the top panel
+  const meta2 = await sharp(imgBuffer).metadata();
+  const cropH2 = Math.round(meta2.height! * 0.88);
+  const cropped = await sharp(imgBuffer)
+    .extract({ left: 0, top: 0, width: meta2.width!, height: cropH2 })
+    .toBuffer();
+  const photo = await sharp(cropped)
+    .resize(WIDTH, PHOTO_HEIGHT, { fit: 'cover', position: 'left' })
     .png()
     .toBuffer();
 
@@ -184,22 +196,6 @@ async function generateSlide2(post: any, fonts: Awaited<ReturnType<typeof loadFo
         position: 'relative' as const,
       },
       children: [
-        // Slide number — top-right, over the photo
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              top: 40,
-              right: 48,
-              fontFamily: 'Source Sans 3',
-              fontWeight: 600,
-              fontSize: 18,
-              color: C.sage,
-            },
-            children: '02',
-          },
-        },
         // Sage accent line — top of paper panel
         {
           type: 'div',
@@ -220,7 +216,7 @@ async function generateSlide2(post: any, fonts: Awaited<ReturnType<typeof loadFo
           props: {
             style: {
               position: 'absolute' as const,
-              top: PHOTO_HEIGHT + 48,
+              top: PHOTO_HEIGHT + 68,
               left: 60,
               right: 60,
               display: 'flex',
@@ -231,11 +227,11 @@ async function generateSlide2(post: any, fonts: Awaited<ReturnType<typeof loadFo
                 style: {
                   fontFamily: 'Playfair Display',
                   fontWeight: 700,
-                  fontSize: 52,
+                  fontSize: 80,
                   color: C.charcoal,
                   lineHeight: 1.3,
                 },
-                children: 'Where Jim Corbett\u2019s words come alive.',
+                children: 'You experience Jim Corbett\u2019s writings',
               },
             },
           },
@@ -246,7 +242,7 @@ async function generateSlide2(post: any, fonts: Awaited<ReturnType<typeof loadFo
           props: {
             style: {
               position: 'absolute' as const,
-              top: PHOTO_HEIGHT + 230,
+              top: PHOTO_HEIGHT + 360,
               left: 60,
               right: 60,
               display: 'flex',
@@ -257,7 +253,7 @@ async function generateSlide2(post: any, fonts: Awaited<ReturnType<typeof loadFo
                 style: {
                   fontFamily: 'Source Sans 3',
                   fontWeight: 400,
-                  fontSize: 26,
+                  fontSize: 34,
                   color: C.smoke,
                   lineHeight: 1.55,
                 },
@@ -296,7 +292,7 @@ async function generateSlide3(post: any, fonts: Awaited<ReturnType<typeof loadFo
     .png()
     .toBuffer();
 
-  const OVERLAY_HEIGHT = 420;
+  const OVERLAY_HEIGHT = 520;
   const OVERLAY_TOP = HEIGHT - OVERLAY_HEIGHT; // 930px
 
   const overlay = {
@@ -321,22 +317,6 @@ async function generateSlide3(post: any, fonts: Awaited<ReturnType<typeof loadFo
               height: OVERLAY_HEIGHT,
               backgroundColor: 'rgba(8,8,8,0.82)',
             },
-          },
-        },
-        // Slide number — top-right
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              top: 40,
-              right: 48,
-              fontFamily: 'Source Sans 3',
-              fontWeight: 600,
-              fontSize: 18,
-              color: C.sage,
-            },
-            children: '03',
           },
         },
         // Sage accent line — above headline
@@ -370,7 +350,7 @@ async function generateSlide3(post: any, fonts: Awaited<ReturnType<typeof loadFo
                 style: {
                   fontFamily: 'Playfair Display',
                   fontWeight: 700,
-                  fontSize: 52,
+                  fontSize: 80,
                   color: C.white,
                   lineHeight: 1.3,
                 },
@@ -385,7 +365,7 @@ async function generateSlide3(post: any, fonts: Awaited<ReturnType<typeof loadFo
           props: {
             style: {
               position: 'absolute' as const,
-              top: OVERLAY_TOP + 240,
+              top: OVERLAY_TOP + 320,
               left: 60,
               right: 60,
               display: 'flex',
@@ -396,7 +376,7 @@ async function generateSlide3(post: any, fonts: Awaited<ReturnType<typeof loadFo
                 style: {
                   fontFamily: 'Source Sans 3',
                   fontWeight: 400,
-                  fontSize: 26,
+                  fontSize: 34,
                   color: C.sage,
                   lineHeight: 1.5,
                 },
@@ -422,18 +402,25 @@ async function generateSlide3(post: any, fonts: Awaited<ReturnType<typeof loadFo
 }
 
 async function generateSlide4(post: any, fonts: Awaited<ReturnType<typeof loadFonts>>): Promise<Buffer> {
-  const quoteBlock = post.content.find((b: any) => b.type === 'quote');
-  const quoteText = quoteBlock.text as string;
+  const headline = 'Three hours. One frame.';
+  const body = 'Camera settings dialed in. Nothing left to do\nbut watch the road. The tiger stepped out\nwhen it was ready.';
 
-  const headline = 'Shoot with Intent.';
-  const body = quoteText;
+  // Local image — golden hour misty landscape
+  const localImagePath = '/Users/tarang/Desktop/TMH_3368.jpg';
+  process.stdout.write('  Loading local photo... ');
+  const imgBuffer = await fs.readFile(localImagePath);
+  console.log('done');
+
+  const bg = await sharp(imgBuffer)
+    .resize(WIDTH, HEIGHT, { fit: 'cover', position: 'centre' })
+    .png()
+    .toBuffer();
 
   const HEADLINE_Y = 460;
-  const LINE_Y = 620;
-  const BODY_Y = 658;
-  const ATTR_Y = 1020;
+  const LINE_Y = 590;
+  const BODY_Y = 640;
 
-  const element = {
+  const overlay = {
     type: 'div',
     props: {
       style: {
@@ -441,10 +428,23 @@ async function generateSlide4(post: any, fonts: Awaited<ReturnType<typeof loadFo
         height: HEIGHT,
         display: 'flex',
         position: 'relative' as const,
-        backgroundColor: C.charcoal,
       },
       children: [
-        // Decorative opening quote mark — faint sage, top-left
+        // Dark overlay for text legibility
+        {
+          type: 'div',
+          props: {
+            style: {
+              position: 'absolute' as const,
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(8,8,8,0.35)',
+            },
+          },
+        },
+        // Decorative opening quote mark — sage, top-left
         {
           type: 'div',
           props: {
@@ -456,13 +456,12 @@ async function generateSlide4(post: any, fonts: Awaited<ReturnType<typeof loadFo
               fontWeight: 700,
               fontSize: 200,
               color: C.sage,
-              opacity: 0.3,
               lineHeight: 1,
             },
             children: '\u201C',
           },
         },
-        // Headline — "Don't chase the frame."
+        // Headline
         {
           type: 'div',
           props: {
@@ -481,7 +480,7 @@ async function generateSlide4(post: any, fonts: Awaited<ReturnType<typeof loadFo
                   fontFamily: 'Playfair Display',
                   fontWeight: 700,
                   fontSize: 80,
-                  color: C.white,
+                  color: C.sage,
                   textAlign: 'center' as const,
                   lineHeight: 1.2,
                 },
@@ -504,7 +503,7 @@ async function generateSlide4(post: any, fonts: Awaited<ReturnType<typeof loadFo
             },
           },
         },
-        // Body — rest of the quote
+        // Body text
         {
           type: 'div',
           props: {
@@ -522,8 +521,8 @@ async function generateSlide4(post: any, fonts: Awaited<ReturnType<typeof loadFo
                 style: {
                   fontFamily: 'Source Sans 3',
                   fontWeight: 400,
-                  fontSize: 26,
-                  color: C.smoke,
+                  fontSize: 34,
+                  color: C.white,
                   textAlign: 'center' as const,
                   lineHeight: 1.65,
                 },
@@ -536,11 +535,16 @@ async function generateSlide4(post: any, fonts: Awaited<ReturnType<typeof loadFo
     },
   };
 
-  process.stdout.write('  Rendering slide... ');
-  const svg = await satori(element as any, { width: WIDTH, height: HEIGHT, fonts });
+  process.stdout.write('  Rendering overlay... ');
+  const svg = await satori(overlay as any, { width: WIDTH, height: HEIGHT, fonts });
   console.log('done');
 
-  return sharp(Buffer.from(svg)).jpeg({ quality: 95 }).toBuffer();
+  const overlayPng = await sharp(Buffer.from(svg)).png().toBuffer();
+
+  return sharp(bg)
+    .composite([{ input: overlayPng, blend: 'over' }])
+    .jpeg({ quality: 95 })
+    .toBuffer();
 }
 
 async function generateSlide5(post: any, fonts: Awaited<ReturnType<typeof loadFonts>>): Promise<Buffer> {
@@ -551,23 +555,23 @@ async function generateSlide5(post: any, fonts: Awaited<ReturnType<typeof loadFo
   const imgBuffer = await fetch(photoUrl).then((r) => r.arrayBuffer()).then((a) => Buffer.from(a));
   console.log('done');
 
-  const DIVIDER_X = 536;
-  const RIGHT_WIDTH = WIDTH - DIVIDER_X;
+  const PANEL_H = 300;
+  const PHOTO_H = HEIGHT - PANEL_H; // 1050px — image dominates
 
-  // Paper background + tiger photo composited on the right half
+  // Full-width photo filling the top — anchor bottom so top is cropped
   const photo = await sharp(imgBuffer)
-    .resize(RIGHT_WIDTH, HEIGHT, { fit: 'cover', position: 'centre' })
+    .resize(WIDTH, PHOTO_H, { fit: 'cover', position: 'bottom' })
     .png()
     .toBuffer();
 
   const canvas = await sharp({
-    create: { width: WIDTH, height: HEIGHT, channels: 3, background: C.paper },
+    create: { width: WIDTH, height: HEIGHT, channels: 3, background: C.charcoal },
   })
-    .composite([{ input: photo, top: 0, left: DIVIDER_X }])
+    .composite([{ input: photo, top: 0, left: 0 }])
     .png()
     .toBuffer();
 
-  // Satori overlay: label, headline, body, vertical sage line
+  // Satori overlay: sage accent + headline + subtitle in bottom panel
   const overlay = {
     type: 'div',
     props: {
@@ -578,32 +582,15 @@ async function generateSlide5(post: any, fonts: Awaited<ReturnType<typeof loadFo
         position: 'relative' as const,
       },
       children: [
-        // Label — "04 / THE SETUP"
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              top: 80,
-              left: 60,
-              fontFamily: 'Source Sans 3',
-              fontWeight: 600,
-              fontSize: 14,
-              color: C.sage,
-              letterSpacing: 2.5,
-            },
-            children: '04 / THE SETUP',
-          },
-        },
         // Headline
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute' as const,
-              top: 440,
+              top: PHOTO_H + 28,
               left: 60,
-              right: WIDTH - DIVIDER_X + 80,
+              right: 60,
               display: 'flex',
             },
             children: {
@@ -612,24 +599,24 @@ async function generateSlide5(post: any, fonts: Awaited<ReturnType<typeof loadFo
                 style: {
                   fontFamily: 'Playfair Display',
                   fontWeight: 700,
-                  fontSize: 48,
-                  color: C.charcoal,
-                  lineHeight: 1.35,
+                  fontSize: 56,
+                  color: C.white,
+                  lineHeight: 1.3,
                 },
-                children: 'Settings dialed in. Nothing left to do but watch the road.',
+                children: 'Nothing left to do but watch the road.',
               },
             },
           },
         },
-        // Body text
+        // Subtitle
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute' as const,
-              top: 780,
+              top: PHOTO_H + 200,
               left: 60,
-              right: WIDTH - DIVIDER_X + 80,
+              right: 60,
               display: 'flex',
             },
             children: {
@@ -638,26 +625,12 @@ async function generateSlide5(post: any, fonts: Awaited<ReturnType<typeof loadFo
                 style: {
                   fontFamily: 'Source Sans 3',
                   fontWeight: 400,
-                  fontSize: 22,
-                  color: C.smoke,
-                  lineHeight: 1.6,
+                  fontSize: 34,
+                  color: C.sage,
+                  lineHeight: 1.5,
                 },
-                children: 'Camera ready before the tiger appeared. When it stepped out, the only thing left to do was watch.',
+                children: 'Camera ready. Settings dialed in. The tiger did the rest.',
               },
-            },
-          },
-        },
-        // Vertical sage divider
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              top: 80,
-              left: DIVIDER_X,
-              width: 2,
-              height: HEIGHT - 160,
-              backgroundColor: C.sage,
             },
           },
         },
@@ -750,7 +723,7 @@ async function generateSlide6(post: any, fonts: Awaited<ReturnType<typeof loadFo
               left: 60,
               fontFamily: 'Source Sans 3',
               fontWeight: 600,
-              fontSize: 18,
+              fontSize: 34,
               color: C.sage,
             },
             children: 'taranghirani.com/blog/shooting-with-intent',
@@ -766,7 +739,7 @@ async function generateSlide6(post: any, fonts: Awaited<ReturnType<typeof loadFo
               left: 60,
               fontFamily: 'Playfair Display',
               fontWeight: 700,
-              fontSize: 48,
+              fontSize: 80,
               color: C.white,
             },
             children: 'Read the full story',
@@ -817,7 +790,6 @@ async function main() {
     { label: 'slide-3', fn: () => generateSlide3(post, fonts) },
     { label: 'slide-4', fn: () => generateSlide4(post, fonts) },
     { label: 'slide-5', fn: () => generateSlide5(post, fonts) },
-    { label: 'slide-6', fn: () => generateSlide6(post, fonts) },
   ];
 
   for (const { label, fn } of slides) {
