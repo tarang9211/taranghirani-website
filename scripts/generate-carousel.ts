@@ -85,61 +85,58 @@ async function generateSlide1(post: any, fonts: Awaited<ReturnType<typeof loadFo
             },
           },
         },
-        // Vertical sage accent bar — left edge
+        // Text container — flex column anchored to bottom
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute' as const,
-              bottom: 80,
+              bottom: 60,
               left: 60,
-              width: 3,
-              height: 320,
-              backgroundColor: C.sage,
-            },
-          },
-        },
-        // Headline — left-aligned, bottom portion
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              bottom: 200,
-              left: 88,
               right: 60,
               display: 'flex',
+              flexDirection: 'column' as const,
+              gap: 24,
             },
-            children: {
-              type: 'span',
-              props: {
-                style: {
-                  fontFamily: 'Playfair Display',
-                  fontWeight: 700,
-                  fontSize: 80,
-                  color: C.white,
-                  lineHeight: 1.2,
+            children: [
+              // Sage accent line
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    width: 60,
+                    height: 2,
+                    backgroundColor: C.sage,
+                  },
                 },
-                children: 'You don\u2019t simply visit Dhikala.',
               },
-            },
-          },
-        },
-        // Location text — below headline, left-aligned
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              bottom: 100,
-              left: 88,
-              fontFamily: 'Source Sans 3',
-              fontWeight: 600,
-              fontSize: 34,
-              color: C.sage,
-              letterSpacing: 1.5,
-            },
-            children: 'Dhikala, Jim Corbett National Park',
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontFamily: 'Playfair Display',
+                    fontWeight: 700,
+                    fontSize: 80,
+                    color: C.white,
+                    lineHeight: 1.2,
+                  },
+                  children: 'You don\u2019t simply visit Dhikala',
+                },
+              },
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontFamily: 'Source Sans 3',
+                    fontWeight: 600,
+                    fontSize: 34,
+                    color: C.sage,
+                    letterSpacing: 1.5,
+                  },
+                  children: 'Dhikala, Jim Corbett National Park',
+                },
+              },
+            ],
           },
         },
       ],
@@ -178,8 +175,6 @@ async function generateSlide2(post: any, fonts: Awaited<ReturnType<typeof loadFo
     .toBuffer();
 
   // Satori overlay: bottom gradient + headline + body text
-  const HEADLINE_Y = 1000;
-  const BODY_Y = 1180;
 
   const overlay = {
     type: 'div',
@@ -205,57 +200,59 @@ async function generateSlide2(post: any, fonts: Awaited<ReturnType<typeof loadFo
             },
           },
         },
-        // Headline
+        // Text container — flex column anchored to bottom
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute' as const,
-              top: HEADLINE_Y,
+              bottom: 60,
               left: 60,
               right: 60,
               display: 'flex',
+              flexDirection: 'column' as const,
+              gap: 24,
             },
-            children: {
-              type: 'span',
-              props: {
-                style: {
-                  fontFamily: 'Playfair Display',
-                  fontWeight: 700,
-                  fontSize: 72,
-                  color: C.white,
-                  lineHeight: 1.2,
+            children: [
+              // Sage accent line
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    width: 60,
+                    height: 2,
+                    backgroundColor: C.sage,
+                  },
                 },
-                children: 'You experience Jim Corbett\u2019s writings',
               },
-            },
-          },
-        },
-        // Body text
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              top: BODY_Y,
-              left: 60,
-              right: 60,
-              display: 'flex',
-            },
-            children: {
-              type: 'span',
-              props: {
-                style: {
-                  fontFamily: 'Source Sans 3',
-                  fontWeight: 400,
-                  fontSize: 34,
-                  color: C.sage,
-                  lineHeight: 1.55,
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontFamily: 'Playfair Display',
+                    fontWeight: 700,
+                    fontSize: 72,
+                    color: C.white,
+                    lineHeight: 1.2,
+                  },
+                  children: 'You experience Jim Corbett\u2019s writings',
                 },
-                children:
-                  'Sal canopies overhead. Old rest houses appearing one by one. The forests he wrote about aren\u2019t pages anymore.',
               },
-            },
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontFamily: 'Source Sans 3',
+                    fontWeight: 400,
+                    fontSize: 34,
+                    color: C.sage,
+                    lineHeight: 1.55,
+                  },
+                  children:
+                    'Sal canopies overhead. Old rest houses appearing one by one. The forests he wrote about aren\u2019t pages anymore.',
+                },
+              },
+            ],
           },
         },
       ],
@@ -310,74 +307,62 @@ async function generateSlide3(post: any, fonts: Awaited<ReturnType<typeof loadFo
               left: 0,
               right: 0,
               height: OVERLAY_HEIGHT,
-              backgroundColor: 'rgba(8,8,8,0.82)',
+              backgroundImage: 'linear-gradient(to top, rgba(8,8,8,0.7), rgba(8,8,8,0))',
             },
           },
         },
-        // Sage accent line — above headline
+        // Text container — flex column anchored to bottom
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute' as const,
-              top: OVERLAY_TOP + 28,
-              left: 60,
-              width: 60,
-              height: 2,
-              backgroundColor: C.sage,
-            },
-          },
-        },
-        // Headline — Playfair Display Bold Italic
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              top: OVERLAY_TOP + 48,
+              bottom: 60,
               left: 60,
               right: 60,
               display: 'flex',
+              flexDirection: 'column' as const,
+              gap: 24,
             },
-            children: {
-              type: 'span',
-              props: {
-                style: {
-                  fontFamily: 'Playfair Display',
-                  fontWeight: 700,
-                  fontSize: 80,
-                  color: C.white,
-                  lineHeight: 1.3,
+            children: [
+              // Sage accent line
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    width: 60,
+                    height: 2,
+                    backgroundColor: C.sage,
+                  },
                 },
-                children: 'Every encounter leaves you a little more still.',
               },
-            },
-          },
-        },
-        // Body text — sage, Source Sans 3
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              top: OVERLAY_TOP + 320,
-              left: 60,
-              right: 60,
-              display: 'flex',
-            },
-            children: {
-              type: 'span',
-              props: {
-                style: {
-                  fontFamily: 'Source Sans 3',
-                  fontWeight: 400,
-                  fontSize: 34,
-                  color: C.sage,
-                  lineHeight: 1.5,
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontFamily: 'Playfair Display',
+                    fontWeight: 700,
+                    fontSize: 80,
+                    color: C.white,
+                    lineHeight: 1.3,
+                  },
+                  children: 'Every encounter leaves you a little more still',
                 },
-                children: 'Soft winter light. Sambar crossing rivers in no rush. Tigers patrolling the Ramganga.',
               },
-            },
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontFamily: 'Source Sans 3',
+                    fontWeight: 400,
+                    fontSize: 34,
+                    color: C.sage,
+                    lineHeight: 1.5,
+                  },
+                  children: 'Soft winter light. Sambar crossing rivers in no rush. Tigers patrolling the Ramganga.',
+                },
+              },
+            ],
           },
         },
       ],
@@ -411,9 +396,6 @@ async function generateSlide4(post: any, fonts: Awaited<ReturnType<typeof loadFo
     .png()
     .toBuffer();
 
-  const HEADLINE_Y = 1060;
-  const BODY_Y = 1220;
-
   const overlay = {
     type: 'div',
     props: {
@@ -438,56 +420,58 @@ async function generateSlide4(post: any, fonts: Awaited<ReturnType<typeof loadFo
             },
           },
         },
-        // Headline — white for contrast against golden tones
+        // Text container — flex column anchored to bottom
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute' as const,
-              top: HEADLINE_Y,
+              bottom: 60,
               left: 60,
               right: 60,
               display: 'flex',
+              flexDirection: 'column' as const,
+              gap: 24,
             },
-            children: {
-              type: 'span',
-              props: {
-                style: {
-                  fontFamily: 'Playfair Display',
-                  fontWeight: 700,
-                  fontSize: 72,
-                  color: C.white,
-                  lineHeight: 1.2,
+            children: [
+              // Sage accent line
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    width: 60,
+                    height: 2,
+                    backgroundColor: C.sage,
+                  },
                 },
-                children: headline,
               },
-            },
-          },
-        },
-        // Body text — sage for accent
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              top: BODY_Y,
-              left: 60,
-              right: 60,
-              display: 'flex',
-            },
-            children: {
-              type: 'span',
-              props: {
-                style: {
-                  fontFamily: 'Source Sans 3',
-                  fontWeight: 400,
-                  fontSize: 34,
-                  color: C.sage,
-                  lineHeight: 1.55,
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontFamily: 'Playfair Display',
+                    fontWeight: 700,
+                    fontSize: 72,
+                    color: C.white,
+                    lineHeight: 1.2,
+                  },
+                  children: headline,
                 },
-                children: body,
               },
-            },
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontFamily: 'Source Sans 3',
+                    fontWeight: 400,
+                    fontSize: 34,
+                    color: C.sage,
+                    lineHeight: 1.55,
+                  },
+                  children: body,
+                },
+              },
+            ],
           },
         },
       ],
@@ -520,9 +504,6 @@ async function generateSlide5(post: any, fonts: Awaited<ReturnType<typeof loadFo
     .png()
     .toBuffer();
 
-  const HEADLINE_Y = 1060;
-  const BODY_Y = 1220;
-
   // Satori overlay: bottom gradient + headline + subtitle
   const overlay = {
     type: 'div',
@@ -548,56 +529,58 @@ async function generateSlide5(post: any, fonts: Awaited<ReturnType<typeof loadFo
             },
           },
         },
-        // Headline
+        // Text container — flex column anchored to bottom
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute' as const,
-              top: HEADLINE_Y,
+              bottom: 60,
               left: 60,
               right: 60,
               display: 'flex',
+              flexDirection: 'column' as const,
+              gap: 24,
             },
-            children: {
-              type: 'span',
-              props: {
-                style: {
-                  fontFamily: 'Playfair Display',
-                  fontWeight: 700,
-                  fontSize: 56,
-                  color: C.white,
-                  lineHeight: 1.3,
+            children: [
+              // Sage accent line
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    width: 60,
+                    height: 2,
+                    backgroundColor: C.sage,
+                  },
                 },
-                children: 'Nothing left to do but watch the road.',
               },
-            },
-          },
-        },
-        // Subtitle
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute' as const,
-              top: BODY_Y,
-              left: 60,
-              right: 60,
-              display: 'flex',
-            },
-            children: {
-              type: 'span',
-              props: {
-                style: {
-                  fontFamily: 'Source Sans 3',
-                  fontWeight: 400,
-                  fontSize: 34,
-                  color: C.sage,
-                  lineHeight: 1.5,
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontFamily: 'Playfair Display',
+                    fontWeight: 700,
+                    fontSize: 56,
+                    color: C.white,
+                    lineHeight: 1.3,
+                  },
+                  children: 'Nothing left to do but watch the road',
                 },
-                children: 'Camera ready. Settings dialed in. The tiger did the rest.',
               },
-            },
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontFamily: 'Source Sans 3',
+                    fontWeight: 400,
+                    fontSize: 34,
+                    color: C.sage,
+                    lineHeight: 1.5,
+                  },
+                  children: 'Camera ready. Settings dialed in. The forest does the rest.',
+                },
+              },
+            ],
           },
         },
       ],

@@ -89,6 +89,19 @@ Each slide covers one key idea, moment, or insight from the post:
 
 ---
 
+## Layout Rules
+
+When generating slide code in `scripts/generate-carousel.ts`, follow these spacing rules to keep the carousel visually consistent:
+
+- **Text container:** Place the headline and body text inside a single flex-column container (`flexDirection: 'column'`) anchored to the bottom of the slide (`position: absolute, bottom: 60`). Do **not** position headline and body independently with separate absolute `top`/`bottom` values — this causes inconsistent visual gaps when headlines wrap to different line counts.
+- **Heading–subheading gap:** Use `gap: 24` between the headline and body text spans inside the flex container.
+- **Side padding:** `left: 60, right: 60` (or `left: 88` for slide 1 to clear the accent bar).
+- **Bottom padding:** `bottom: 60` from the canvas edge.
+- **No trailing periods** on headline text.
+- **Accent lines must be consistent:** If a sage (`#C4956A`) accent line (horizontal or vertical) is used on one content slide, it must appear on all content slides (slides 2–5). Do not mix — some slides with accent lines and others without. Choose one style (horizontal line above the headline, or vertical bar beside the text) and apply it uniformly. The final collage/CTA slide may use its own accent rule independently.
+
+---
+
 ## Canva Constraints
 
 When outputting Canva instructions, respect these platform limitations:
@@ -150,3 +163,4 @@ Before finalising, verify:
 - [ ] The final collage prompt includes pixel dimensions for each image cell and the blog URL
 - [ ] Every prompt ends with a Style line
 - [ ] No body copy in any prompt exceeds 30 words
+- [ ] Sage accent lines are used consistently — either all content slides (2–5) have one, or none do
