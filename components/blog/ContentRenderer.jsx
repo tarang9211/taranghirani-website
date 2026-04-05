@@ -19,6 +19,34 @@ function TextBlock({ body, isFirst }) {
   );
 }
 
+function ExifBar({ exif }) {
+  const fields = [
+    { value: exif.aperture, label: "f" },
+    { value: exif.shutterSpeed, label: "Shutter" },
+    { value: exif.iso, label: "ISO" },
+  ].filter((f) => f.value);
+
+  if (!fields.length) return null;
+
+  return (
+    <div className="mt-3 flex flex-wrap items-center justify-end gap-x-3 gap-y-1">
+      {fields.map((field, i) => (
+        <span key={i} className="flex items-center gap-x-3">
+          <span className="text-sm text-smoke/70 tracking-wide">
+            {field.label && (
+              <span className="text-smoke/50 mr-1">{field.label}</span>
+            )}
+            {field.value}
+          </span>
+          {i < fields.length - 1 && (
+            <span className="text-smoke/40 text-sm">/</span>
+          )}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 function ImageBlock({ image, onClick }) {
   return (
     <FadeIn className="my-10 max-w-4xl mx-auto">
@@ -39,6 +67,7 @@ function ImageBlock({ image, onClick }) {
           {image.caption}
         </p>
       )}
+      {image.exif && <ExifBar exif={image.exif} />}
     </FadeIn>
   );
 }

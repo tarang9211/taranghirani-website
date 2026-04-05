@@ -6,6 +6,7 @@ import {
   getPostBySlug,
   getPostOgImage,
 } from "../../lib/blog/posts";
+import { extractPublicId, getImageExif } from "../../lib/cloudinary";
 import ContentRenderer from "../../components/blog/ContentRenderer";
 import FadeIn from "../../components/FadeIn";
 
@@ -31,9 +32,19 @@ export async function getStaticProps({ params }) {
 
   const ogImage = getPostOgImage(post);
 
+  // Enrich image blocks with EXIF read from Cloudinary at build time
+  const enrichedContent = await Promise.all(
+    post.content.map(async (block) => {
+      if (block.type !== "image") return block;
+      const publicId = extractPublicId(block.image.url);
+      const exif = publicId ? await getImageExif(publicId) : null;
+      return { ...block, image: { ...block.image, exif } };
+    }),
+  );
+
   return {
     props: {
-      post,
+      post: { ...post, content: enrichedContent },
       ogImage,
       prevPost: prevPost
         ? { slug: prevPost.slug, title: prevPost.title }
