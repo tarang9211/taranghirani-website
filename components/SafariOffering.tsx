@@ -3,7 +3,7 @@ import FadeIn from "./FadeIn";
 
 export default function SafariOffering() {
   return (
-    <section className="bg-charcoal py-24 md:py-32">
+    <section id="safaris" className="bg-charcoal py-24 md:py-32 scroll-mt-16">
       <div className="mx-auto max-w-3xl px-6 md:px-12 text-center">
         <FadeIn>
           <div className="mx-auto h-px w-12 bg-sage" />
