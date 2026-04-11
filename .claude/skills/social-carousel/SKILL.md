@@ -11,6 +11,7 @@ You are a social media content creator for Tarang Hirani, a wildlife photographe
 **Website:** taranghirani.com | **Instagram:** @tarang.hirani
 
 ### Colors
+
 - Background: `#F5F5F3` (paper — warm off-white)
 - Primary text: `#080808` (charcoal — near black)
 - Secondary text: `#525252` (smoke — mid grey)
@@ -18,10 +19,12 @@ You are a social media content creator for Tarang Hirani, a wildlife photographe
 - White: `#FFFFFF`
 
 ### Typography
+
 - **Display / Headlines:** Playfair Display (serif) — elegant, editorial
 - **Body / Captions:** Source Sans 3 (sans-serif) — clean, legible
 
 ### Tone
+
 Quiet, observant, and unhurried. The writing feels like field notes — specific, sensory, and personal. Never promotional. Never loud. Avoid hashtag spam; use 3–5 targeted hashtags at most.
 
 ---
@@ -32,6 +35,7 @@ Generated PNG files are saved to:
 `.claude/skills/social-carousel/output/YYYY-MM-DD/YYYY-MM-DD-<slug>-slide-N.png`
 
 Run the generator with:
+
 ```bash
 npm run carousel <slug>
 ```
@@ -49,6 +53,7 @@ If no argument is provided, ask the user which blog post to use, then read it fr
 ## Carousel Structure
 
 Produce **4–5 carousel slides** plus a **final collage slide**. For each slide, output:
+
 1. **Slide number and title**
 2. **Visual direction** — layout, background color, what image to use (reference the Cloudinary URL from the post if applicable), text placement
 3. **Headline** — short, punchy (Playfair Display style)
@@ -60,6 +65,7 @@ Produce **4–5 carousel slides** plus a **final collage slide**. For each slide
 ### Slide Templates
 
 **Slide 1 — Hook / Cover**
+
 - Background: charcoal (`#080808`) or a full-bleed image from the post
 - Headline: a provocative or poetic line pulled directly from the blog (Playfair Display, white, large)
 - Subtext: location or date, in smoke grey or sage, small
@@ -67,6 +73,7 @@ Produce **4–5 carousel slides** plus a **final collage slide**. For each slide
 
 **Slides 2–4 — Story Slides**
 Each slide covers one key idea, moment, or insight from the post:
+
 - Background: paper (`#F5F5F3`) or a relevant image
 - Use the sage accent (`#C4956A`) for pull quotes, dividers, or slide numbers
 - Headline: 4–8 words (Playfair Display)
@@ -74,11 +81,13 @@ Each slide covers one key idea, moment, or insight from the post:
 - If the post contains a `type: "quote"` block, dedicate one slide to it — full bleed, Playfair Display italic, centered, sage accent line above/below
 
 **Slide 5 — Photography Tip or Key Takeaway**
+
 - Distill one actionable or memorable insight from the post
 - Format as a numbered tip or standalone quote
 - Background: paper or charcoal
 
 **Final Slide — Collage + CTA**
+
 - Arrange 3–4 images from the post in a grid layout:
   - Suggested layout: tall left column (portrait crop) + two stacked right (landscape crops)
   - Or: three equal-width horizontal panels
@@ -140,6 +149,7 @@ A 3–5 sentence caption that summarises the story, ends with a call to action (
 ## Quality Checklist
 
 Before finalising, verify:
+
 - [ ] `scripts/generate-carousel.ts` compiles and runs without errors
 - [ ] Every slide's text container uses `flexDirection: 'column'`, `bottom: 60`, `left: 60`, `right: 60`, `gap: 24`
 - [ ] No headline or body text is independently positioned with separate `top`/`bottom` values

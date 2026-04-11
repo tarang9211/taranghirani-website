@@ -62,9 +62,25 @@ function Hero({ desktopSrc, mobileSrc, alt }: HeroProps) {
             <br />
             Hirani
           </h1>
-          <p className="mt-5 text-sm font-light uppercase tracking-[0.2em] text-white/40 opacity-0 animate-fade-up-delay">
-            Wildlife Photographer
+          <p className="mt-4 font-display text-xl text-white/80 leading-snug opacity-0 animate-fade-up-delay">
+            Experience the Wild. Capture the Moment.
           </p>
+          <p
+            className="mt-3 text-sm font-light text-white leading-relaxed opacity-0 animate-fade-up"
+            style={{ animationDelay: "0.4s" }}
+          >
+            Wildlife photography and curated safaris across India and Africa.
+          </p>
+          <a
+            href="#safaris"
+            className="group inline-flex items-center gap-2 mt-6 px-6 py-3 border border-sage text-sage text-xs uppercase tracking-[0.15em] font-medium hover:bg-sage hover:text-charcoal transition-all duration-300 opacity-0 animate-fade-up"
+            style={{ animationDelay: "0.55s" }}
+          >
+            Explore Safaris
+            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+              &rarr;
+            </span>
+          </a>
         </div>
       </div>
 
@@ -82,9 +98,25 @@ function Hero({ desktopSrc, mobileSrc, alt }: HeroProps) {
               <br />
               Hirani
             </h1>
-            <p className="mt-6 text-sm font-light uppercase tracking-[0.2em] text-white/40 opacity-0 animate-fade-up-delay">
-              Wildlife Photographer
+            <p className="mt-6 font-display text-xl lg:text-2xl text-white/80 leading-snug opacity-0 animate-fade-up-delay">
+              Experience the Wild. Capture the Moment.
             </p>
+            <p
+              className="mt-4 text-sm lg:text-base font-light text-white leading-relaxed opacity-0 animate-fade-up"
+              style={{ animationDelay: "0.4s" }}
+            >
+              Wildlife photography and curated safaris across India and Africa.
+            </p>
+            <a
+              href="#safaris"
+              className="group inline-flex items-center gap-2 mt-8 px-7 py-3.5 border border-sage text-sage text-xs uppercase tracking-[0.15em] font-medium hover:bg-sage hover:text-charcoal transition-all duration-300 opacity-0 animate-fade-up"
+              style={{ animationDelay: "0.55s" }}
+            >
+              Explore Safaris
+              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                &rarr;
+              </span>
+            </a>
           </div>
         </div>
 

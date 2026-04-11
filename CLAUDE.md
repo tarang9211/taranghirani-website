@@ -3,6 +3,7 @@
 This is a personal website for Tarang Hirani, a wildlife photographer based in India. The purpose of this website is to showcase my work photography portfolio and provide a platform for readers to learn more about my work and connect with me.
 
 #### Important
+
 - Website is located at https://www.taranghirani.com
 - Instagram handlie is @tarang.hirani
 
@@ -17,19 +18,22 @@ Ensure the user experience of the website is of high quality.
 
 ### Project Structure
 
-Technoglies Used:
+Technologies Used:
+
 - Next JS 14
 - Cloudinary
 - Vercel
 - Yarn
 - Tailwind
 
-pages/ 
+pages/
+
 - index.tsx - Home page
 - gallery.tsx - Gallery page
 - blog.tsx - Blog page with blog posts
 
 ### Non Negotiables
+
 - The website must be performant
 - The website must be accessible
 - The website must be user-friendly

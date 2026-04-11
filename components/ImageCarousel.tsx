@@ -80,9 +80,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
           <div
             key={i}
             className={`h-px transition-all duration-500 ${
-              i === activeIndex
-                ? "w-8 bg-sage"
-                : "w-3 bg-white/20"
+              i === activeIndex ? "w-8 bg-sage" : "w-3 bg-white/20"
             }`}
           />
         ))}

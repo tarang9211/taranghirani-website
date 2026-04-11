@@ -90,9 +90,7 @@ export interface GalleryImage {
  * @param limit
  * @returns
  */
-export async function listImages(
-  limit = 20,
-): Promise<GalleryImage[]> {
+export async function listImages(limit = 20): Promise<GalleryImage[]> {
   const expression = "folder=wildlife";
 
   const searchQuery = cloudinary.search
