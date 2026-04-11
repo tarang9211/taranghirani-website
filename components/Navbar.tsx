@@ -81,10 +81,12 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between py-5 px-6">
         <Link
           href="/"
-          className={`text-2xl md:text-3xl font-semibold font-display transition-colors duration-300 ${
+          className={`text-2xl md:text-3xl font-semibold font-display transition-all duration-500 ${
             scrolled || mobileOpen
-              ? "text-charcoal hover:text-smoke"
-              : "text-white hover:text-white/80"
+              ? "text-charcoal hover:text-smoke opacity-100"
+              : isHome
+                ? "text-white opacity-0 pointer-events-none"
+                : "text-white hover:text-white/80 opacity-100"
           }`}
         >
           Tarang Hirani

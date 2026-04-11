@@ -28,6 +28,48 @@ export async function getHeroImage(): Promise<HeroImage | null> {
   };
 }
 
+export interface HeroImages {
+  desktop: HeroImage;
+  mobile: HeroImage;
+}
+
+export async function getHeroImages(): Promise<HeroImages> {
+  const [desktopRes, mobileRes] = await Promise.all([
+    cloudinary.search
+      .expression("tags:hero-desktop")
+      .with_field("context")
+      .max_results(1)
+      .execute(),
+    cloudinary.search
+      .expression("tags:hero-mobile")
+      .with_field("context")
+      .max_results(1)
+      .execute(),
+  ]);
+
+  const desktopImg = desktopRes.resources.at(0);
+  const mobileImg = mobileRes.resources.at(0);
+
+  const toHeroImage = (img: any, width: number): HeroImage => ({
+    url: optimizeUrl(img.secure_url, width),
+    alt: img.context?.custom?.alt ?? "Hero image",
+  });
+
+  // Fall back to the legacy "hero" tag if specific tags are missing
+  if (!desktopImg && !mobileImg) {
+    const fallback = await getHeroImage();
+    return { desktop: fallback!, mobile: fallback! };
+  }
+
+  const desktop = desktopImg ? toHeroImage(desktopImg, 1920) : null;
+  const mobile = mobileImg ? toHeroImage(mobileImg, 800) : null;
+
+  return {
+    desktop: desktop ?? mobile!,
+    mobile: mobile ?? desktop!,
+  };
+}
+
 export interface GalleryImage {
   /** Cloudinary public_id (unique key) */
   id: string;
@@ -37,34 +79,26 @@ export interface GalleryImage {
   thumbnailUrl: string;
   /** Alt text from Cloudinary context or fallback */
   alt: string;
+  /** Original image width in pixels */
+  width: number;
+  /** Original image height in pixels */
+  height: number;
 }
 
 /**
- * For images to be displayed in the website they needs to be uploaded in the "widlife" folder on Cloudinary
+ * For images to be displayed in the website they need to be uploaded in the "wildlife" folder on Cloudinary
  * @param limit
- * @param includeAll
  * @returns
  */
 export async function listImages(
-  limit = 9,
-  includeAll = false,
+  limit = 20,
 ): Promise<GalleryImage[]> {
-  const expression = includeAll
-    ? "folder=wildlife"
-    : "tags:home-gallery AND folder=wildlife";
+  const expression = "folder=wildlife";
 
-  let searchQuery = cloudinary.search
+  const searchQuery = cloudinary.search
     .expression(expression)
     .with_field("context")
     .max_results(limit);
-
-  // Only apply sorting for home-gallery images
-  if (!includeAll) {
-    searchQuery = searchQuery.sort_by(
-      "metadata.home_gallery_sort_order",
-      "asc",
-    );
-  }
 
   const { resources } = await searchQuery.execute();
 
@@ -73,6 +107,8 @@ export async function listImages(
     url: optimizeUrl(r.secure_url, 1920),
     thumbnailUrl: optimizeUrl(r.secure_url, 800),
     alt: r.context?.custom?.alt ?? "Wildlife photograph",
+    width: r.width,
+    height: r.height,
   }));
 }
 

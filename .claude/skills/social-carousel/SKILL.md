@@ -102,50 +102,35 @@ When generating slide code in `scripts/generate-carousel.ts`, follow these spaci
 
 ---
 
-## Canva Constraints
-
-When outputting Canva instructions, respect these platform limitations:
-
-- **No text shadow effects** — Canva does not support shadows on text elements. For headline legibility over a photo, increase the dark overlay rectangle's opacity instead (e.g. raise from 50% to 65–70%).
-- **No blend modes on text** — stick to solid fills and opacity only.
-- **Font availability** — Playfair Display and Source Sans 3 are both available in Canva's free font library.
-- **Line elements** — use Canva's "Lines" shape, not borders. Set weight in px and color via the color picker using the hex value.
-- **Vertical lines** — add a Line element, rotate 90°, then set the exact height.
-- **Locking layers** — always instruct the user to right-click a background image → "Lock" before adding overlays and text on top.
-
----
-
 ## Output Format
 
-For each slide, output a self-contained prompt that the user can paste directly into **Google Gemini** (gemini.google.com) to generate the slide image. Each prompt must be specific enough that Gemini can produce the slide without any additional context.
+Generate the carousel slides directly by updating `scripts/generate-carousel.ts` and running the script.
 
-### Prompt Writing Rules
+### Steps
 
-- Open with the aspect ratio and canvas dimensions so Gemini constrains the output correctly.
-- Describe the visual layers from back to front: background → image → overlays → text → accents.
-- For slides that use a photo, instruct Gemini to use the provided image URL as the base photo. Use phrasing like: *"Use this image as the background photo: [URL]"*
-- Specify every typographic detail: font name, weight, size (in pt or px), color (hex), position, and alignment. Gemini will render text if instructed precisely.
-- Name hex colors explicitly — do not say "warm bronze", say "#C4956A".
-- End every prompt with a **Style line**: a short comma-separated descriptor that sets the overall aesthetic mood (e.g. *"editorial, minimal, wildlife photography, warm neutrals, quiet luxury"*).
-- For the final collage slide, describe the multi-image grid layout precisely, including pixel dimensions for each image cell.
+1. **Read the post** from `lib/blog/posts.js` using the slug from `$ARGUMENTS`.
+2. **Design the slides** — choose headlines, body copy, and which image to use for each slide based on the Carousel Structure above.
+3. **Rewrite `scripts/generate-carousel.ts`** with slide functions that contain the copy and image choices you've designed. Follow the Layout Rules exactly. The script uses `satori` for text/overlay rendering and `sharp` for image compositing. Output dimensions are `1080×1350` (4:5 portrait). Keep the existing `loadFonts()`, `main()`, and output path logic — only replace the `generateSlideN()` functions and their registrations in the `slides` array.
+4. **Run the script**: `npm run carousel <slug>`
+5. **Report** the output path and output a post caption.
 
-For each slide use this format:
+### Slide function structure
 
-```
-─────────────────────────────
-SLIDE [N] — [Slide Name]
-─────────────────────────────
-GEMINI PROMPT:
+Each `generateSlideN` function must follow this pattern — text container anchored to bottom with `flexDirection: 'column'` and `gap: 24`, never independently positioned headline/body:
 
-Generate a square image at 1080×1080 px for an Instagram carousel slide.
-
-[Describe the visual composition layer by layer, following the Prompt Writing Rules above. Be explicit about every element — background, photos, overlays, text blocks, and accent marks. Use exact hex values and pixel measurements throughout.]
-
-Style: [comma-separated mood/aesthetic descriptors]
-─────────────────────────────
+```ts
+async function generateSlideN(post: any, fonts: ...): Promise<Buffer> {
+  // 1. Fetch or load photo (use post image URLs from post.content)
+  // 2. Resize/crop background with sharp to WIDTH × HEIGHT
+  // 3. Build satori overlay object (back to front: gradient → accent line → text flex container)
+  // 4. Composite overlay onto background with sharp
+  // 5. Return jpeg buffer
+}
 ```
 
-After all slides, output:
+### Post Caption
+
+After running the script, output:
 
 **Post Caption (Instagram)**
 A 3–5 sentence caption that summarises the story, ends with a call to action ("Full story at the link in bio"), and includes 3–5 relevant hashtags (e.g. #WildlifePhotography #JimCorbett #Dhikala #BigCats #NaturePhotography).
@@ -155,12 +140,11 @@ A 3–5 sentence caption that summarises the story, ends with a call to action (
 ## Quality Checklist
 
 Before finalising, verify:
-- [ ] Every prompt opens with "Generate a square image at 1080×1080 px"
-- [ ] Every prompt describes layers back to front
-- [ ] Photo slides include the exact Cloudinary URL with instruction to use it as the base photo
-- [ ] Every text element specifies font, weight, size, hex color, position, and alignment
-- [ ] Sage (#C4956A) accent appears in at least 2 prompts
-- [ ] The final collage prompt includes pixel dimensions for each image cell and the blog URL
-- [ ] Every prompt ends with a Style line
-- [ ] No body copy in any prompt exceeds 30 words
-- [ ] Sage accent lines are used consistently — either all content slides (2–5) have one, or none do
+- [ ] `scripts/generate-carousel.ts` compiles and runs without errors
+- [ ] Every slide's text container uses `flexDirection: 'column'`, `bottom: 60`, `left: 60`, `right: 60`, `gap: 24`
+- [ ] No headline or body text is independently positioned with separate `top`/`bottom` values
+- [ ] Sage (`#C4956A`) accent line is used consistently — either on all content slides or none
+- [ ] The final collage slide uses the correct image indices from the post
+- [ ] The CTA slide includes `taranghirani.com/blog/<slug>`
+- [ ] No body copy exceeds 30 words
+- [ ] Output files are saved to `.claude/skills/social-carousel/output/YYYY-MM-DD/`
