@@ -1,37 +1,51 @@
 import Hero from "../components/Hero";
-import EditorialGallery from "../components/EditorialGallery";
-import Statement from "../components/Statement";
+import ImageCarousel from "../components/ImageCarousel";
+import SafariOffering from "../components/SafariOffering";
+import InstagramCTA from "../components/InstagramCTA";
 import AboutMe from "../components/AboutMe";
 import Head from "next/head";
 
 import {
-  getHeroImage,
+  getHeroImages,
   getFeaturedImage,
   listImages,
   GalleryImage,
 } from "../lib/helpers";
 
 export async function getStaticProps() {
-  const hero = await getHeroImage();
-  const images: GalleryImage[] = await listImages(5);
-  const featuredImage = await getFeaturedImage();
+  const [heroImages, carouselImages, featuredImage] = await Promise.all([
+    getHeroImages(),
+    listImages(20),
+    getFeaturedImage(),
+  ]);
+
   return {
     props: {
-      url: hero.url,
-      alt: hero.alt,
-      images,
+      heroDesktop: heroImages.desktop,
+      heroMobile: heroImages.mobile,
+      carouselImages,
       featuredImage,
     },
     revalidate: 3600,
   };
 }
 
-export default function Home({ url, alt, images, featuredImage }) {
+export default function Home({
+  heroDesktop,
+  heroMobile,
+  carouselImages,
+  featuredImage,
+}) {
   return (
     <div className="bg-charcoal text-parchment">
-      <Hero src={url} alt={alt} />
-      <EditorialGallery images={images} />
-      <Statement />
+      <Hero
+        desktopSrc={heroDesktop.url}
+        mobileSrc={heroMobile.url}
+        alt={heroDesktop.alt}
+      />
+      <SafariOffering />
+      <ImageCarousel images={carouselImages} />
+      <InstagramCTA />
       <AboutMe featuredImage={featuredImage} />
     </div>
   );

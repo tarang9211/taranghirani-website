@@ -116,7 +116,7 @@ async function generateSlide1(post: any, fonts: Awaited<ReturnType<typeof loadFo
                   style: {
                     fontFamily: 'Playfair Display',
                     fontWeight: 700,
-                    fontSize: 80,
+                    fontSize: 72,
                     color: C.white,
                     lineHeight: 1.2,
                   },
@@ -342,7 +342,7 @@ async function generateSlide3(post: any, fonts: Awaited<ReturnType<typeof loadFo
                   style: {
                     fontFamily: 'Playfair Display',
                     fontWeight: 700,
-                    fontSize: 80,
+                    fontSize: 72,
                     color: C.white,
                     lineHeight: 1.3,
                   },
@@ -560,7 +560,7 @@ async function generateSlide5(post: any, fonts: Awaited<ReturnType<typeof loadFo
                   style: {
                     fontFamily: 'Playfair Display',
                     fontWeight: 700,
-                    fontSize: 56,
+                    fontSize: 72,
                     color: C.white,
                     lineHeight: 1.3,
                   },
