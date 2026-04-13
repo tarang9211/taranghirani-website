@@ -27,7 +27,9 @@ function useSubscribe() {
     if (status === "success" || status === "already") {
       timerRef.current = setTimeout(() => setStatus("idle"), RESET_DELAY);
     }
-    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, [status]);
 
   async function subscribe(email: string) {
@@ -174,7 +176,9 @@ function InlineSignup({ theme = "dark" }: { theme?: "dark" | "light" }) {
 
   const labelColor = isDark ? "text-gray-500" : "text-smoke/60";
   const inputBorder = isDark ? "border-white/15" : "border-charcoal/15";
-  const inputText = isDark ? "text-white placeholder:text-white/30" : "text-charcoal placeholder:text-smoke/40";
+  const inputText = isDark
+    ? "text-white placeholder:text-white/30"
+    : "text-charcoal placeholder:text-smoke/40";
   const inputFocus = "focus:border-sage focus:outline-none";
   const btnBorder = isDark
     ? "border-sage text-sage hover:bg-sage hover:text-charcoal"
@@ -192,7 +196,9 @@ function InlineSignup({ theme = "dark" }: { theme?: "dark" | "light" }) {
 
   return (
     <div>
-      <p className={`text-xs uppercase tracking-[0.15em] font-medium mb-3 ${labelColor}`}>
+      <p
+        className={`text-xs uppercase tracking-[0.15em] font-medium mb-3 ${labelColor}`}
+      >
         Get safari updates & field notes
       </p>
       <form
