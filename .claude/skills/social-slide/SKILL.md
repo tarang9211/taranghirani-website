@@ -20,19 +20,19 @@ npm run slide -- --image <path> [options]
 
 ### Parameters
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--image` | Local file path or URL (required) | — |
-| `--headline` | Main text (Playfair Display, white) | none |
-| `--subtitle` | Secondary text (Source Sans 3, sage) | none |
-| `--name` | Output filename (no extension) | `slide` |
-| `--position` | Text placement: `top`, `center`, `bottom` | `bottom` |
-| `--font-size` | Headline size in px | `72` |
-| `--subtitle-size` | Subtitle size in px | `34` |
-| `--gradient-opacity` | Gradient strength 0–1 | `0.85` |
-| `--crop-position` | Sharp anchor: `centre`, `top`, `bottom`, `left`, `right` | `centre` |
-| `--zoom` | Crop factor 0.1–1.0 (lower = more zoomed) | `1.0` |
-| `--clip-text` | Text clips through to reveal background image | off |
+| Flag                 | Description                                              | Default  |
+| -------------------- | -------------------------------------------------------- | -------- |
+| `--image`            | Local file path or URL (required)                        | —        |
+| `--headline`         | Main text (Playfair Display, white)                      | none     |
+| `--subtitle`         | Secondary text (Source Sans 3, sage)                     | none     |
+| `--name`             | Output filename (no extension)                           | `slide`  |
+| `--position`         | Text placement: `top`, `center`, `bottom`                | `bottom` |
+| `--font-size`        | Headline size in px                                      | `72`     |
+| `--subtitle-size`    | Subtitle size in px                                      | `34`     |
+| `--gradient-opacity` | Gradient strength 0–1                                    | `0.85`   |
+| `--crop-position`    | Sharp anchor: `centre`, `top`, `bottom`, `left`, `right` | `centre` |
+| `--zoom`             | Crop factor 0.1–1.0 (lower = more zoomed)                | `1.0`    |
+| `--clip-text`        | Text clips through to reveal background image            | off      |
 
 ### Output
 

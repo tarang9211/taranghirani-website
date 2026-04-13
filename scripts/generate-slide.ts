@@ -17,27 +17,63 @@ const C = {
 const FONTS_DIR = path.join(process.cwd(), "node_modules");
 
 async function loadFonts() {
-  const [playfairBold, playfairBoldItalic, sourceSansRegular, sourceSansSemiBold] =
-    await Promise.all([
-      fs.readFile(
-        path.join(FONTS_DIR, "@fontsource/playfair-display/files/playfair-display-latin-700-normal.woff"),
+  const [
+    playfairBold,
+    playfairBoldItalic,
+    sourceSansRegular,
+    sourceSansSemiBold,
+  ] = await Promise.all([
+    fs.readFile(
+      path.join(
+        FONTS_DIR,
+        "@fontsource/playfair-display/files/playfair-display-latin-700-normal.woff",
       ),
-      fs.readFile(
-        path.join(FONTS_DIR, "@fontsource/playfair-display/files/playfair-display-latin-700-italic.woff"),
+    ),
+    fs.readFile(
+      path.join(
+        FONTS_DIR,
+        "@fontsource/playfair-display/files/playfair-display-latin-700-italic.woff",
       ),
-      fs.readFile(
-        path.join(FONTS_DIR, "@fontsource/source-sans-3/files/source-sans-3-latin-400-normal.woff"),
+    ),
+    fs.readFile(
+      path.join(
+        FONTS_DIR,
+        "@fontsource/source-sans-3/files/source-sans-3-latin-400-normal.woff",
       ),
-      fs.readFile(
-        path.join(FONTS_DIR, "@fontsource/source-sans-3/files/source-sans-3-latin-600-normal.woff"),
+    ),
+    fs.readFile(
+      path.join(
+        FONTS_DIR,
+        "@fontsource/source-sans-3/files/source-sans-3-latin-600-normal.woff",
       ),
-    ]);
+    ),
+  ]);
 
   return [
-    { name: "Playfair Display", data: playfairBold.buffer as ArrayBuffer, weight: 700 as const, style: "normal" as const },
-    { name: "Playfair Display", data: playfairBoldItalic.buffer as ArrayBuffer, weight: 700 as const, style: "italic" as const },
-    { name: "Source Sans 3", data: sourceSansRegular.buffer as ArrayBuffer, weight: 400 as const, style: "normal" as const },
-    { name: "Source Sans 3", data: sourceSansSemiBold.buffer as ArrayBuffer, weight: 600 as const, style: "normal" as const },
+    {
+      name: "Playfair Display",
+      data: playfairBold.buffer as ArrayBuffer,
+      weight: 700 as const,
+      style: "normal" as const,
+    },
+    {
+      name: "Playfair Display",
+      data: playfairBoldItalic.buffer as ArrayBuffer,
+      weight: 700 as const,
+      style: "italic" as const,
+    },
+    {
+      name: "Source Sans 3",
+      data: sourceSansRegular.buffer as ArrayBuffer,
+      weight: 400 as const,
+      style: "normal" as const,
+    },
+    {
+      name: "Source Sans 3",
+      data: sourceSansSemiBold.buffer as ArrayBuffer,
+      weight: 600 as const,
+      style: "normal" as const,
+    },
   ];
 }
 
@@ -46,7 +82,8 @@ function parseArgs(argv: string[]) {
   for (let i = 0; i < argv.length; i++) {
     if (argv[i].startsWith("--")) {
       const key = argv[i].slice(2);
-      const val = argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[i + 1] : "true";
+      const val =
+        argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[i + 1] : "true";
       args[key] = val;
       if (val !== "true") i++;
     }
@@ -71,7 +108,9 @@ interface SlideOptions {
 async function generateSlide(opts: SlideOptions): Promise<Buffer> {
   process.stdout.write("  Loading image... ");
   const imgBuffer = opts.imagePath.startsWith("http")
-    ? await fetch(opts.imagePath).then((r) => r.arrayBuffer()).then((a) => Buffer.from(a))
+    ? await fetch(opts.imagePath)
+        .then((r) => r.arrayBuffer())
+        .then((a) => Buffer.from(a))
     : await fs.readFile(opts.imagePath);
   console.log("done");
 
@@ -115,7 +154,9 @@ async function generateSlide(opts: SlideOptions): Promise<Buffer> {
       props: {
         style: {
           position: "absolute" as const,
-          bottom: 0, left: 0, right: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
           height: gradientH,
           backgroundImage: `linear-gradient(to bottom, rgba(8,8,8,0), rgba(8,8,8,${opMid}) 70%, rgba(8,8,8,${opHigh}))`,
         },
@@ -127,7 +168,9 @@ async function generateSlide(opts: SlideOptions): Promise<Buffer> {
       props: {
         style: {
           position: "absolute" as const,
-          top: 0, left: 0, right: 0,
+          top: 0,
+          left: 0,
+          right: 0,
           height: gradientH,
           backgroundImage: `linear-gradient(to top, rgba(8,8,8,0), rgba(8,8,8,${opMid}) 70%, rgba(8,8,8,${opHigh}))`,
         },
@@ -139,7 +182,10 @@ async function generateSlide(opts: SlideOptions): Promise<Buffer> {
       props: {
         style: {
           position: "absolute" as const,
-          top: 0, left: 0, right: 0, bottom: 0,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           backgroundColor: `rgba(8,8,8,${(opHigh * 0.5).toFixed(2)})`,
         },
       },
@@ -192,7 +238,8 @@ async function generateSlide(opts: SlideOptions): Promise<Buffer> {
   // --- Text container positioning ---
   const textStyle: Record<string, any> = {
     position: "absolute" as const,
-    left: 60, right: 60,
+    left: 60,
+    right: 60,
     display: "flex",
     flexDirection: "column" as const,
     gap: 24,
@@ -224,9 +271,15 @@ async function generateSlide(opts: SlideOptions): Promise<Buffer> {
   if (opts.clipText) {
     // --- Clip-text mode: original image shows through text ---
     const [gradientSvg, textSvg] = await Promise.all([
-      satori(wrapOverlay([gradientEl]) as any, { width: WIDTH, height: HEIGHT, fonts: opts.fonts }),
+      satori(wrapOverlay([gradientEl]) as any, {
+        width: WIDTH,
+        height: HEIGHT,
+        fonts: opts.fonts,
+      }),
       satori(
-        wrapOverlay([{ type: "div", props: { style: textStyle, children: textEls } }]) as any,
+        wrapOverlay([
+          { type: "div", props: { style: textStyle, children: textEls } },
+        ]) as any,
         { width: WIDTH, height: HEIGHT, fonts: opts.fonts },
       ),
     ]);

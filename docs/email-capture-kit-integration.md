@@ -24,10 +24,10 @@ Safari Booking / Purchase
 
 **Environment variables to add:**
 
-| Variable | Where | Purpose |
-|----------|-------|---------|
+| Variable         | Where                           | Purpose                                   |
+| ---------------- | ------------------------------- | ----------------------------------------- |
 | `KIT_API_SECRET` | Vercel dashboard + `.env.local` | Kit API authentication (server-side only) |
-| `KIT_FORM_ID` | Vercel dashboard + `.env.local` | Target form ID for website subscribers |
+| `KIT_FORM_ID`    | Vercel dashboard + `.env.local` | Target form ID for website subscribers    |
 
 **Steps:**
 
@@ -60,11 +60,11 @@ Kit needs DNS records on taranghirani.com so emails from safaris@taranghirani.co
 2. Enter `taranghirani.com`
 3. Kit will provide DNS records to add:
 
-| Record Type | Purpose | What it does |
-|-------------|---------|--------------|
-| **CNAME** (DKIM) | Email authentication | Proves emails are legitimately from your domain |
-| **TXT** (SPF) | Sender authorization | Tells mail servers Kit is allowed to send on your behalf |
-| **CNAME** (Return-path) | Bounce handling | Routes bounced emails back through Kit |
+| Record Type             | Purpose              | What it does                                             |
+| ----------------------- | -------------------- | -------------------------------------------------------- |
+| **CNAME** (DKIM)        | Email authentication | Proves emails are legitimately from your domain          |
+| **TXT** (SPF)           | Sender authorization | Tells mail servers Kit is allowed to send on your behalf |
+| **CNAME** (Return-path) | Bounce handling      | Routes bounced emails back through Kit                   |
 
 ### 2c. Add DNS Records in Vercel
 
@@ -155,13 +155,13 @@ first_name natively via the API.
 
 ### 4b. Form States
 
-| State | UI | Behavior |
-|-------|-----|----------|
-| **Idle** | Input + "Subscribe" button | Ready for input |
-| **Loading** | Button shows spinner, input disabled | Prevents double submit |
-| **Success** | Form replaced with "You're in! Check your inbox." | Confirms action taken |
-| **Error** | Red text below form: "Something went wrong. Try again." | Button re-enabled |
-| **Already subscribed** | "You're already subscribed!" | Friendly acknowledgment, not an error |
+| State                  | UI                                                      | Behavior                              |
+| ---------------------- | ------------------------------------------------------- | ------------------------------------- |
+| **Idle**               | Input + "Subscribe" button                              | Ready for input                       |
+| **Loading**            | Button shows spinner, input disabled                    | Prevents double submit                |
+| **Success**            | Form replaced with "You're in! Check your inbox."       | Confirms action taken                 |
+| **Error**              | Red text below form: "Something went wrong. Try again." | Button re-enabled                     |
+| **Already subscribed** | "You're already subscribed!"                            | Friendly acknowledgment, not an error |
 
 ### 4c. Confirmation & Welcome Email (Kit handles this)
 
@@ -232,29 +232,29 @@ This keeps Instagram as an entry point while making email the primary CTA.
 
 ### Create
 
-| File | Purpose |
-|------|---------|
-| `/pages/api/subscribe.ts` | API route — validates email, calls Kit API |
+| File                          | Purpose                                             |
+| ----------------------------- | --------------------------------------------------- |
+| `/pages/api/subscribe.ts`     | API route — validates email, calls Kit API          |
 | `/components/EmailSignup.tsx` | Reusable form component (section + inline variants) |
 
 ### Modify
 
-| File | Change |
-|------|--------|
-| `/components/InstagramCTA.tsx` | Evolve into combined email + Instagram section |
-| `/components/Footer.tsx` | Add compact inline email form |
-| `/pages/blog/[slug].jsx` | Add inline email CTA between body and footer nav |
-| `/pages/index.tsx` | Update import if component is renamed |
+| File                           | Change                                           |
+| ------------------------------ | ------------------------------------------------ |
+| `/components/InstagramCTA.tsx` | Evolve into combined email + Instagram section   |
+| `/components/Footer.tsx`       | Add compact inline email form                    |
+| `/pages/blog/[slug].jsx`       | Add inline email CTA between body and footer nav |
+| `/pages/index.tsx`             | Update import if component is renamed            |
 
 ### Manual (Tarang)
 
-| Task | Where |
-|------|-------|
-| Create Kit account | kit.com |
-| Add DNS records | Vercel dashboard → Domains → taranghirani.com |
-| Add env vars | Vercel dashboard → Project Settings → Environment Variables |
-| Configure welcome email | Kit dashboard → Automations |
-| Set single opt-in | Kit dashboard → Settings |
+| Task                    | Where                                                       |
+| ----------------------- | ----------------------------------------------------------- |
+| Create Kit account      | kit.com                                                     |
+| Add DNS records         | Vercel dashboard → Domains → taranghirani.com               |
+| Add env vars            | Vercel dashboard → Project Settings → Environment Variables |
+| Configure welcome email | Kit dashboard → Automations                                 |
+| Set single opt-in       | Kit dashboard → Settings                                    |
 
 ---
 
