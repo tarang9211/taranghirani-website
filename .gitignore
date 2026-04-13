@@ -21,6 +21,7 @@
 
 # generated carousel output
 /.claude/skills/social-carousel/output
+/.claude/skills/social-slide/output
 
 # debug
 npm-debug.log*

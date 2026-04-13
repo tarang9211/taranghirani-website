@@ -9,7 +9,8 @@
     "export": "next export",
     "deploy": "yarn build && yarn export",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    "carousel": "tsx scripts/generate-carousel.ts"
+    "carousel": "tsx scripts/generate-carousel.ts",
+    "slide": "tsx scripts/generate-slide.ts"
   },
   "engines": {
     "node": "22.x"

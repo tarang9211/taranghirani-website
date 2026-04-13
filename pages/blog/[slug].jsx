@@ -8,6 +8,7 @@ import {
 } from "../../lib/blog/posts";
 import { extractPublicId, getImageExif } from "../../lib/cloudinary";
 import ContentRenderer from "../../components/blog/ContentRenderer";
+import EmailSignup from "../../components/EmailSignup";
 import FadeIn from "../../components/FadeIn";
 
 export async function getStaticPaths() {
@@ -157,6 +158,22 @@ export default function BlogPost({ post, ogImage, prevPost, nextPost }) {
       <section className="bg-paper py-12 md:py-20">
         <div className="mx-auto max-w-3xl px-6 md:px-12">
           <ContentRenderer content={post.content} />
+        </div>
+      </section>
+
+      {/* Email signup */}
+      <section className="bg-paper py-12 md:py-16">
+        <div className="mx-auto max-w-3xl px-6 md:px-12">
+          <FadeIn>
+            <div className="border-t border-charcoal/10 pt-12 flex flex-col items-center text-center">
+              <p className="font-display text-lg md:text-xl text-charcoal tracking-tight">
+                Enjoyed this read?
+              </p>
+              <div className="mt-6">
+                <EmailSignup variant="inline" theme="light" />
+              </div>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
