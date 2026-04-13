@@ -1,7 +1,7 @@
 import Hero from "../components/Hero";
 import ImageCarousel from "../components/ImageCarousel";
 import SafariOffering from "../components/SafariOffering";
-import InstagramCTA from "../components/InstagramCTA";
+import EmailSignup from "../components/EmailSignup";
 import AboutMe from "../components/AboutMe";
 import Head from "next/head";
 
@@ -45,7 +45,7 @@ export default function Home({
       />
       <SafariOffering />
       <ImageCarousel images={carouselImages} />
-      <InstagramCTA />
+      <EmailSignup variant="section" />
       <AboutMe featuredImage={featuredImage} />
     </div>
   );
