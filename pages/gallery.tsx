@@ -186,7 +186,7 @@ export default function Gallery({ images }: GalleryProps) {
             The Gallery
           </h1>
           <p className="mt-5 text-base md:text-lg font-light text-white/45 tracking-wide max-w-xl leading-relaxed opacity-0 animate-fade-up-delay">
-            Each frame is a moment of stillness in the wild — an invitation to
+            Each frame is a moment of stillness in the wild. An invitation to
             look closer and feel the pulse of nature.
           </p>
           <div className="mt-8 h-px w-16 bg-sage/30 opacity-0 animate-fade-up-delay" />
@@ -225,8 +225,8 @@ export default function Gallery({ images }: GalleryProps) {
             Join Me on Safari
           </h2>
           <p className="mt-6 text-smoke max-w-2xl mx-auto leading-relaxed">
-            These photographs are just a glimpse. The real magic is being there
-            — the early morning light, the quiet tension before a sighting, the
+            These photographs are just a glimpse. The real magic is being there:
+            the early morning light, the quiet tension before a sighting, the
             raw beauty of untouched wilderness. I lead small-group safaris
             across Africa and India for those who want to see the wild up close.
           </p>

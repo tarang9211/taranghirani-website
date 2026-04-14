@@ -87,7 +87,7 @@ function SectionSignup() {
             <p className="mt-10 text-sm font-medium uppercase tracking-[0.15em] text-sage">
               {status === "already"
                 ? "You\u2019re already subscribed!"
-                : "You\u2019re in \u2014 check your inbox."}
+                : "You\u2019re in! Check your inbox."}
             </p>
           ) : (
             <>
