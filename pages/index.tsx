@@ -44,8 +44,8 @@ export default function Home({
         alt={heroDesktop.alt}
       />
       <SafariOffering />
-      <ImageCarousel images={carouselImages} />
       <EmailSignup variant="section" />
+      <ImageCarousel images={carouselImages} />
       <AboutMe featuredImage={featuredImage} />
     </div>
   );

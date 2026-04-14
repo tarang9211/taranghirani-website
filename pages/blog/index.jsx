@@ -23,18 +23,18 @@ export default function BlogIndex({ posts }) {
         <title>Field Notes | Tarang Hirani</title>
         <meta
           name="description"
-          content="Stories from the field — reflections on wildlife photography, conservation, and the wild places that shape us."
+          content="Stories from the field. Reflections on wildlife photography, conservation, and the wild places that shape us."
         />
         <meta property="og:title" content="Field Notes | Tarang Hirani" />
         <meta
           property="og:description"
-          content="Stories from the field — reflections on wildlife photography, conservation, and the wild places that shape us."
+          content="Stories from the field. Reflections on wildlife photography, conservation, and the wild places that shape us."
         />
         <meta property="og:type" content="website" />
         <meta name="twitter:title" content="Field Notes | Tarang Hirani" />
         <meta
           name="twitter:description"
-          content="Stories from the field — reflections on wildlife photography, conservation, and the wild places that shape us."
+          content="Stories from the field. Reflections on wildlife photography, conservation, and the wild places that shape us."
         />
       </Head>
 
@@ -91,7 +91,7 @@ export default function BlogIndex({ posts }) {
           </h2>
           <p className="mt-6 text-smoke max-w-2xl mx-auto leading-relaxed">
             For behind-the-scenes moments, recent sightings, and stories that
-            don&apos;t make it to the journal — follow along on Instagram.
+            don&apos;t make it to the journal. Follow along on Instagram.
           </p>
           <Link
             href="https://www.instagram.com/tarang.hirani/?hl=en"
