@@ -3,8 +3,8 @@ import sharp from "sharp";
 import * as fs from "fs/promises";
 import * as path from "path";
 
-const WIDTH = 1080;
-const HEIGHT = 1350;
+let WIDTH = 1080;
+let HEIGHT = 1350;
 
 const C = {
   charcoal: "#080808",
@@ -102,6 +102,7 @@ interface SlideOptions {
   cropPosition: string;
   zoom: number;
   clipText: boolean;
+  blur: number | false;
   fonts: Awaited<ReturnType<typeof loadFonts>>;
 }
 
@@ -130,10 +131,16 @@ async function generateSlide(opts: SlideOptions): Promise<Buffer> {
     });
   }
 
-  const bg = await processed
+  let bg = await processed
     .resize(WIDTH, HEIGHT, { fit: "cover", position: opts.cropPosition as any })
     .png()
     .toBuffer();
+
+  // Keep unblurred copy for clip-text, then blur bg if requested
+  const sharpBg = bg;
+  if (opts.blur) {
+    bg = await sharp(bg).blur(opts.blur).png().toBuffer();
+  }
 
   // No text — return the image as-is
   if (!opts.headline && !opts.subtitle) {
@@ -294,7 +301,7 @@ async function generateSlide(opts: SlideOptions): Promise<Buffer> {
       .png()
       .toBuffer();
 
-    const clippedBg = await sharp(bg)
+    const clippedBg = await sharp(sharpBg)
       .ensureAlpha()
       .composite([{ input: textPng, blend: "dest-in" }])
       .png()
@@ -331,6 +338,11 @@ async function generateSlide(opts: SlideOptions): Promise<Buffer> {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+
+  if (args.story === "true") {
+    WIDTH = 1080;
+    HEIGHT = 1920;
+  }
 
   if (!args.image) {
     console.log(`
@@ -377,6 +389,7 @@ Output:
     cropPosition: args["crop-position"] || "centre",
     zoom: parseFloat(args.zoom || "1.0"),
     clipText: args["clip-text"] === "true",
+    blur: args["blur"] ? parseFloat(args["blur"]) || 20 : false,
     fonts,
   });
 
