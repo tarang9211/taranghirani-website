@@ -8,6 +8,7 @@ import {
 } from "../../lib/blog/posts";
 import { extractPublicId, getImageExif } from "../../lib/cloudinary";
 import ContentRenderer from "../../components/blog/ContentRenderer";
+import ShareStrip from "../../components/blog/ShareStrip";
 import EmailSignup from "../../components/EmailSignup";
 import FadeIn from "../../components/FadeIn";
 
@@ -158,6 +159,17 @@ export default function BlogPost({ post, ogImage, prevPost, nextPost }) {
       <section className="bg-paper py-12 md:py-20">
         <div className="mx-auto max-w-3xl px-6 md:px-12">
           <ContentRenderer content={post.content} />
+        </div>
+      </section>
+
+      {/* Share strip */}
+      <section className="bg-paper pb-4 md:pb-6">
+        <div className="mx-auto max-w-3xl px-6 md:px-12">
+          <FadeIn>
+            <div className="border-t border-charcoal/10 pt-10">
+              <ShareStrip url={pageUrl} title={post.title} />
+            </div>
+          </FadeIn>
         </div>
       </section>
 
