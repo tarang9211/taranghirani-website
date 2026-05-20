@@ -226,20 +226,73 @@ async function generateSlide(opts: SlideOptions): Promise<Buffer> {
   }
 
   if (opts.subtitle) {
-    textEls.push({
-      type: "span",
-      props: {
-        style: {
-          fontFamily: "Source Sans 3",
-          fontWeight: 600,
-          fontSize: opts.subtitleSize,
-          color: C.sage,
-          letterSpacing: 1.5,
-          lineHeight: 1.55,
+    // Check for {arrow} placeholder and split into text + arrow
+    const arrowPlaceholder = "{arrow}";
+    if (opts.subtitle.includes(arrowPlaceholder)) {
+      const parts = opts.subtitle.split(arrowPlaceholder);
+      const subtitleChildren: any[] = [];
+      parts.forEach((part, i) => {
+        if (part) {
+          subtitleChildren.push(part);
+        }
+        if (i < parts.length - 1) {
+          subtitleChildren.push({
+            type: "svg",
+            props: {
+              width: opts.subtitleSize * 0.8,
+              height: opts.subtitleSize * 0.55,
+              viewBox: "0 0 24 16",
+              style: { marginLeft: 8 },
+              children: [
+                {
+                  type: "path",
+                  props: {
+                    d: "M0 8h20M14 2l7 6-7 6",
+                    stroke: C.sage,
+                    strokeWidth: 2,
+                    fill: "none",
+                    strokeLinecap: "round",
+                    strokeLinejoin: "round",
+                  },
+                },
+              ],
+            },
+          });
+        }
+      });
+      textEls.push({
+        type: "div",
+        props: {
+          style: {
+            fontFamily: "Source Sans 3",
+            fontWeight: 600,
+            fontSize: opts.subtitleSize,
+            color: C.sage,
+            letterSpacing: 1.5,
+            lineHeight: 1.55,
+            display: "flex",
+            flexDirection: "row" as const,
+            alignItems: "center",
+          },
+          children: subtitleChildren,
         },
-        children: opts.subtitle,
-      },
-    });
+      });
+    } else {
+      textEls.push({
+        type: "span",
+        props: {
+          style: {
+            fontFamily: "Source Sans 3",
+            fontWeight: 600,
+            fontSize: opts.subtitleSize,
+            color: C.sage,
+            letterSpacing: 1.5,
+            lineHeight: 1.55,
+          },
+          children: opts.subtitle,
+        },
+      });
+    }
   }
 
   // --- Text container positioning ---
@@ -342,6 +395,11 @@ async function main() {
   if (args.story === "true") {
     WIDTH = 1080;
     HEIGHT = 1920;
+  }
+
+  if (args.landscape === "true") {
+    WIDTH = 1350;
+    HEIGHT = 1080;
   }
 
   if (!args.image) {
