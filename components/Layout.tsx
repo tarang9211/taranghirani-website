@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import FloatingWhatsApp from "./FloatingWhatsApp";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -27,7 +28,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const isHome = pathname === "/";
   const isGallery = pathname === "/gallery";
   const isBlog = pathname.startsWith("/blog");
-  const needsTopPadding = !isHome && !isGallery && !isBlog;
+  const isContact = pathname === "/contact";
+  const needsTopPadding = !isHome && !isGallery && !isBlog && !isContact;
 
   return (
     <div
@@ -38,6 +40,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {children}
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </div>
   );
 };

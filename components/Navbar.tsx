@@ -8,6 +8,7 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/gallery", label: "Gallery" },
   { href: "/blog", label: "Field Notes" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const getLinkClasses = (
