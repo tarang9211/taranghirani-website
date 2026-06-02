@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Instagram } from "lucide-react";
 import { INSTAGRAM_URL } from "../lib/constants";
 import EmailSignup from "./EmailSignup";
+import ContactLinks from "./ContactLinks";
 
 // Defined once when the module loads
 const currentYear = new Date().getFullYear();
@@ -14,6 +15,15 @@ const Footer: React.FC = () => {
         {/* Email signup */}
         <div className="flex justify-center">
           <EmailSignup variant="inline" theme="dark" />
+        </div>
+
+        {/* Contact details */}
+        <div className="flex flex-col items-center gap-4 pt-2">
+          <div className="h-px w-12 bg-sage" />
+          <p className="font-display text-[11px] uppercase tracking-[0.2em] text-sage/80">
+            Get in Touch
+          </p>
+          <ContactLinks theme="dark" layout="row" />
         </div>
 
         {/* Bottom row: copyright + Instagram */}

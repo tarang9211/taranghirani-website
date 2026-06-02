@@ -1,5 +1,6 @@
 import React from "react";
 import FadeIn from "./FadeIn";
+import ContactLinks from "./ContactLinks";
 
 export default function SafariOffering() {
   return (
@@ -26,6 +27,14 @@ export default function SafariOffering() {
               &rarr;
             </span>
           </a>
+
+          <div className="mt-12 flex flex-col items-center gap-4">
+            <div className="h-px w-8 bg-white/15" />
+            <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gray-500">
+              Or reach us directly
+            </p>
+            <ContactLinks theme="dark" layout="row" />
+          </div>
         </FadeIn>
       </div>
     </section>
