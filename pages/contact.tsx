@@ -1,6 +1,7 @@
 import Head from "next/head";
 import FadeIn from "../components/FadeIn";
 import ContactLinks from "../components/ContactLinks";
+import ContactForm from "../components/ContactForm";
 
 export default function ContactPage() {
   return (
@@ -9,7 +10,7 @@ export default function ContactPage() {
         <title>Contact | Tarang Hirani</title>
         <meta
           name="description"
-          content="Get in touch with Tarang Hirani to enquire about wildlife safaris in India and Africa, prints, collaborations, or commissions. Call, WhatsApp, or email."
+          content="Get in touch with Tarang Hirani to enquire about wildlife safaris in India and Africa, prints, collaborations, or commissions. Send a message or reach out on WhatsApp."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -26,13 +27,26 @@ export default function ContactPage() {
                 Let&apos;s talk.
               </h1>
               <p className="mt-6 text-base md:text-lg leading-relaxed text-white/60">
-                Whether you&apos;re planning a safari in India or Africa, looking
-                for prints, or want to collaborate, the fastest way to reach me
-                is on WhatsApp or email. I read every message.
+                Looking to learn photography or plan a photography focussed
+                experience? I read every message and reply within 48 hours.
               </p>
             </div>
 
             <div className="mt-14 md:mt-16">
+              <ContactForm />
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={200}>
+            <div className="mt-20 md:mt-24 flex items-center justify-center gap-4">
+              <span className="h-px w-12 bg-white/10" />
+              <span className="text-[11px] text-white/30 uppercase tracking-[0.2em]">
+                Or reach out directly
+              </span>
+              <span className="h-px w-12 bg-white/10" />
+            </div>
+
+            <div className="mt-10 md:mt-12">
               <ContactLinks
                 theme="dark"
                 layout="stack"
