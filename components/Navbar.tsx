@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Menu, X } from "lucide-react";
-import { INSTAGRAM_URL } from "../lib/constants";
 
 const navItems = [
   { href: "/", label: "Home" },
+  { href: "/workshops", label: "Workshops" },
   { href: "/gallery", label: "Gallery" },
   { href: "/blog", label: "Field Notes" },
   { href: "/contact", label: "Contact" },
@@ -105,18 +105,6 @@ const Navbar: React.FC = () => {
               {label}
             </Link>
           ))}
-          <Link
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`font-display tracking-[0.12em] uppercase transition-colors text-xs ${
-              scrolled
-                ? "text-smoke/60 hover:text-charcoal"
-                : "text-white/60 hover:text-white"
-            }`}
-          >
-            Instagram
-          </Link>
         </div>
 
         {/* Mobile hamburger */}
@@ -159,14 +147,6 @@ const Navbar: React.FC = () => {
                 {label}
               </Link>
             ))}
-            <Link
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block py-3 font-display tracking-[0.12em] uppercase text-sm text-smoke/60 hover:text-charcoal transition-colors"
-            >
-              Instagram
-            </Link>
           </div>
         </div>
       )}
