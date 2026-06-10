@@ -63,7 +63,7 @@ export default function WorkshopsPage() {
             alt="Wildlife scene at dawn, photographed during a field workshop session"
             fill
             sizes="100vw"
-            className="animate-slow-zoom object-cover"
+            className="animate-slow-zoom object-cover object-[30%_center] md:object-center"
           />
           {/* Gradient overlay for legibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/30 to-charcoal/10" />
@@ -337,7 +337,7 @@ export default function WorkshopsPage() {
                 <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-12">
                   <div>
                     <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-sage">
-                      Awards
+                      Awards &amp; Recognitions
                     </p>
                     <ul className="mt-4 space-y-2 font-display text-base text-charcoal">
                       <li>INW Awards</li>
@@ -369,14 +369,14 @@ export default function WorkshopsPage() {
         <div className="mx-auto max-w-2xl px-6 text-center md:px-12">
           <FadeIn>
             <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
-              How to begin
+              Enquire
             </p>
             <h2 className="mt-6 font-display text-3xl font-semibold tracking-tight text-charcoal md:text-5xl lg:text-6xl">
-              Let&apos;s begin.
+              One message. The rest is arranged.
             </h2>
             <p className="mt-10 text-base leading-[1.85] text-smoke md:text-lg">
-              A short conversation costs nothing. The fastest replies come on
-              WhatsApp or email.
+              Tell me where you would like to go. WhatsApp or email is
+              fastest.
             </p>
             <div className="mt-16">
               <ContactLinks theme="light" layout="row" showLabels />
