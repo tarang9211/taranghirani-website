@@ -2,7 +2,12 @@ import React from "react";
 import Image from "next/image";
 import { useInView } from "../lib/useInView";
 
-export default function AboutSection({ featuredImage }) {
+const PORTRAIT = {
+  url: "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto/db3b2405-9bec-4b5e-a88f-80c4032b321c_ukpumb",
+  alt: "Tarang Hirani in the field",
+};
+
+export default function AboutSection() {
   const { ref: textRef, visible: textVisible } = useInView(0.1);
   const { ref: imgRef, visible: imgVisible } = useInView();
 
@@ -16,10 +21,10 @@ export default function AboutSection({ featuredImage }) {
       <div className="py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-8">
-            {/* Text — left 5 columns */}
+            {/* Text — left 8 columns */}
             <div
               ref={textRef}
-              className={`lg:col-span-5 lg:pt-16 transition-all duration-700 delay-150 ${
+              className={`lg:col-span-8 transition-all duration-700 delay-150 ${
                 textVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
@@ -61,23 +66,25 @@ export default function AboutSection({ featuredImage }) {
               </p>
             </div>
 
-            {/* Image — right 7 columns, bleeds off right edge */}
+            {/* Image — right 4 columns, vertically centered, portrait crop */}
             <div
               ref={imgRef}
-              className={`lg:col-span-7 transition-all duration-700 ${
+              className={`lg:col-span-4 lg:self-center transition-all duration-700 ${
                 imgVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
               }`}
             >
-              <div className="lg:-mr-20 xl:-mr-32">
-                <Image
-                  src={featuredImage.url}
-                  alt={featuredImage.alt}
-                  width={900}
-                  height={1200}
-                  className="h-auto w-full rounded-xl lg:rounded-r-none lg:rounded-l-xl object-cover"
-                />
+              <div className="mx-auto max-w-sm lg:max-w-none lg:ml-auto lg:mr-0 lg:w-[320px] xl:w-[360px]">
+                <div className="relative aspect-[3/4] overflow-hidden rounded-xl">
+                  <Image
+                    src={PORTRAIT.url}
+                    alt={PORTRAIT.alt}
+                    fill
+                    sizes="(min-width: 1280px) 360px, (min-width: 1024px) 320px, 384px"
+                    className="object-cover object-center"
+                  />
+                </div>
               </div>
             </div>
           </div>

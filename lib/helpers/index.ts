@@ -110,23 +110,3 @@ export async function listImages(limit = 20): Promise<GalleryImage[]> {
   }));
 }
 
-export interface FeaturedImage {
-  url: string;
-  alt: string;
-}
-
-export async function getFeaturedImage(): Promise<FeaturedImage | null> {
-  const { resources } = await cloudinary.search
-    .expression('metadata.featured="yes"')
-    .max_results(1)
-    .execute();
-
-  if (!resources.length) return null;
-
-  const img = resources[0];
-
-  return {
-    url: optimizeUrl(img.secure_url),
-    alt: img.context?.custom?.alt ?? "Featured image",
-  };
-}
