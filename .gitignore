@@ -23,6 +23,8 @@
 /.claude/skills/social-carousel/output
 /.claude/skills/social-slide/output
 /.claude/skills/social-slide/input
+/.claude/skills/tour-poster/input
+/.claude/skills/tour-poster/output
 
 # debug
 npm-debug.log*
