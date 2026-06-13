@@ -10,7 +10,8 @@
     "deploy": "yarn build && yarn export",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "carousel": "tsx scripts/generate-carousel.ts",
-    "slide": "tsx scripts/generate-slide.ts"
+    "slide": "tsx scripts/generate-slide.ts",
+    "tour-poster": "tsx scripts/generate-tour-poster.ts"
   },
   "engines": {
     "node": "22.x"
