@@ -15,6 +15,8 @@ export default function MyApp({ Component, pageProps }) {
     description:
       "Wildlife photography portfolio featuring big cats, birds, and wild places across India and Africa. Immersive storytelling from the wild.",
     url: "https://www.taranghirani.com",
+    image:
+      "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/_Z9_20251231_TMH_2311_wm_wyiafz",
   };
 
   return (
@@ -31,9 +33,11 @@ export default function MyApp({ Component, pageProps }) {
         <meta property="og:title" content={meta.title} />
         <meta property="og:description" content={meta.description} />
         <meta property="og:url" content={meta.url} />
+        <meta property="og:image" content={meta.image} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
+        <meta name="twitter:image" content={meta.image} />
         <link rel="canonical" href={canonicalUrl} />
       </Head>
       <Script
