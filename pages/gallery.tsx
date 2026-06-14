@@ -14,7 +14,7 @@ interface GalleryProps {
 
 export async function getStaticProps() {
   try {
-    const images = await listImages(30);
+    const images = await listImages();
 
     return {
       props: {

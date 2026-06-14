@@ -90,15 +90,30 @@ export interface GalleryImage {
  * @param limit
  * @returns
  */
-export async function listImages(limit = 20): Promise<GalleryImage[]> {
+export async function listImages(limit?: number): Promise<GalleryImage[]> {
   const expression = "folder=wildlife";
+  const pageSize = 500;
 
-  const searchQuery = cloudinary.search
-    .expression(expression)
-    .with_field("context")
-    .max_results(limit);
+  const resources: any[] = [];
+  let nextCursor: string | undefined;
 
-  const { resources } = await searchQuery.execute();
+  do {
+    const remaining = limit ? limit - resources.length : pageSize;
+    const batchSize = Math.min(pageSize, remaining);
+
+    let searchQuery = cloudinary.search
+      .expression(expression)
+      .with_field("context")
+      .max_results(batchSize);
+
+    if (nextCursor) {
+      searchQuery = searchQuery.next_cursor(nextCursor);
+    }
+
+    const result = await searchQuery.execute();
+    resources.push(...result.resources);
+    nextCursor = result.next_cursor;
+  } while (nextCursor && (!limit || resources.length < limit));
 
   return resources.map((r) => ({
     id: r.public_id,
