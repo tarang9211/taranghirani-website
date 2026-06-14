@@ -14,6 +14,37 @@ const IMG = {
   portrait: `${CLOUDINARY_BASE}/8ec3734c-a6c3-4e67-af27-85fe20e6dabe_z8zwst`,
 };
 
+const PAGE_URL = "https://www.taranghirani.com/workshops";
+const PAGE_TITLE = "Wildlife Photography Workshops | Tarang Hirani";
+const PAGE_DESCRIPTION =
+  "Days in the field with a working photographer and expedition leader. India and Africa. Small groups and one to one.";
+const OG_IMAGE =
+  "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/DSC_0959_hshxmc";
+
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Wildlife Photography Workshops",
+  serviceType: "Wildlife photography workshop",
+  provider: {
+    "@type": "Person",
+    name: "Tarang Hirani",
+    url: "https://www.taranghirani.com",
+  },
+  areaServed: [
+    { "@type": "Place", name: "Tadoba, India" },
+    { "@type": "Place", name: "Bandhavgarh, India" },
+    { "@type": "Place", name: "Kanha, India" },
+    { "@type": "Place", name: "Panna, India" },
+    { "@type": "Place", name: "Tanzania" },
+    { "@type": "Place", name: "Zambia" },
+    { "@type": "Place", name: "Botswana" },
+  ],
+  description: PAGE_DESCRIPTION,
+  url: PAGE_URL,
+  image: OG_IMAGE,
+};
+
 const DAY = [
   {
     n: "01",
@@ -46,12 +77,27 @@ export default function WorkshopsPage() {
   return (
     <>
       <Head>
-        <title>Wildlife Photography Workshops | Tarang Hirani</title>
+        <title>{PAGE_TITLE}</title>
+        <meta name="description" content={PAGE_DESCRIPTION} />
+        <meta property="og:title" content={PAGE_TITLE} key="og:title" />
         <meta
-          name="description"
-          content="Days in the field with a working photographer and expedition leader. India and Africa. Small groups and one to one."
+          property="og:description"
+          content={PAGE_DESCRIPTION}
+          key="og:description"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:url" content={PAGE_URL} key="og:url" />
+        <meta property="og:image" content={OG_IMAGE} key="og:image" />
+        <meta name="twitter:title" content={PAGE_TITLE} key="twitter:title" />
+        <meta
+          name="twitter:description"
+          content={PAGE_DESCRIPTION}
+          key="twitter:description"
+        />
+        <meta name="twitter:image" content={OG_IMAGE} key="twitter:image" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
       </Head>
 
       {/* HERO */}
