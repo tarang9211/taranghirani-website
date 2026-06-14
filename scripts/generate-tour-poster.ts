@@ -48,6 +48,7 @@ type Args = {
   price: string;
   phone: string;
   priceOriginal: string | null;
+  priceTiers: Array<{ label: string; price: string }> | null;
   discountLabel: string;
   priceSuffix: string;
   eyebrow: string | null;
@@ -57,6 +58,7 @@ type Args = {
   locationItalic: boolean;
   instagram: string;
   website: string;
+  footerTagline: string | null;
   name: string;
   formats: Format[];
   layout: "vertical" | "horizontal";
@@ -148,6 +150,7 @@ function parseArgs(): Args {
   const seatsText = flag("seats-text");
   const seatsTotalRaw = flag("seats-total");
   const seatsFilledRaw = flag("seats-filled");
+  const priceTiersRaw = flag("price-tiers");
 
   let seatsTotal = 0;
   let seatsFilled = 0;
@@ -158,10 +161,10 @@ function parseArgs(): Args {
         "Both --seats-text and numeric --seats-* flags supplied; using --seats-text (dots indicator suppressed).",
       );
     }
-  } else {
+  } else if (seatsTotalRaw || seatsFilledRaw) {
     if (!seatsTotalRaw || !seatsFilledRaw) {
       console.error(
-        "Provide either --seats-text \"<label>\" OR both --seats-total + --seats-filled (integers).",
+        "Provide either --seats-text \"<label>\" OR both --seats-total + --seats-filled (integers), or neither.",
       );
       process.exit(1);
     }
@@ -177,6 +180,31 @@ function parseArgs(): Args {
       console.error(
         "--seats-total must be a positive integer; --seats-filled must be 0..seats-total",
       );
+      process.exit(1);
+    }
+  }
+
+  let priceTiers: Array<{ label: string; price: string }> | null = null;
+  if (priceTiersRaw) {
+    priceTiers = priceTiersRaw
+      .split(";")
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .map((entry) => {
+        const idx = entry.indexOf(":");
+        if (idx === -1) {
+          console.error(
+            `--price-tiers entries must use "<label>:<price>" format; got "${entry}"`,
+          );
+          process.exit(1);
+        }
+        return {
+          label: entry.slice(0, idx).trim(),
+          price: entry.slice(idx + 1).trim(),
+        };
+      });
+    if (priceTiers.length === 0) {
+      console.error("--price-tiers must contain at least one tier");
       process.exit(1);
     }
   }
@@ -208,9 +236,10 @@ function parseArgs(): Args {
     seatsTotal,
     seatsFilled,
     seatsText,
-    price: required("price"),
+    price: priceTiers ? (flag("price") ?? priceTiers[0].price) : required("price"),
     phone: required("phone"),
     priceOriginal: flag("price-original"),
+    priceTiers,
     discountLabel: flag("discount-label") ?? "EARLY BIRD",
     priceSuffix: flag("price-suffix") ?? "/ PERSON",
     eyebrow: flag("eyebrow"),
@@ -220,6 +249,7 @@ function parseArgs(): Args {
     locationItalic: boolFlag("location-italic"),
     instagram: flag("instagram") ?? "@tarang.hirani",
     website: flag("website") ?? "taranghirani.com",
+    footerTagline: flag("footer-tagline"),
     name: snakeify(flag("name") ?? location),
     formats,
     layout,
@@ -459,23 +489,85 @@ function pricingNode(
       },
     });
   }
-  children.push({
-    type: "span",
-    props: {
-      style: {
-        fontFamily: "Source Sans 3",
-        fontWeight: 700,
-        fontSize: sizes.price,
-        color: C.white,
-        letterSpacing: 4,
-        marginTop: args.priceOriginal ? 4 : 0,
+  if (args.priceTiers) {
+    const tierPriceSize = Math.round(sizes.price * 0.85);
+    const tierLabelSize = tierPriceSize;
+    const labelColWidth = Math.round(tierLabelSize * 3.6);
+    args.priceTiers.forEach((tier, i) => {
+      children.push({
+        type: "div",
+        props: {
+          style: {
+            display: "flex",
+            flexDirection: "row" as const,
+            alignItems: "center",
+            marginTop: i === 0 ? (args.priceOriginal ? 14 : 0) : 10,
+          },
+          children: [
+            {
+              type: "span",
+              props: {
+                style: {
+                  fontFamily: "Source Sans 3",
+                  fontWeight: 700,
+                  fontSize: tierLabelSize,
+                  color: C.sage,
+                  letterSpacing: 4,
+                  width: labelColWidth,
+                },
+                children: tier.label.toUpperCase(),
+              },
+            },
+            {
+              type: "span",
+              props: {
+                style: {
+                  fontFamily: "Source Sans 3",
+                  fontWeight: 700,
+                  fontSize: tierPriceSize,
+                  color: C.white,
+                  letterSpacing: 4,
+                },
+                children: tier.price.toUpperCase(),
+              },
+            },
+            {
+              type: "span",
+              props: {
+                style: {
+                  fontFamily: "Source Sans 3",
+                  fontWeight: 500,
+                  fontSize: Math.round(tierPriceSize * 0.55),
+                  color: C.paper,
+                  letterSpacing: 2,
+                  marginLeft: 10,
+                },
+                children: args.priceSuffix.replace(/^\/\s*/, "/").toLowerCase(),
+              },
+            },
+          ],
+        },
+      });
+    });
+  } else {
+    children.push({
+      type: "span",
+      props: {
+        style: {
+          fontFamily: "Source Sans 3",
+          fontWeight: 700,
+          fontSize: sizes.price,
+          color: C.white,
+          letterSpacing: 4,
+          marginTop: args.priceOriginal ? 4 : 0,
+        },
+        children: stackedSuffix
+          ? args.price.toUpperCase()
+          : `${args.price} ${args.priceSuffix}`.toUpperCase(),
       },
-      children: stackedSuffix
-        ? args.price.toUpperCase()
-        : `${args.price} ${args.priceSuffix}`.toUpperCase(),
-    },
-  });
-  if (stackedSuffix && args.priceSuffix) {
+    });
+  }
+  if (stackedSuffix && args.priceSuffix && !args.priceTiers) {
     children.push({
       type: "span",
       props: {
@@ -600,7 +692,104 @@ function footerBlock(
   phoneSize: number,
   handleSize: number,
   align: "flex-start" | "center" = "flex-start",
+  includeFooterTagline: boolean = false,
 ) {
+  const showTagline = includeFooterTagline && !!args.footerTagline;
+
+  const phoneSpan = {
+    type: "span",
+    props: {
+      style: {
+        fontFamily: "Source Sans 3",
+        fontWeight: 700,
+        fontSize: phoneSize,
+        color: C.white,
+        letterSpacing: 2,
+      },
+      children: `CALL ${args.phone}`,
+    },
+  };
+
+  const phoneRow = showTagline
+    ? {
+        type: "div",
+        props: {
+          style: {
+            display: "flex",
+            flexDirection: "row" as const,
+            alignItems: "center",
+            marginTop: 18,
+          },
+          children: [
+            phoneSpan,
+            {
+              type: "span",
+              props: {
+                style: {
+                  fontFamily: "Source Sans 3",
+                  fontWeight: 700,
+                  fontSize: phoneSize,
+                  color: C.sage,
+                  marginLeft: 28,
+                  marginRight: 28,
+                  lineHeight: 1,
+                },
+                children: "•",
+              },
+            },
+            {
+              type: "span",
+              props: {
+                style: {
+                  fontFamily: "Source Sans 3",
+                  fontWeight: 700,
+                  fontSize: phoneSize,
+                  color: C.white,
+                  letterSpacing: 2,
+                },
+                children: args.footerTagline,
+              },
+            },
+          ],
+        },
+      }
+    : {
+        type: "div",
+        props: {
+          style: { display: "flex", marginTop: 18 },
+          children: [phoneSpan],
+        },
+      };
+
+  const children: any[] = [
+    {
+      type: "div",
+      props: {
+        style: {
+          width: "100%",
+          height: 1,
+          backgroundColor: C.sage,
+          opacity: 0.7,
+        },
+      },
+    },
+    phoneRow,
+    {
+      type: "span",
+      props: {
+        style: {
+          fontFamily: "Source Sans 3",
+          fontWeight: 600,
+          fontSize: handleSize,
+          color: C.sage,
+          letterSpacing: 3,
+          marginTop: 6,
+        },
+        children: `${args.instagram}  ·  ${args.website}`,
+      },
+    },
+  ];
+
   return {
     type: "div",
     props: {
@@ -610,47 +799,7 @@ function footerBlock(
         alignItems: align,
         width: "100%",
       },
-      children: [
-        {
-          type: "div",
-          props: {
-            style: {
-              width: "100%",
-              height: 1,
-              backgroundColor: C.sage,
-              opacity: 0.7,
-            },
-          },
-        },
-        {
-          type: "span",
-          props: {
-            style: {
-              fontFamily: "Source Sans 3",
-              fontWeight: 700,
-              fontSize: phoneSize,
-              color: C.white,
-              letterSpacing: 2,
-              marginTop: 18,
-            },
-            children: `CALL ${args.phone}`,
-          },
-        },
-        {
-          type: "span",
-          props: {
-            style: {
-              fontFamily: "Source Sans 3",
-              fontWeight: 600,
-              fontSize: handleSize,
-              color: C.sage,
-              letterSpacing: 3,
-              marginTop: 6,
-            },
-            children: `${args.instagram}  ·  ${args.website}`,
-          },
-        },
-      ],
+      children,
     },
   };
 }
@@ -803,6 +952,19 @@ function tripDetailsRow(
     },
   });
 
+  const showSeats = !!args.seatsText || args.seatsTotal > 0;
+  const rowChildren: any[] = [
+    column([pricingNode(args, opts.priceSizes, "flex-start", true)], "flex-start", 0, 16),
+    divider,
+  ];
+  if (showSeats) {
+    rowChildren.push(
+      column([seatsStacked(args, opts.seatsDot, opts.seatsCaption)], "center"),
+      divider,
+    );
+  }
+  rowChildren.push(column(datesColumnChildren, "flex-start", 16, 0));
+
   return {
     type: "div",
     props: {
@@ -810,15 +972,9 @@ function tripDetailsRow(
         width: opts.width,
         display: "flex",
         flexDirection: "row" as const,
-        alignItems: "center" as const,
+        alignItems: "flex-start" as const,
       },
-      children: [
-        column([pricingNode(args, opts.priceSizes, "flex-start", true)], "flex-start", 0, 16),
-        divider,
-        column([seatsStacked(args, opts.seatsDot, opts.seatsCaption)], "center"),
-        divider,
-        column(datesColumnChildren, "flex-start", 16, 0),
-      ],
+      children: rowChildren,
     },
   };
 }
@@ -1324,7 +1480,7 @@ function buildSquareJsx(args: Args) {
         bottom: 200,
         display: "flex",
       },
-      children: [footerBlock(args, 75, 55, "flex-start")],
+      children: [footerBlock(args, 75, 55, "flex-start", true)],
     },
   });
 
