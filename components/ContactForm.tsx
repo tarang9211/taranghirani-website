@@ -2,6 +2,8 @@ import React, { FormEvent, useState } from "react";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+type Source = "contact" | "workshops";
+
 type FieldErrors = Partial<
   Record<"name" | "email" | "phone" | "message", string>
 >;
@@ -85,7 +87,7 @@ function validate(fields: {
   return errors;
 }
 
-export default function ContactForm() {
+export default function ContactForm({ source = "contact" }: { source?: Source }) {
   const [status, setStatus] = useState<Status>("idle");
   const [submitError, setSubmitError] = useState<string>("");
   const [countryCode, setCountryCode] = useState("+91");
@@ -120,6 +122,8 @@ export default function ContactForm() {
       message: ((data.get("message") as string) || "").trim(),
     };
 
+    const type = ((data.get("type") as string) || "").trim();
+
     const fieldErrors = validate(fields);
     if (Object.keys(fieldErrors).length > 0) {
       setErrors(fieldErrors);
@@ -135,7 +139,7 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...fields, countryCode }),
+        body: JSON.stringify({ ...fields, countryCode, type, source }),
       });
 
       if (res.ok) {
@@ -282,6 +286,40 @@ export default function ContactForm() {
             {errors.phone}
           </p>
         )}
+      </div>
+
+      <div className="mt-8">
+        <label htmlFor="contact-type" className={labelClass}>
+          What&apos;s this about?
+        </label>
+        <div className="relative">
+          <select
+            id="contact-type"
+            name="type"
+            defaultValue=""
+            disabled={status === "loading"}
+            className="appearance-none w-full bg-transparent border-0 border-b border-white/15 px-0 pr-6 py-3 text-base text-white focus:border-sage focus:outline-none focus:ring-0 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
+          >
+            <option value="" className="bg-charcoal text-white">
+              Select one (optional)
+            </option>
+            <option value="Workshop" className="bg-charcoal text-white">
+              Workshop
+            </option>
+            <option value="Safari" className="bg-charcoal text-white">
+              Safari
+            </option>
+            <option value="Other" className="bg-charcoal text-white">
+              Other
+            </option>
+          </select>
+          <span
+            aria-hidden
+            className="pointer-events-none absolute right-0 bottom-3.5 text-sage text-xs"
+          >
+            ▾
+          </span>
+        </div>
       </div>
 
       <div className="mt-8">
