@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import FadeIn from "../components/FadeIn";
 import ContactLinks from "../components/ContactLinks";
+import ContactForm from "../components/ContactForm";
 
 const CLOUDINARY_BASE =
   "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto";
@@ -412,19 +413,36 @@ export default function WorkshopsPage() {
         id="begin"
         className="scroll-mt-24 border-t border-charcoal/10 bg-paper py-32 md:py-48"
       >
-        <div className="mx-auto max-w-2xl px-6 text-center md:px-12">
+        <div className="mx-auto max-w-2xl px-6 md:px-12">
           <FadeIn>
-            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
-              Enquire
-            </p>
-            <h2 className="mt-6 font-display text-3xl font-semibold tracking-tight text-charcoal md:text-5xl lg:text-6xl">
-              One message. The rest is arranged.
-            </h2>
-            <p className="mt-10 text-base leading-[1.85] text-smoke md:text-lg">
-              Tell me where you would like to go. WhatsApp or email is
-              fastest.
-            </p>
-            <div className="mt-16">
+            <div className="text-center">
+              <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
+                Enquire
+              </p>
+              <h2 className="mt-6 font-display text-3xl font-semibold tracking-tight text-charcoal md:text-5xl lg:text-6xl">
+                One message. The rest is arranged.
+              </h2>
+              <p className="mt-10 text-base leading-[1.85] text-smoke md:text-lg">
+                Tell me where you would like to go and what you hope to make. I
+                read every message and reply within 48 hours.
+              </p>
+            </div>
+
+            <div className="mt-14 md:mt-16">
+              <ContactForm source="workshops" theme="light" />
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={200}>
+            <div className="mt-20 md:mt-24 flex items-center justify-center gap-4">
+              <span className="h-px w-12 bg-charcoal/10" />
+              <span className="text-[11px] text-smoke uppercase tracking-[0.2em]">
+                Or reach out directly
+              </span>
+              <span className="h-px w-12 bg-charcoal/10" />
+            </div>
+
+            <div className="mt-10 md:mt-12">
               <ContactLinks theme="light" layout="row" showLabels />
             </div>
           </FadeIn>
