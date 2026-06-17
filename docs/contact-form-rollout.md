@@ -23,7 +23,7 @@ This is the lead-capture counterpart to the Kit-driven newsletter funnel — dif
 ## What's already built
 
 - `components/ContactForm.tsx` — name, email, country code + phone, message. Per-field validation, honeypot anti-spam, loading/success/error states.
-- `pages/api/contact.ts` — POST handler that validates input and sends via Resend. Includes plain-text + HTML email bodies.
+- `pages/api/contact.ts` — POST handler that validates input and sends via Resend. Includes plain-text + HTML email bodies. After the notification send succeeds, it also sends a best-effort, branded acknowledgement to the enquirer (24-hour reply promise); an ack failure is logged but never fails the request.
 - `pages/contact.tsx` — form placed above ContactLinks; new copy ("Looking to learn photography or plan a photography focussed experience?").
 - `resend@6.x` added to dependencies.
 
@@ -51,7 +51,7 @@ This is the lead-capture counterpart to the Kit-driven newsletter funnel — dif
 1. Vercel dashboard → Project → Settings → Environment Variables.
 2. Add `RESEND_API_KEY`, mark **Sensitive**, scope to **Production + Preview**.
 3. Skip `CONTACT_FROM_ADDRESS` for now — only set it after §4 is complete.
-4. Redeploy (or trigger a new build) so the new env reaches the running app.
+4. Redeploy (or trigger a new build) so the new env reaches the running app. Env var changes only apply to deployments built **after** the change, and must be scoped to **Production** for `www`. If a production submit returns `{"error":"Server configuration error"}` (HTTP 500), `RESEND_API_KEY` isn't reaching that deployment — check the variable's scope includes Production and that the live deployment was built after the var was added.
 
 **Local:**
 
@@ -64,6 +64,8 @@ RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxx
 ---
 
 ## 3. Smoke Test
+
+> **Ordering note:** on the Resend free tier *before* domain verification (§4), the `onboarding@resend.dev` sender can only deliver to your own Resend signup email. Because the API sends to **both** `safaris@taranghirani.com` and `tarang9211@gmail.com`, a real two-inbox send returns a `403 validation_error` until the domain is verified. Do **§4 first**, then run this two-inbox smoke test.
 
 After the Vercel env var lands and the deploy is live:
 
@@ -90,7 +92,8 @@ After the Vercel env var lands and the deploy is live:
    - `MX` for the return-path (e.g. `send.taranghirani.com` → `feedback-smtp.us-east-1.amazonses.com`)
    - `TXT` for SPF (e.g. `send.taranghirani.com` → `v=spf1 include:amazonses.com ~all`)
    - `TXT` for DKIM (a long key)
-3. Add all three records in your DNS provider (likely Vercel DNS, Cloudflare, or wherever `taranghirani.com` is hosted). Use the **exact** host names Resend shows — usually scoped to a `send.` subdomain.
+3. Add all three records in **Squarespace** (Domains → `taranghirani.com` → DNS → DNS Settings → Custom Records). The nameservers read `ns-cloud-*.googledomains.com` because the domain came via Google Domains, but management is now in Squarespace. Enter the **host as just the subdomain label** (e.g. `send`, `resend._domainkey`) — Squarespace appends the domain. The Resend records are scoped to `send.` / `resend._domainkey`, so they coexist cleanly with the root ImprovMX `MX` + SPF and don't touch inbound alias mail.
+   - **DKIM gotcha:** paste the DKIM key as one unbroken string. Pasting into Squarespace can soft-wrap the value and inject literal spaces into the base64, which can break verification. Verify with `dig +short TXT resend._domainkey.taranghirani.com` and confirm no spaces inside the `p=` value (query the authoritative NS to bypass cache: `dig @ns-cloud-a4.googledomains.com TXT resend._domainkey.taranghirani.com +short`).
 4. Click **Verify** in Resend. Propagation is usually 5–60 minutes; can take up to 24 hours.
 5. Once verified, set the Vercel env var:
    ```
@@ -113,7 +116,6 @@ These are deliberately deferred until there's a real need:
 - **Rate limiting:** Vercel has built-in protections, but if abused, add `upstash/ratelimit` keyed by IP.
 - **Enquiry-type routing:** add a "What's this about?" dropdown (Safari / Workshop / Prints / Collab) and route to different inboxes or use it as the email subject prefix.
 - **CRM sync:** push submissions into Kit as tagged subscribers, or into a Google Sheet via a webhook, so enquiries are searchable.
-- **Auto-acknowledgement email:** send a confirmation email to the enquirer so they know it landed.
 
 ---
 
