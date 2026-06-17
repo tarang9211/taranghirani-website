@@ -12,6 +12,8 @@ const MAX_LEN = {
   phone: 40,
   countryCode: 8,
   message: 5000,
+  type: 40,
+  source: 60,
 };
 
 function escapeHtml(str: string): string {
@@ -52,6 +54,12 @@ export default async function handler(
     message: message.trim(),
   };
 
+  // Optional qualification fields — missing/legacy callers still succeed.
+  const type =
+    typeof req.body?.type === "string" ? req.body.type.trim() : "";
+  const source =
+    typeof req.body?.source === "string" ? req.body.source.trim() : "";
+
   if (
     !trimmed.name ||
     !trimmed.email ||
@@ -67,7 +75,9 @@ export default async function handler(
     trimmed.email.length > MAX_LEN.email ||
     trimmed.phone.length > MAX_LEN.phone ||
     trimmed.countryCode.length > MAX_LEN.countryCode ||
-    trimmed.message.length > MAX_LEN.message
+    trimmed.message.length > MAX_LEN.message ||
+    type.length > MAX_LEN.type ||
+    source.length > MAX_LEN.source
   ) {
     return res.status(400).json({ error: "One of your fields is too long" });
   }
@@ -87,13 +97,17 @@ export default async function handler(
   const resend = new Resend(apiKey);
 
   const fullPhone = `${trimmed.countryCode} ${trimmed.phone}`;
-  const subject = `New enquiry from ${trimmed.name}`;
+  const subject = type
+    ? `${type} enquiry from ${trimmed.name}`
+    : `New enquiry from ${trimmed.name}`;
 
   const text = [
     `New enquiry from ${trimmed.name}`,
     "",
     `Email:  ${trimmed.email}`,
     `Phone:  ${fullPhone}`,
+    ...(type ? [`Type:   ${type}`] : []),
+    `Source: ${source || "—"}`,
     "",
     "Message:",
     trimmed.message,
@@ -114,6 +128,18 @@ export default async function handler(
     <tr>
       <td style="padding:8px 0; color:#525252; font-size:13px; vertical-align:top;">Phone</td>
       <td style="padding:8px 0; font-size:14px;"><a href="tel:${escapeHtml(trimmed.countryCode + trimmed.phone.replace(/\s/g, ""))}" style="color:#080808;">${escapeHtml(fullPhone)}</a></td>
+    </tr>
+    ${
+      type
+        ? `<tr>
+      <td style="padding:8px 0; color:#525252; font-size:13px; vertical-align:top;">Type</td>
+      <td style="padding:8px 0; font-size:14px;">${escapeHtml(type)}</td>
+    </tr>`
+        : ""
+    }
+    <tr>
+      <td style="padding:8px 0; color:#525252; font-size:13px; vertical-align:top;">Source</td>
+      <td style="padding:8px 0; font-size:14px;">${escapeHtml(source || "—")}</td>
     </tr>
   </table>
   <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#525252; margin:0 0 8px;">Message</p>
