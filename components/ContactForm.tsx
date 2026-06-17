@@ -2,6 +2,10 @@ import React, { FormEvent, useState } from "react";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+type Source = "contact" | "workshops";
+
+type Theme = "dark" | "light";
+
 type FieldErrors = Partial<
   Record<"name" | "email" | "phone" | "message", string>
 >;
@@ -36,19 +40,6 @@ const COUNTRY_CODES: { code: string; label: string }[] = [
   { code: "+972", label: "Israel" },
   { code: "+90", label: "Turkey" },
 ];
-
-const labelClass =
-  "block text-[11px] font-medium uppercase tracking-[0.2em] text-sage/80 mb-3";
-const baseInputClass =
-  "w-full bg-transparent border-0 border-b px-0 py-3 text-base text-white placeholder:text-white/25 focus:outline-none focus:ring-0 transition-colors duration-300 disabled:opacity-50";
-
-function inputClass(hasError: boolean) {
-  return `${baseInputClass} ${
-    hasError
-      ? "border-red-400/70 focus:border-red-400"
-      : "border-white/15 focus:border-sage"
-  }`;
-}
 
 function validate(fields: {
   name: string;
@@ -85,7 +76,40 @@ function validate(fields: {
   return errors;
 }
 
-export default function ContactForm() {
+export default function ContactForm({
+  source = "contact",
+  theme = "dark",
+}: {
+  source?: Source;
+  theme?: Theme;
+}) {
+  const isLight = theme === "light";
+
+  // Theme-aware class fragments. Sage stays the accent (hairline, arrow, focus
+  // underline, button border/hover); functional text shifts to charcoal/smoke
+  // on light so it stays legible — sage-on-paper fails contrast.
+  const labelClass = `block text-[11px] font-medium uppercase tracking-[0.2em] mb-3 ${
+    isLight ? "text-smoke" : "text-sage/80"
+  }`;
+  const baseInputClass = `w-full bg-transparent border-0 border-b px-0 py-3 text-base focus:outline-none focus:ring-0 transition-colors duration-300 disabled:opacity-50 ${
+    isLight
+      ? "text-charcoal placeholder:text-smoke/50"
+      : "text-white placeholder:text-white/25"
+  }`;
+  const normalBorder = isLight ? "border-charcoal/20" : "border-white/15";
+  const errorBorder = isLight
+    ? "border-red-500/70 focus:border-red-500"
+    : "border-red-400/70 focus:border-red-400";
+  const inputClass = (hasError: boolean) =>
+    `${baseInputClass} ${
+      hasError ? errorBorder : `${normalBorder} focus:border-sage`
+    }`;
+  const selectClass = `appearance-none bg-transparent border-0 border-b ${normalBorder} px-0 pr-6 py-3 text-base focus:border-sage focus:outline-none focus:ring-0 transition-colors duration-300 disabled:opacity-50 cursor-pointer ${
+    isLight ? "text-charcoal" : "text-white"
+  }`;
+  const optionClass = isLight ? "bg-paper text-charcoal" : "bg-charcoal text-white";
+  const errorTextClass = `mt-2 text-xs ${isLight ? "text-red-600" : "text-red-400"}`;
+
   const [status, setStatus] = useState<Status>("idle");
   const [submitError, setSubmitError] = useState<string>("");
   const [countryCode, setCountryCode] = useState("+91");
@@ -120,6 +144,8 @@ export default function ContactForm() {
       message: ((data.get("message") as string) || "").trim(),
     };
 
+    const type = ((data.get("type") as string) || "").trim();
+
     const fieldErrors = validate(fields);
     if (Object.keys(fieldErrors).length > 0) {
       setErrors(fieldErrors);
@@ -135,7 +161,7 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...fields, countryCode }),
+        body: JSON.stringify({ ...fields, countryCode, type, source }),
       });
 
       if (res.ok) {
@@ -160,17 +186,23 @@ export default function ContactForm() {
         <p className="mt-8 text-[11px] font-medium uppercase tracking-[0.2em] text-sage">
           Message Received
         </p>
-        <h3 className="mt-4 font-display text-2xl md:text-3xl font-semibold text-parchment tracking-tight">
+        <h3
+          className={`mt-4 font-display text-2xl md:text-3xl font-semibold tracking-tight ${
+            isLight ? "text-charcoal" : "text-parchment"
+          }`}
+        >
           Thanks — I&apos;ll be in touch.
         </h3>
-        <p className="mt-4 text-sm md:text-base text-white/50">
+        <p
+          className={`mt-4 text-sm md:text-base ${
+            isLight ? "text-smoke" : "text-white/50"
+          }`}
+        >
           I read every message and reply within 48 hours.
         </p>
       </div>
     );
   }
-
-  const errorTextClass = "mt-2 text-xs text-red-400";
 
   return (
     <form onSubmit={handleSubmit} className="w-full" noValidate>
@@ -244,14 +276,10 @@ export default function ContactForm() {
               value={countryCode}
               onChange={(e) => setCountryCode(e.target.value)}
               disabled={status === "loading"}
-              className="appearance-none bg-transparent border-0 border-b border-white/15 px-0 pr-6 py-3 text-base text-white focus:border-sage focus:outline-none focus:ring-0 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
+              className={selectClass}
             >
               {COUNTRY_CODES.map((c) => (
-                <option
-                  key={c.code}
-                  value={c.code}
-                  className="bg-charcoal text-white"
-                >
+                <option key={c.code} value={c.code} className={optionClass}>
                   {c.label} {c.code}
                 </option>
               ))}
@@ -285,6 +313,40 @@ export default function ContactForm() {
       </div>
 
       <div className="mt-8">
+        <label htmlFor="contact-type" className={labelClass}>
+          What&apos;s this about?
+        </label>
+        <div className="relative">
+          <select
+            id="contact-type"
+            name="type"
+            defaultValue=""
+            disabled={status === "loading"}
+            className={`${selectClass} w-full`}
+          >
+            <option value="" className={optionClass}>
+              Select one (optional)
+            </option>
+            <option value="Workshop" className={optionClass}>
+              Workshop
+            </option>
+            <option value="Safari" className={optionClass}>
+              Safari
+            </option>
+            <option value="Other" className={optionClass}>
+              Other
+            </option>
+          </select>
+          <span
+            aria-hidden
+            className="pointer-events-none absolute right-0 bottom-3.5 text-sage text-xs"
+          >
+            ▾
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-8">
         <label htmlFor="contact-message" className={labelClass}>
           Your Message
         </label>
@@ -314,7 +376,11 @@ export default function ContactForm() {
 
       <div className="mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4">
         {status === "error" && (
-          <p className="text-sm text-red-400 sm:mr-auto">
+          <p
+            className={`text-sm sm:mr-auto ${
+              isLight ? "text-red-600" : "text-red-400"
+            }`}
+          >
             {submitError}{" "}
             <a
               href="https://wa.me/917030047045"
@@ -329,7 +395,9 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="group inline-flex items-center justify-center gap-2 px-7 py-3 border border-sage text-sage text-xs uppercase tracking-[0.15em] font-medium hover:bg-sage hover:text-charcoal transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className={`group inline-flex items-center justify-center gap-2 px-7 py-3 border border-sage text-xs uppercase tracking-[0.15em] font-medium hover:bg-sage hover:text-charcoal transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+            isLight ? "text-charcoal" : "text-sage"
+          }`}
         >
           {status === "loading" ? (
             <span className="inline-block h-3 w-3 border border-sage border-t-transparent rounded-full animate-spin" />
