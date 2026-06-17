@@ -24,7 +24,8 @@
     "next-cloudinary": "4.9.0",
     "next-sitemap": "4.2.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "resend": "^6.12.4"
   },
   "devDependencies": {
     "@fontsource/playfair-display": "5.2.8",
