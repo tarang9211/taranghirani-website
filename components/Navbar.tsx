@@ -8,26 +8,35 @@ const navItems = [
   { href: "/workshops", label: "Workshops" },
   { href: "/gallery", label: "Gallery" },
   { href: "/blog", label: "Field Notes" },
-  { href: "/contact", label: "Contact" },
 ];
+
+// Promoted to a CTA pill. Swap to the /workshops item to drive the funnel top instead.
+const ctaItem = { href: "/contact", label: "Contact" };
+
+const isActivePath = (currentPath: string, href: string) =>
+  currentPath === href ||
+  (href !== "/" && currentPath.startsWith(href + "/"));
 
 const getLinkClasses = (
   currentPath: string,
   href: string,
   scrolled: boolean,
 ) => {
-  const isActive =
-    currentPath === href ||
-    (href !== "/" && currentPath.startsWith(href + "/"));
+  const isActive = isActivePath(currentPath, href);
   const baseClasses =
-    "font-display tracking-[0.12em] uppercase transition-colors text-xs";
+    "relative inline-flex items-center py-1 font-display tracking-[0.1em] uppercase text-sm transition-colors after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-sage after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100";
   const inactiveClasses = scrolled
-    ? "text-smoke/60 hover:text-charcoal"
-    : "text-white/60 hover:text-white";
-  const activeClasses = scrolled ? "text-charcoal" : "text-white";
+    ? "text-smoke hover:text-charcoal"
+    : "text-white/80 hover:text-white";
+  const activeClasses = scrolled
+    ? "text-charcoal font-medium after:scale-x-100"
+    : "text-white font-medium after:scale-x-100";
 
   return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`;
 };
+
+const ctaClasses =
+  "inline-flex items-center rounded-full bg-sage px-5 py-2 font-display tracking-[0.1em] uppercase text-sm text-charcoal transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:brightness-95";
 
 const Navbar: React.FC = () => {
   const { pathname } = useRouter();
@@ -105,6 +114,13 @@ const Navbar: React.FC = () => {
               {label}
             </Link>
           ))}
+          <Link
+            href={ctaItem.href}
+            className={ctaClasses}
+            aria-current={pathname === ctaItem.href ? "page" : undefined}
+          >
+            {ctaItem.label}
+          </Link>
         </div>
 
         {/* Mobile hamburger */}
@@ -131,22 +147,25 @@ const Navbar: React.FC = () => {
               <Link
                 key={href}
                 href={href}
-                className={`block py-3 font-display tracking-[0.12em] uppercase text-sm transition-colors ${
-                  pathname === href ||
-                  (href !== "/" && pathname.startsWith(href + "/"))
-                    ? "text-charcoal"
-                    : "text-smoke/60 hover:text-charcoal"
+                className={`block py-3 font-display tracking-[0.1em] uppercase text-base transition-colors ${
+                  isActivePath(pathname, href)
+                    ? "text-charcoal font-medium"
+                    : "text-smoke hover:text-charcoal"
                 }`}
-                aria-current={
-                  pathname === href ||
-                  (href !== "/" && pathname.startsWith(href + "/"))
-                    ? "page"
-                    : undefined
-                }
+                aria-current={isActivePath(pathname, href) ? "page" : undefined}
               >
                 {label}
               </Link>
             ))}
+            <Link
+              href={ctaItem.href}
+              className="mt-3 block w-full rounded-full bg-sage px-5 py-3 text-center font-display tracking-[0.1em] uppercase text-base text-charcoal transition-all duration-300 hover:brightness-95"
+              aria-current={
+                pathname === ctaItem.href ? "page" : undefined
+              }
+            >
+              {ctaItem.label}
+            </Link>
           </div>
         </div>
       )}
