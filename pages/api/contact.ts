@@ -162,6 +162,47 @@ export default async function handler(
       return res.status(500).json({ error: "Failed to send message" });
     }
 
+    // Best-effort acknowledgement to the enquirer. A failure here is logged but
+    // must not fail the request — the notification above already succeeded.
+    try {
+      const ackText = [
+        `Hi ${trimmed.name},`,
+        "",
+        "Thanks for reaching out — your message has landed with me and I'll be in touch within 24 hours.",
+        "",
+        "In the meantime, feel free to browse my work at taranghirani.com or reach me on Instagram @tarang.hirani.",
+        "",
+        "Warm regards,",
+        "Tarang Hirani",
+        "Wildlife Photographer",
+      ].join("\n");
+
+      const ackHtml = `<!doctype html>
+<html><body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color:#080808; max-width:560px; margin:0 auto; padding:24px;">
+  <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#C4956A; margin:0 0 16px;">Message Received</p>
+  <p style="font-size:16px; line-height:1.6; margin:0 0 16px;">Hi ${escapeHtml(trimmed.name)},</p>
+  <p style="font-size:16px; line-height:1.6; margin:0 0 16px;">Thanks for reaching out — your message has landed with me and I'll be in touch <strong>within 24 hours</strong>.</p>
+  <p style="font-size:16px; line-height:1.6; margin:0 0 24px;">In the meantime, feel free to browse my work at <a href="https://www.taranghirani.com" style="color:#C4956A;">taranghirani.com</a> or reach me on Instagram <a href="https://instagram.com/tarang.hirani" style="color:#C4956A;">@tarang.hirani</a>.</p>
+  <p style="font-size:16px; line-height:1.6; margin:0;">Warm regards,<br/>Tarang Hirani</p>
+  <p style="font-size:13px; color:#525252; margin:4px 0 0;">Wildlife Photographer</p>
+</body></html>`;
+
+      const { error: ackError } = await resend.emails.send({
+        from: FROM_ADDRESS,
+        to: trimmed.email,
+        replyTo: TO_ADDRESSES[0],
+        subject: "Thanks for reaching out — Tarang Hirani",
+        text: ackText,
+        html: ackHtml,
+      });
+
+      if (ackError) {
+        console.error("Resend ack send error:", ackError);
+      }
+    } catch (ackErr) {
+      console.error("Resend ack request failed:", ackErr);
+    }
+
     return res.status(200).json({ success: true });
   } catch (err) {
     console.error("Resend request failed:", err);
