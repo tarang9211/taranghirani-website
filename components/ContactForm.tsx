@@ -69,8 +69,8 @@ function validate(fields: {
 
   if (!fields.message) {
     errors.message = "Please add a short message.";
-  } else if (fields.message.length < 10) {
-    errors.message = "Tell me a little more — at least a sentence.";
+  } else if (fields.message.length < 4) {
+    errors.message = "Tell me a little more — at least a few characters.";
   }
 
   return errors;
