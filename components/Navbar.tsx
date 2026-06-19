@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { workshopsByRegion } from "../lib/workshops";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -9,6 +10,8 @@ const navItems = [
   { href: "/gallery", label: "Gallery" },
   { href: "/blog", label: "Field Notes" },
 ];
+
+const workshopGroups = workshopsByRegion();
 
 // Promoted to a CTA pill. Swap to the /workshops item to drive the funnel top instead.
 const ctaItem = { href: "/contact", label: "Contact" };
@@ -104,16 +107,71 @@ const Navbar: React.FC = () => {
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center space-x-8">
-          {navItems.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={getLinkClasses(pathname, href, scrolled)}
-              aria-current={pathname === href ? "page" : undefined}
-            >
-              {label}
-            </Link>
-          ))}
+          {navItems.map(({ href, label }) =>
+            href === "/workshops" && workshopGroups.length > 0 ? (
+              <div key={href} className="group relative">
+                <Link
+                  href={href}
+                  className={`${getLinkClasses(pathname, href, scrolled)} gap-1`}
+                  aria-haspopup="true"
+                  aria-current={pathname === href ? "page" : undefined}
+                >
+                  {label}
+                  <ChevronDown
+                    size={14}
+                    strokeWidth={2}
+                    aria-hidden
+                    className="transition-transform duration-300 group-hover:rotate-180"
+                  />
+                </Link>
+
+                {/* Dropdown panel — revealed on hover or keyboard focus */}
+                <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 pt-4 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                  <div className="overflow-hidden rounded-lg border border-charcoal/10 bg-white/95 p-2 shadow-lg backdrop-blur-md">
+                    <Link
+                      href="/workshops"
+                      className="block rounded px-3 py-2 font-display text-sm uppercase tracking-[0.1em] text-charcoal transition-colors hover:bg-paper hover:text-sage"
+                    >
+                      All workshops
+                    </Link>
+                    {workshopGroups.map((group) => (
+                      <div key={group.region} className="mt-1">
+                        <p className="px-3 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.2em] text-sage">
+                          {group.region}
+                        </p>
+                        {group.items.map((w) => (
+                          <Link
+                            key={w.slug}
+                            href={w.href}
+                            className="block rounded px-3 py-2 transition-colors hover:bg-paper"
+                            aria-current={
+                              pathname === w.href ? "page" : undefined
+                            }
+                          >
+                            <span className="block font-display text-sm text-charcoal">
+                              {w.location}
+                            </span>
+                            <span className="mt-0.5 block text-xs text-smoke">
+                              {w.dateLabel}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={href}
+                href={href}
+                className={getLinkClasses(pathname, href, scrolled)}
+                aria-current={pathname === href ? "page" : undefined}
+              >
+                {label}
+              </Link>
+            ),
+          )}
           <Link
             href={ctaItem.href}
             className={ctaClasses}
@@ -144,18 +202,41 @@ const Navbar: React.FC = () => {
         <div className="md:hidden border-t border-black/5 bg-white/90 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
             {navItems.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className={`block py-3 font-display tracking-[0.1em] uppercase text-base transition-colors ${
-                  isActivePath(pathname, href)
-                    ? "text-charcoal font-medium"
-                    : "text-smoke hover:text-charcoal"
-                }`}
-                aria-current={isActivePath(pathname, href) ? "page" : undefined}
-              >
-                {label}
-              </Link>
+              <React.Fragment key={href}>
+                <Link
+                  href={href}
+                  className={`block py-3 font-display tracking-[0.1em] uppercase text-base transition-colors ${
+                    isActivePath(pathname, href)
+                      ? "text-charcoal font-medium"
+                      : "text-smoke hover:text-charcoal"
+                  }`}
+                  aria-current={
+                    isActivePath(pathname, href) ? "page" : undefined
+                  }
+                >
+                  {label}
+                </Link>
+                {href === "/workshops" &&
+                  workshopGroups.flatMap((group) =>
+                    group.items.map((w) => (
+                      <Link
+                        key={w.slug}
+                        href={w.href}
+                        className={`block border-l border-charcoal/10 py-2 pl-4 transition-colors ${
+                          pathname === w.href
+                            ? "text-charcoal"
+                            : "text-smoke hover:text-charcoal"
+                        }`}
+                        aria-current={pathname === w.href ? "page" : undefined}
+                      >
+                        <span className="block text-sm">{w.location}</span>
+                        <span className="block text-xs text-smoke/70">
+                          {w.dateLabel}
+                        </span>
+                      </Link>
+                    )),
+                  )}
+              </React.Fragment>
             ))}
             <Link
               href={ctaItem.href}

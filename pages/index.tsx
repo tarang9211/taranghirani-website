@@ -1,6 +1,7 @@
 import Hero from "../components/Hero";
 import ImageCarousel from "../components/ImageCarousel";
 import SafariOffering from "../components/SafariOffering";
+import UpcomingWorkshops from "../components/UpcomingWorkshops";
 import EmailSignup from "../components/EmailSignup";
 import AboutMe from "../components/AboutMe";
 import Head from "next/head";
@@ -40,6 +41,7 @@ export default function Home({
         alt={heroDesktop.alt}
       />
       <SafariOffering />
+      <UpcomingWorkshops theme="dark" showViewAll concise />
       <EmailSignup variant="section" />
       <ImageCarousel images={carouselImages} />
       <AboutMe />

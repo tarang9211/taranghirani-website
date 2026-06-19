@@ -3,6 +3,7 @@ import Image from "next/image";
 import FadeIn from "../components/FadeIn";
 import ContactLinks from "../components/ContactLinks";
 import ContactForm from "../components/ContactForm";
+import UpcomingWorkshops from "../components/UpcomingWorkshops";
 
 const CLOUDINARY_BASE =
   "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto";
@@ -407,6 +408,9 @@ export default function WorkshopsPage() {
           </FadeIn>
         </div>
       </section>
+
+      {/* UPCOMING WORKSHOPS */}
+      <UpcomingWorkshops theme="light" />
 
       {/* BEGIN */}
       <section

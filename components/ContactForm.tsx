@@ -79,9 +79,17 @@ function validate(fields: {
 export default function ContactForm({
   source = "contact",
   theme = "dark",
+  subject,
+  defaultMessage,
 }: {
   source?: Source;
   theme?: Theme;
+  // When set, the enquiry is pinned to a fixed subject (e.g. a specific
+  // workshop): a hidden field carries it to the API and the freeform
+  // "What's this about?" selector is hidden since the subject supersedes it.
+  subject?: string;
+  // Pre-populates the (still editable) message textarea.
+  defaultMessage?: string;
 }) {
   const isLight = theme === "light";
 
@@ -145,6 +153,7 @@ export default function ContactForm({
     };
 
     const type = ((data.get("type") as string) || "").trim();
+    const subjectField = ((data.get("subject") as string) || "").trim();
 
     const fieldErrors = validate(fields);
     if (Object.keys(fieldErrors).length > 0) {
@@ -161,7 +170,13 @@ export default function ContactForm({
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...fields, countryCode, type, source }),
+        body: JSON.stringify({
+          ...fields,
+          countryCode,
+          type,
+          source,
+          subject: subjectField,
+        }),
       });
 
       if (res.ok) {
@@ -174,7 +189,7 @@ export default function ContactForm({
         if (typeof window !== "undefined" && window.fbq) {
           window.fbq("track", "Lead", {
             content_category: source,
-            content_name: type || "General",
+            content_name: subjectField || type || "General",
           });
         }
       } else {
@@ -215,6 +230,9 @@ export default function ContactForm({
 
   return (
     <form onSubmit={handleSubmit} className="w-full" noValidate>
+      {/* Fixed subject for this enquiry (e.g. a specific workshop) */}
+      {subject && <input type="hidden" name="subject" value={subject} />}
+
       {/* Honeypot — visually hidden but available to bots */}
       <div className="absolute -left-[9999px]" aria-hidden="true">
         <label>
@@ -321,39 +339,41 @@ export default function ContactForm({
         )}
       </div>
 
-      <div className="mt-8">
-        <label htmlFor="contact-type" className={labelClass}>
-          What&apos;s this about?
-        </label>
-        <div className="relative">
-          <select
-            id="contact-type"
-            name="type"
-            defaultValue=""
-            disabled={status === "loading"}
-            className={`${selectClass} w-full`}
-          >
-            <option value="" className={optionClass}>
-              Select one (optional)
-            </option>
-            <option value="Workshop" className={optionClass}>
-              Workshop
-            </option>
-            <option value="Safari" className={optionClass}>
-              Safari
-            </option>
-            <option value="Other" className={optionClass}>
-              Other
-            </option>
-          </select>
-          <span
-            aria-hidden
-            className="pointer-events-none absolute right-0 bottom-3.5 text-sage text-xs"
-          >
-            ▾
-          </span>
+      {!subject && (
+        <div className="mt-8">
+          <label htmlFor="contact-type" className={labelClass}>
+            What&apos;s this about?
+          </label>
+          <div className="relative">
+            <select
+              id="contact-type"
+              name="type"
+              defaultValue=""
+              disabled={status === "loading"}
+              className={`${selectClass} w-full`}
+            >
+              <option value="" className={optionClass}>
+                Select one (optional)
+              </option>
+              <option value="Workshop" className={optionClass}>
+                Workshop
+              </option>
+              <option value="Safari" className={optionClass}>
+                Safari
+              </option>
+              <option value="Other" className={optionClass}>
+                Other
+              </option>
+            </select>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute right-0 bottom-3.5 text-sage text-xs"
+            >
+              ▾
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="mt-8">
         <label htmlFor="contact-message" className={labelClass}>
@@ -364,6 +384,7 @@ export default function ContactForm({
           name="message"
           rows={5}
           disabled={status === "loading"}
+          defaultValue={defaultMessage}
           placeholder="Tell me what you'd like to learn, where you'd like to go, or what you're hoping to make."
           aria-invalid={!!errors.message}
           aria-describedby={
