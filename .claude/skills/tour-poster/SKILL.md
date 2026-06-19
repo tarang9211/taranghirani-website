@@ -79,13 +79,14 @@ npm run tour-poster -- [--image <name-or-path>] --location <name> --dates <range
 | `--location-italic` | Render the location in Playfair italic                                                     | off                    |
 | `--instagram`       | Instagram handle (rendered in the footer)                                                  | `@tarang.hirani`       |
 | `--website`         | Website (rendered in the footer)                                                           | `taranghirani.com`     |
+| `--fine-print`      | A single small-print line rendered at the very bottom of the footer, below the handles. White, semibold (Source Sans 600), **not uppercased** — printed verbatim, so include your own separators (e.g. ` · `). Use for terms/notes like flights, booking basis, expense disclosures. | none                   |
 | `--name`            | Override the `<slug>` portion of the output filename                                       | snake_case `--location` |
 | `--formats`         | Comma list of `story`, `post`, `square` to render                                          | `story,post,square`    |
-| `--layout`          | `vertical` (default — every line stacks down the left edge) or `horizontal` (price / seats / dates render as a three-column row separated by sage vertical hairlines; the Playfair location stays a vertical hero above) | `vertical`             |
+| `--layout`          | `vertical` (default — every line stacks down the left edge) or `horizontal` (price / seats / dates render as a column row separated by sage vertical hairlines; the Playfair location stays a vertical hero above). In horizontal layout the **numeric** seat indicator forms its own centered middle column (three columns total); a free-text `--seats-text` label instead renders left-aligned *under the pricing* in the left column, producing a clean two-column split (pricing+label · dates) so the dates column stays wide enough to keep `--exclusivity` on one line. | `vertical`             |
 
 ### Seat caption logic
 
-When `--seats-text` is supplied, the caption is the literal text (uppercased, sage, tracked) and no dots indicator is rendered. The seats column simply reads shorter than its neighbours in horizontal layout — the row's `alignItems: "center"` keeps the row visually balanced.
+When `--seats-text` is supplied, the caption is the literal text (uppercased, sage, tracked) and no dots indicator is rendered. In horizontal layout the label does not get its own column — it renders left-aligned beneath the pricing in the left column, collapsing the row to a two-column split (see `--layout`).
 
 Otherwise (numeric mode), the renderer derives the caption from `--seats-total` + `--seats-filled`:
 

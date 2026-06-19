@@ -59,6 +59,7 @@ type Args = {
   instagram: string;
   website: string;
   footerTagline: string | null;
+  finePrint: string | null;
   name: string;
   formats: Format[];
   layout: "vertical" | "horizontal";
@@ -250,6 +251,7 @@ function parseArgs(): Args {
     instagram: flag("instagram") ?? "@tarang.hirani",
     website: flag("website") ?? "taranghirani.com",
     footerTagline: flag("footer-tagline"),
+    finePrint: flag("fine-print"),
     name: snakeify(flag("name") ?? location),
     formats,
     layout,
@@ -790,6 +792,23 @@ function footerBlock(
     },
   ];
 
+  if (args.finePrint) {
+    children.push({
+      type: "span",
+      props: {
+        style: {
+          fontFamily: "Source Sans 3",
+          fontWeight: 600,
+          fontSize: Math.round(handleSize * 1.02),
+          color: C.white,
+          letterSpacing: 1,
+          marginTop: 12,
+        },
+        children: args.finePrint,
+      },
+    });
+  }
+
   return {
     type: "div",
     props: {
@@ -952,12 +971,34 @@ function tripDetailsRow(
     },
   });
 
-  const showSeats = !!args.seatsText || args.seatsTotal > 0;
+  // A free-text seats label (e.g. a departure point) groups left-aligned under
+  // the pricing in the same column — a clean 2-column split. The numeric seat
+  // indicator keeps its own centered column (3-column row).
+  const showDots = !args.seatsText && args.seatsTotal > 0;
+  const pricingColumnChildren: any[] = [
+    pricingNode(args, opts.priceSizes, "flex-start", true),
+  ];
+  if (args.seatsText) {
+    pricingColumnChildren.push({
+      type: "span",
+      props: {
+        style: {
+          fontFamily: "Source Sans 3",
+          fontWeight: 700,
+          fontSize: opts.seatsCaption,
+          color: C.sage,
+          letterSpacing: 4,
+          marginTop: Math.round(opts.seatsCaption * 0.7),
+        },
+        children: args.seatsText.toUpperCase(),
+      },
+    });
+  }
   const rowChildren: any[] = [
-    column([pricingNode(args, opts.priceSizes, "flex-start", true)], "flex-start", 0, 16),
+    column(pricingColumnChildren, "flex-start", 0, 16),
     divider,
   ];
-  if (showSeats) {
+  if (showDots) {
     rowChildren.push(
       column([seatsStacked(args, opts.seatsDot, opts.seatsCaption)], "center"),
       divider,
