@@ -168,6 +168,15 @@ export default function ContactForm({
         setStatus("success");
         form.reset();
         setCountryCode("+91");
+
+        // Meta Pixel conversion event — fires only on a genuine submission
+        // (not the honeypot path above). Segments contact vs workshop leads.
+        if (typeof window !== "undefined" && window.fbq) {
+          window.fbq("track", "Lead", {
+            content_category: source,
+            content_name: type || "General",
+          });
+        }
       } else {
         const data = await res.json().catch(() => ({}));
         setSubmitError(data.error || "Something went wrong. Try again.");
