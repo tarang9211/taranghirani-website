@@ -14,6 +14,7 @@ const MAX_LEN = {
   message: 5000,
   type: 40,
   source: 60,
+  subject: 160,
 };
 
 function escapeHtml(str: string): string {
@@ -59,6 +60,10 @@ export default async function handler(
     typeof req.body?.type === "string" ? req.body.type.trim() : "";
   const source =
     typeof req.body?.source === "string" ? req.body.source.trim() : "";
+  // Fixed enquiry subject (e.g. a specific workshop). When present it both
+  // becomes the email subject line and is recorded in the notification body.
+  const subjectField =
+    typeof req.body?.subject === "string" ? req.body.subject.trim() : "";
 
   if (
     !trimmed.name ||
@@ -77,7 +82,8 @@ export default async function handler(
     trimmed.countryCode.length > MAX_LEN.countryCode ||
     trimmed.message.length > MAX_LEN.message ||
     type.length > MAX_LEN.type ||
-    source.length > MAX_LEN.source
+    source.length > MAX_LEN.source ||
+    subjectField.length > MAX_LEN.subject
   ) {
     return res.status(400).json({ error: "One of your fields is too long" });
   }
@@ -97,13 +103,16 @@ export default async function handler(
   const resend = new Resend(apiKey);
 
   const fullPhone = `${trimmed.countryCode} ${trimmed.phone}`;
-  const subject = type
-    ? `${type} enquiry from ${trimmed.name}`
-    : `New enquiry from ${trimmed.name}`;
+  const subject = subjectField
+    ? subjectField
+    : type
+      ? `${type} enquiry from ${trimmed.name}`
+      : `New enquiry from ${trimmed.name}`;
 
   const text = [
     `New enquiry from ${trimmed.name}`,
     "",
+    ...(subjectField ? [`Re:     ${subjectField}`] : []),
     `Email:  ${trimmed.email}`,
     `Phone:  ${fullPhone}`,
     ...(type ? [`Type:   ${type}`] : []),
@@ -121,6 +130,14 @@ export default async function handler(
   <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#C4956A; margin:0 0 16px;">New Enquiry</p>
   <h1 style="font-size:22px; font-weight:600; margin:0 0 24px;">${escapeHtml(trimmed.name)}</h1>
   <table style="width:100%; border-collapse:collapse; margin-bottom:24px;">
+    ${
+      subjectField
+        ? `<tr>
+      <td style="padding:8px 0; color:#525252; font-size:13px; width:80px; vertical-align:top;">Re</td>
+      <td style="padding:8px 0; font-size:14px; font-weight:600;">${escapeHtml(subjectField)}</td>
+    </tr>`
+        : ""
+    }
     <tr>
       <td style="padding:8px 0; color:#525252; font-size:13px; width:80px; vertical-align:top;">Email</td>
       <td style="padding:8px 0; font-size:14px;"><a href="mailto:${escapeHtml(trimmed.email)}" style="color:#080808;">${escapeHtml(trimmed.email)}</a></td>
