@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
+import { recordEnquiryInNotion } from "../../lib/notion";
 
 const TO_ADDRESSES = ["safaris@taranghirani.com", "tarang9211@gmail.com"];
 const FROM_ADDRESS =
@@ -177,6 +178,22 @@ export default async function handler(
     if (error) {
       console.error("Resend send error:", error);
       return res.status(500).json({ error: "Failed to send message" });
+    }
+
+    // Best-effort CRM record in Notion. A failure here is logged but must not
+    // fail the request — the notification email above already succeeded.
+    try {
+      await recordEnquiryInNotion({
+        name: trimmed.name,
+        email: trimmed.email,
+        fullPhone,
+        type,
+        subject: subjectField,
+        source,
+        message: trimmed.message,
+      });
+    } catch (notionErr) {
+      console.error("Notion record failed:", notionErr);
     }
 
     // Best-effort acknowledgement to the enquirer. A failure here is logged but
