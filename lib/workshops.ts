@@ -30,7 +30,7 @@ export const UPCOMING_WORKSHOPS: Workshop[] = [
     location: "Panna, Madhya Pradesh",
     dateLabel: "Oct 21–25, 2026",
     summary:
-      "4 nights / 5 days · 6 safaris · ₹84,999 per person (twin sharing). Limited seats, first come, first served.",
+      "4 nights / 5 days · 6 safaris · ₹94,999 per person (twin sharing). Limited seats, first come, first served.",
     shortSummary: "Limited seats, first come, first served.",
     image: `${CLOUDINARY_BASE}/_Z9_20250508_TMH_8461_wm_vwr6rk`,
     imageAlt:
