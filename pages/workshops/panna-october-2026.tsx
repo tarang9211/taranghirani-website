@@ -222,7 +222,7 @@ export default function PannaWorkshopPage() {
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-[1.7] text-white/85 md:text-lg">
                   Oct 21–25, 2026 · 4 nights / 5 days · 6 safaris · Limited
-                  seats · Price on enquiry
+                  seats · Price on enquiry (twin sharing)
                 </p>
                 <ClaimButton className="mt-8" />
               </div>
