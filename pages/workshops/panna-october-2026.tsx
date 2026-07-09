@@ -62,8 +62,6 @@ const JSON_LD = {
   },
   offers: {
     "@type": "Offer",
-    price: "94999",
-    priceCurrency: "INR",
     availability: "https://schema.org/LimitedAvailability",
     url: PAGE_URL,
   },
@@ -224,7 +222,7 @@ export default function PannaWorkshopPage() {
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-[1.7] text-white/85 md:text-lg">
                   Oct 21–25, 2026 · 4 nights / 5 days · 6 safaris · Limited
-                  seats · ₹94,999 per person (twin sharing)
+                  seats · Price on enquiry (twin sharing)
                 </p>
                 <ClaimButton className="mt-8" />
               </div>
@@ -440,10 +438,7 @@ export default function PannaWorkshopPage() {
                 </dl>
                 <div className="mt-5 border-t border-charcoal/10 pt-5">
                   <p className="font-display text-2xl font-semibold tracking-tight text-charcoal">
-                    ₹94,999{" "}
-                    <span className="text-base font-normal text-smoke">
-                      / person
-                    </span>
+                    On enquiry
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-smoke">
                     Twin sharing. Single room at extra cost (on request).
