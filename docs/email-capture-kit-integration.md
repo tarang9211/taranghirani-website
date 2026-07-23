@@ -91,6 +91,12 @@ Kit needs DNS records on taranghirani.com so emails from safaris@taranghirani.co
 
 **New file:** `/pages/api/subscribe.ts`
 
+> **Update (July 2026):** The Kit API logic now lives in a shared helper,
+> `/lib/kit.ts` (`subscribeToNewsletter`). Besides `/api/subscribe`, the
+> contact form route (`/pages/api/contact.ts`) calls it best-effort so every
+> enquiry lead is auto-subscribed to the newsletter (with their first name).
+> A Kit failure never fails the enquiry.
+
 ### Flow
 
 ```

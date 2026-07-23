@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
 import { recordEnquiryInNotion } from "../../lib/notion";
+import { subscribeToNewsletter } from "../../lib/kit";
 
 const TO_ADDRESSES = ["safaris@taranghirani.com", "tarang9211@gmail.com"];
 const FROM_ADDRESS =
@@ -195,6 +196,13 @@ export default async function handler(
     } catch (notionErr) {
       console.error("Notion record failed:", notionErr);
     }
+
+    // Best-effort newsletter subscription — a Kit failure must not fail the
+    // enquiry. subscribeToNewsletter never throws; failures are logged inside.
+    await subscribeToNewsletter({
+      email: trimmed.email,
+      firstName: trimmed.name.split(/\s+/)[0],
+    });
 
     // Best-effort acknowledgement to the enquirer. A failure here is logged but
     // must not fail the request — the notification above already succeeded.
