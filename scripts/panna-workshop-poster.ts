@@ -250,7 +250,7 @@ async function buildOverlay(
                           color: C.white,
                           letterSpacing: 4,
                         },
-                        children: "OCT 21–25, 2026",
+                        children: "OCT 22–25, 2026",
                       },
                     },
                     {

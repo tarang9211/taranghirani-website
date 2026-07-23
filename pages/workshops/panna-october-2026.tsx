@@ -22,15 +22,15 @@ const IMG = {
 const PAGE_URL = "https://www.taranghirani.com/workshops/panna-october-2026";
 const PAGE_TITLE = "Wildlife Photography Workshop — Panna, MP | Tarang Hirani";
 const PAGE_DESCRIPTION =
-  "A 5-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris, in-field guidance, and evening post-processing. Oct 21–25, 2026. Limited seats, first come, first served.";
+  "A 4-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris, in-field guidance, and evening post-processing. Oct 22–25, 2026. Limited seats, first come, first served.";
 const OG_IMAGE =
   "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/_Z9_20260212_100758_TMH_website_s3qioq";
 
 // Carries through to the enquiry notification so it's clearly a Panna lead.
 const ENQUIRY_SUBJECT =
-  "Panna Wildlife Photography Workshop — 21–25 Oct 2026";
+  "Panna Wildlife Photography Workshop — 22–25 Oct 2026";
 const ENQUIRY_MESSAGE =
-  "Hi Tarang, I'd like to enquire about the Panna wildlife photography workshop (21–25 Oct 2026). Please share availability and next steps.";
+  "Hi Tarang, I'd like to enquire about the Panna wildlife photography workshop (22–25 Oct 2026). Please share availability and next steps.";
 const WHATSAPP_HREF =
   "https://wa.me/917030047045?text=" +
   encodeURIComponent("I'm interested in the Panna workshop");
@@ -40,7 +40,7 @@ const JSON_LD = {
   "@type": "Event",
   name: "Wildlife Photography Workshop — Panna",
   description: PAGE_DESCRIPTION,
-  startDate: "2026-10-21",
+  startDate: "2026-10-22",
   endDate: "2026-10-25",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
@@ -73,7 +73,7 @@ const ITINERARY: {
   items: { time: string; text: string }[];
 }[] = [
   {
-    date: "Oct 21",
+    date: "Oct 22",
     title: "Arrival",
     items: [
       {
@@ -81,15 +81,17 @@ const ITINERARY: {
         text: "Arrive at Khajuraho Airport (HJR), transfer to Naaharbagh",
       },
       {
-        time: "5:00 pm",
-        text: "Walkaround at Naaharbagh: an introduction to Panna and its history, then camera setup",
+        time: "2:00 pm",
+        text: "Lunch at Naaharbagh: an introduction to Panna and its history, then camera setup",
       },
+      { time: "3:00 pm", text: "Evening safari" },
+      { time: "7:00 pm", text: "Return and freshen up" },
       { time: "8:00 pm", text: "Briefing & dinner" },
       { time: "9:00 pm", text: "Lights out" },
     ],
   },
   {
-    date: "Oct 22–24",
+    date: "Oct 23–24",
     title: "Workshop",
     items: [
       { time: "4:30 am", text: "Wake up, morning coffee/tea" },
@@ -103,11 +105,13 @@ const ITINERARY: {
   },
   {
     date: "Oct 25",
-    title: "Checkout & departure",
+    title: "Morning safari & departure",
     items: [
-      { time: "8:00 am", text: "Breakfast at Naaharbagh" },
+      { time: "4:30 am", text: "Wake up, morning coffee/tea" },
+      { time: "5:00 am", text: "Morning safari, with breakfast in the bush" },
+      { time: "10:30 am", text: "Return to Naaharbagh, freshen up & check out" },
       {
-        time: "12:00 pm",
+        time: "11:30 am",
         text: "Transfer to Khajuraho Airport (HJR). Trip concludes.",
       },
     ],
@@ -134,17 +138,17 @@ const NOT_INCLUDED = [
 const GOOD_TO_KNOW = [
   "Limited seats, offered on a first-come, first-served basis",
   "Rooms on a twin-sharing basis (single room available at extra cost)",
-  "Maximum 2 guests per jeep (driver and guide excluded)",
+  "Only 3 participants per jeep (driver and guide excluded)",
   "Safari permit fees are subject to revision; any changes will be communicated promptly",
 ];
 
 const FACTS = [
-  { label: "Dates", value: "Oct 21–25, 2026" },
-  { label: "Length", value: "4 nights / 5 days" },
+  { label: "Dates", value: "Oct 22–25, 2026" },
+  { label: "Length", value: "3 nights / 4 days" },
   { label: "Safaris", value: "6 across the trip" },
   { label: "Base", value: "Naaharbagh, Panna" },
   { label: "Nearest airport", value: "Khajuraho (HJR)" },
-  { label: "Per jeep", value: "Max 2 guests" },
+  { label: "Per jeep", value: "Only 3 participants" },
 ];
 
 // Compact, consistent heading + label styles for the dense brochure body.
@@ -221,7 +225,7 @@ export default function PannaWorkshopPage() {
                   Wildlife Photography Workshop — Panna, MP
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-[1.7] text-white/85 md:text-lg">
-                  Oct 21–25, 2026 · 4 nights / 5 days · 6 safaris · Limited
+                  Oct 22–25, 2026 · 3 nights / 4 days · 6 safaris · Limited
                   seats · Price on enquiry (twin sharing)
                 </p>
                 <ClaimButton className="mt-8" />
@@ -242,7 +246,7 @@ export default function PannaWorkshopPage() {
                   {/* Intro */}
                   <div className={`space-y-4 ${BODY_COPY} md:text-lg`}>
                     <p>
-                      Five days in one of central India&apos;s quietest tiger
+                      Four days in one of central India&apos;s quietest tiger
                       reserves, built entirely around making photographs.
                       Mornings and evenings in the field, breakfast in the
                       bush, and unhurried evening sessions where we go through
@@ -294,7 +298,9 @@ export default function PannaWorkshopPage() {
                       quiet middle of the day. Out again for the evening safari
                       as the light turns. After dinner, a photography and
                       post-processing session — looking at what came home,
-                      talking through what worked, and building the edit. Six
+                      talking through what worked, and building the edit. The
+                      trip opens with an evening safari on arrival day and
+                      closes with a morning safari before departure — six
                       safaris across the trip.
                     </p>
                   </div>
@@ -395,7 +401,7 @@ export default function PannaWorkshopPage() {
                           Out
                         </span>
                         <span>
-                          Pune (PNQ) → Khajuraho (HJR), 21 Oct, 05:05 am → 12:15
+                          Pune (PNQ) → Khajuraho (HJR), 22 Oct, 05:05 am → 12:15
                           pm, via Delhi
                         </span>
                       </li>

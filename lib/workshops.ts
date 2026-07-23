@@ -28,9 +28,9 @@ export const UPCOMING_WORKSHOPS: Workshop[] = [
     title: "Wildlife Photography Workshop — Panna",
     region: "India",
     location: "Panna, Madhya Pradesh",
-    dateLabel: "Oct 21–25, 2026",
+    dateLabel: "Oct 22–25, 2026",
     summary:
-      "4 nights / 5 days · 6 safaris · Price on enquiry (twin sharing). Limited seats, first come, first served.",
+      "3 nights / 4 days · 6 safaris · Price on enquiry (twin sharing). Limited seats, first come, first served.",
     shortSummary: "Limited seats, first come, first served.",
     image: `${CLOUDINARY_BASE}/_Z9_20250508_TMH_8461_wm_vwr6rk`,
     imageAlt:
