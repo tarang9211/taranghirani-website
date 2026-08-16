@@ -61,9 +61,6 @@ export const UPCOMING_WORKSHOPS: Workshop[] = [
 export function workshopsByRegion(): { region: Region; items: Workshop[] }[] {
   return REGION_ORDER.map((region) => ({
     region,
-    // Only trips with a live detail page belong in the nav dropdown.
-    items: UPCOMING_WORKSHOPS.filter(
-      (w) => w.region === region && !w.comingSoon,
-    ),
+    items: UPCOMING_WORKSHOPS.filter((w) => w.region === region),
   })).filter((group) => group.items.length > 0);
 }

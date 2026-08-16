@@ -136,7 +136,7 @@ const Navbar: React.FC = () => {
                         {group.items.map((w) => (
                           <Link
                             key={w.slug}
-                            href={w.href ?? "#"}
+                            href={w.href ?? "/destinations"}
                             className="block rounded px-3 py-2 transition-colors hover:bg-paper"
                             aria-current={
                               pathname === w.href ? "page" : undefined
@@ -146,7 +146,9 @@ const Navbar: React.FC = () => {
                               {w.location}
                             </span>
                             <span className="mt-0.5 block text-xs text-smoke">
-                              {w.dateLabel}
+                              {w.comingSoon
+                                ? `${w.dateLabel} · ${w.shortSummary}`
+                                : w.dateLabel}
                             </span>
                           </Link>
                         ))}
@@ -215,7 +217,7 @@ const Navbar: React.FC = () => {
                     group.items.map((w) => (
                       <Link
                         key={w.slug}
-                        href={w.href ?? "#"}
+                        href={w.href ?? "/destinations"}
                         className={`block border-l border-charcoal/10 py-2 pl-4 transition-colors ${
                           pathname === w.href
                             ? "text-charcoal"
@@ -225,7 +227,9 @@ const Navbar: React.FC = () => {
                       >
                         <span className="block text-sm">{w.location}</span>
                         <span className="block text-xs text-smoke/70">
-                          {w.dateLabel}
+                          {w.comingSoon
+                            ? `${w.dateLabel} · ${w.shortSummary}`
+                            : w.dateLabel}
                         </span>
                       </Link>
                     )),
