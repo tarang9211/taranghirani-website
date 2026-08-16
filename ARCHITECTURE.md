@@ -49,7 +49,7 @@ Two services work together. **Kit** handles outbound email (newsletters, broadca
 - Newsletter capture and broadcasts run through Kit.
 - The signup form on the site posts to the serverless route at `pages/api/subscribe.ts`, which calls Kit's v4 API (`https://api.kit.com/v4/`) using `KIT_API_SECRET` and subscribes the email to the form identified by `KIT_FORM_ID`.
 - Sender address `safaris@taranghirani.com` is configured in the Kit dashboard.
-- Deliverability is set up via DNS records that Kit provides (DKIM CNAME, SPF TXT, return-path CNAME). These are added in Vercel's DNS panel. A walkthrough lives in `docs/email-capture-kit-integration.md`.
+- Deliverability is set up via DNS records that Kit provides (DKIM CNAME, SPF TXT, return-path CNAME). These are added in Vercel's DNS panel.
 
 ### Inbound alias — ImprovMX
 
