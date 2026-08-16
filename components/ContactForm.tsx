@@ -1,4 +1,5 @@
 import React, { FormEvent, useState } from "react";
+import { WHATSAPP_URL } from "../lib/constants";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -413,7 +414,7 @@ export default function ContactForm({
           >
             {submitError}{" "}
             <a
-              href="https://wa.me/917030047045"
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:text-sage transition-colors"

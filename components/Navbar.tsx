@@ -6,7 +6,7 @@ import { workshopsByRegion } from "../lib/workshops";
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/workshops", label: "Workshops" },
+  { href: "/workshops", label: "Destinations" },
   { href: "/gallery", label: "Gallery" },
   { href: "/blog", label: "Field Notes" },
 ];
@@ -128,12 +128,6 @@ const Navbar: React.FC = () => {
                 {/* Dropdown panel — revealed on hover or keyboard focus */}
                 <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 pt-4 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                   <div className="overflow-hidden rounded-lg border border-charcoal/10 bg-white/95 p-2 shadow-lg backdrop-blur-md">
-                    <Link
-                      href="/workshops"
-                      className="block rounded px-3 py-2 font-display text-sm uppercase tracking-[0.1em] text-charcoal transition-colors hover:bg-paper hover:text-sage"
-                    >
-                      All workshops
-                    </Link>
                     {workshopGroups.map((group) => (
                       <div key={group.region} className="mt-1">
                         <p className="px-3 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.2em] text-sage">

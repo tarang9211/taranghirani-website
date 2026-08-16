@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import { recordEnquiryInNotion } from "../../lib/notion";
 import { subscribeToNewsletter } from "../../lib/kit";
 
-const TO_ADDRESSES = ["safaris@taranghirani.com", "tarang9211@gmail.com"];
+const TO_ADDRESSES = ["tarang@asilisafaris.in", "tarang9211@gmail.com"];
 const FROM_ADDRESS =
   process.env.CONTACT_FROM_ADDRESS ||
   "Tarang Hirani Website <onboarding@resend.dev>";
