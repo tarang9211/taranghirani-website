@@ -23,12 +23,12 @@ export interface Workshop {
 
 export const UPCOMING_WORKSHOPS: Workshop[] = [
   {
-    slug: "panna-october-2026",
-    href: "/workshops/panna-october-2026",
+    slug: "panna",
+    href: "/workshops/panna",
     title: "Wildlife Photography Workshop — Panna",
     region: "India",
     location: "Panna, Madhya Pradesh",
-    dateLabel: "Oct 22–25, 2026",
+    dateLabel: "Nov 26–29, 2026",
     summary:
       "3 nights / 4 days · 6 safaris · Price on enquiry (twin sharing). Limited seats, first come, first served.",
     shortSummary: "Limited seats, first come, first served.",

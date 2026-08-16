@@ -9,6 +9,7 @@ import {
   EMAIL,
   EMAIL_MAILTO,
   INSTAGRAM_URL,
+  WHATSAPP_URL,
 } from "../../lib/constants";
 
 const CLOUDINARY_BASE =
@@ -19,20 +20,20 @@ const IMG = {
   hero: `${CLOUDINARY_BASE}/_Z9_20250508_TMH_8461_wm_vwr6rk`,
 };
 
-const PAGE_URL = "https://www.taranghirani.com/workshops/panna-october-2026";
+const PAGE_URL = "https://www.taranghirani.com/workshops/panna";
 const PAGE_TITLE = "Wildlife Photography Workshop — Panna, MP | Tarang Hirani";
 const PAGE_DESCRIPTION =
-  "A 4-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris, in-field guidance, and evening post-processing. Oct 22–25, 2026. Limited seats, first come, first served.";
+  "A 4-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris, in-field guidance, and evening post-processing. Nov 26–29, 2026. Limited seats, first come, first served.";
 const OG_IMAGE =
   "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/_Z9_20260212_100758_TMH_website_s3qioq";
 
 // Carries through to the enquiry notification so it's clearly a Panna lead.
 const ENQUIRY_SUBJECT =
-  "Panna Wildlife Photography Workshop — 22–25 Oct 2026";
+  "Panna Wildlife Photography Workshop — 26–29 Nov 2026";
 const ENQUIRY_MESSAGE =
-  "Hi Tarang, I'd like to enquire about the Panna wildlife photography workshop (22–25 Oct 2026). Please share availability and next steps.";
+  "Hi Tarang, I'd like to enquire about the Panna wildlife photography workshop (26–29 Nov 2026). Please share availability and next steps.";
 const WHATSAPP_HREF =
-  "https://wa.me/917030047045?text=" +
+  `${WHATSAPP_URL}?text=` +
   encodeURIComponent("I'm interested in the Panna workshop");
 
 const JSON_LD = {
@@ -40,8 +41,8 @@ const JSON_LD = {
   "@type": "Event",
   name: "Wildlife Photography Workshop — Panna",
   description: PAGE_DESCRIPTION,
-  startDate: "2026-10-22",
-  endDate: "2026-10-25",
+  startDate: "2026-11-26",
+  endDate: "2026-11-29",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   image: OG_IMAGE,
@@ -73,7 +74,7 @@ const ITINERARY: {
   items: { time: string; text: string }[];
 }[] = [
   {
-    date: "Oct 22",
+    date: "Nov 26",
     title: "Arrival",
     items: [
       {
@@ -91,7 +92,7 @@ const ITINERARY: {
     ],
   },
   {
-    date: "Oct 23–24",
+    date: "Nov 27–28",
     title: "Workshop",
     items: [
       { time: "4:30 am", text: "Wake up, morning coffee/tea" },
@@ -104,7 +105,7 @@ const ITINERARY: {
     ],
   },
   {
-    date: "Oct 25",
+    date: "Nov 29",
     title: "Morning safari & departure",
     items: [
       { time: "4:30 am", text: "Wake up, morning coffee/tea" },
@@ -136,19 +137,19 @@ const NOT_INCLUDED = [
 ];
 
 const GOOD_TO_KNOW = [
-  "Limited seats, offered on a first-come, first-served basis",
+  "Limited to a total of six participants, offered on a first-come, first-served basis",
+  "A 20% advance is required to confirm your spot",
   "Rooms on a twin-sharing basis (single room available at extra cost)",
-  "Only 3 participants per jeep (driver and guide excluded)",
   "Safari permit fees are subject to revision; any changes will be communicated promptly",
 ];
 
 const FACTS = [
-  { label: "Dates", value: "Oct 22–25, 2026" },
+  { label: "Dates", value: "Nov 26–29, 2026" },
   { label: "Length", value: "3 nights / 4 days" },
   { label: "Safaris", value: "6 across the trip" },
   { label: "Base", value: "Naaharbagh, Panna" },
   { label: "Nearest airport", value: "Khajuraho (HJR)" },
-  { label: "Per jeep", value: "Only 3 participants" },
+  { label: "Group size", value: "Limited to 6 participants" },
 ];
 
 // Compact, consistent heading + label styles for the dense brochure body.
@@ -225,7 +226,7 @@ export default function PannaWorkshopPage() {
                   Wildlife Photography Workshop — Panna, MP
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-[1.7] text-white/85 md:text-lg">
-                  Oct 22–25, 2026 · 3 nights / 4 days · 6 safaris · Limited
+                  Nov 26–29, 2026 · 3 nights / 4 days · 6 safaris · Limited
                   seats · Price on enquiry (twin sharing)
                 </p>
                 <ClaimButton className="mt-8" />
@@ -280,9 +281,9 @@ export default function PannaWorkshopPage() {
                         India&apos;s best raptor and vulture activity.
                       </p>
                       <p>
-                        Late October is the start of the season — the forest is
-                        still green from the monsoon, the light is soft, and the
-                        park is fresh and uncrowded. It&apos;s a beautiful time
+                        Late November is early in the season — the forest is
+                        still fresh after the monsoon, the light is soft, and the
+                        park is quiet and uncrowded. It&apos;s a beautiful time
                         to photograph it.
                       </p>
                     </div>
@@ -401,7 +402,7 @@ export default function PannaWorkshopPage() {
                           Out
                         </span>
                         <span>
-                          Pune (PNQ) → Khajuraho (HJR), 22 Oct, 05:05 am → 12:15
+                          Pune (PNQ) → Khajuraho (HJR), 26 Nov, 05:05 am → 12:15
                           pm, via Delhi
                         </span>
                       </li>
@@ -413,7 +414,7 @@ export default function PannaWorkshopPage() {
                           Return
                         </span>
                         <span>
-                          Khajuraho (HJR) → Pune (PNQ), 25 Oct, 2:35 pm → 8:40
+                          Khajuraho (HJR) → Pune (PNQ), 29 Nov, 2:35 pm → 8:40
                           pm, via Delhi
                         </span>
                       </li>
@@ -447,7 +448,8 @@ export default function PannaWorkshopPage() {
                     On enquiry
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-smoke">
-                    Twin sharing. Single room at extra cost (on request).
+                    Twin sharing. Single room at extra cost (on request). A 20%
+                    advance is required to confirm your spot.
                   </p>
                 </div>
                 <ClaimButton className="mt-6 w-full" />
