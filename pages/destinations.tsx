@@ -16,7 +16,7 @@ const IMG = {
   portrait: `${CLOUDINARY_BASE}/8ec3734c-a6c3-4e67-af27-85fe20e6dabe_z8zwst`,
 };
 
-const PAGE_URL = "https://www.taranghirani.com/workshops";
+const PAGE_URL = "https://www.taranghirani.com/destinations";
 const PAGE_TITLE = "Wildlife Photography Workshops | Tarang Hirani";
 const PAGE_DESCRIPTION =
   "Days in the field with a working photographer and expedition leader. India and Africa. Small groups and one to one.";
@@ -410,7 +410,7 @@ export default function WorkshopsPage() {
       </section>
 
       {/* UPCOMING WORKSHOPS */}
-      <UpcomingWorkshops theme="light" />
+      <UpcomingWorkshops theme="light" includeComingSoon />
 
       {/* BEGIN */}
       <section

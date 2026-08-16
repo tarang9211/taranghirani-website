@@ -10,18 +10,27 @@ export default function UpcomingWorkshops({
   theme = "light",
   showViewAll = false,
   concise = false,
+  includeComingSoon = false,
 }: {
   theme?: Theme;
-  // Show a link through to the full /workshops page (used on the home page).
+  // Show a link through to the full /destinations page (used on the home page).
   showViewAll?: boolean;
   // Lead with dates + availability only, no pricing (used on the home page).
   concise?: boolean;
+  // Include placeholder "coming soon" trips (the /destinations listing only).
+  includeComingSoon?: boolean;
 }) {
   const isDark = theme === "dark";
+
+  const workshops = UPCOMING_WORKSHOPS.filter(
+    (w) => includeComingSoon || !w.comingSoon,
+  );
 
   const cardBorder = isDark
     ? "border-white/10 hover:border-sage"
     : "border-charcoal/10 hover:border-sage";
+  // No hover affordance for non-clickable "coming soon" placeholders.
+  const staticBorder = isDark ? "border-white/10" : "border-charcoal/10";
   const titleColor = isDark ? "text-white" : "text-charcoal";
   const summaryColor = isDark ? "text-white/60" : "text-smoke";
   const ctaColor = isDark
@@ -48,19 +57,18 @@ export default function UpcomingWorkshops({
         </FadeIn>
 
         <div className="space-y-10 md:space-y-12">
-          {UPCOMING_WORKSHOPS.map((w, i) => (
-            <FadeIn key={w.slug} delay={i * 80}>
-              <Link
-                href={w.href}
-                className={`group block overflow-hidden border transition-colors duration-300 md:grid md:grid-cols-2 ${cardBorder}`}
-              >
+          {workshops.map((w, i) => {
+            const body = (
+              <>
                 <div className="relative aspect-[3/2] w-full overflow-hidden md:aspect-auto md:h-full md:min-h-[20rem]">
                   <Image
                     src={w.image}
                     alt={w.imageAlt}
                     fill
                     sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    className={`object-cover transition-transform duration-700 ease-out ${
+                      w.comingSoon ? "opacity-60" : "group-hover:scale-[1.03]"
+                    }`}
                   />
                 </div>
                 <div className="p-8 md:p-12 lg:p-14">
@@ -81,28 +89,59 @@ export default function UpcomingWorkshops({
                   >
                     {w.dateLabel} · {concise ? w.shortSummary : w.summary}
                   </p>
-                  <span
-                    className={`mt-8 inline-flex items-center gap-3 border-b pb-1 text-[11px] font-medium uppercase tracking-[0.25em] transition-colors duration-300 ${ctaColor}`}
-                  >
-                    View workshop
+                  {w.comingSoon ? (
                     <span
-                      aria-hidden
-                      className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                      className={`mt-8 inline-flex items-center gap-3 border-b pb-1 text-[11px] font-medium uppercase tracking-[0.25em] ${
+                        isDark
+                          ? "border-white/20 text-white/50"
+                          : "border-charcoal/20 text-smoke"
+                      }`}
                     >
-                      &rarr;
+                      Coming soon
                     </span>
-                  </span>
+                  ) : (
+                    <span
+                      className={`mt-8 inline-flex items-center gap-3 border-b pb-1 text-[11px] font-medium uppercase tracking-[0.25em] transition-colors duration-300 ${ctaColor}`}
+                    >
+                      View workshop
+                      <span
+                        aria-hidden
+                        className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                      >
+                        &rarr;
+                      </span>
+                    </span>
+                  )}
                 </div>
-              </Link>
-            </FadeIn>
-          ))}
+              </>
+            );
+
+            return (
+              <FadeIn key={w.slug} delay={i * 80}>
+                {w.comingSoon || !w.href ? (
+                  <div
+                    className={`block overflow-hidden border md:grid md:grid-cols-2 ${staticBorder}`}
+                  >
+                    {body}
+                  </div>
+                ) : (
+                  <Link
+                    href={w.href}
+                    className={`group block overflow-hidden border transition-colors duration-300 md:grid md:grid-cols-2 ${cardBorder}`}
+                  >
+                    {body}
+                  </Link>
+                )}
+              </FadeIn>
+            );
+          })}
         </div>
 
         {showViewAll && (
           <FadeIn delay={120}>
             <div className="mt-14 text-center md:mt-16">
               <Link
-                href="/workshops"
+                href="/destinations"
                 className={`group inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.25em] transition-colors duration-300 ${
                   isDark
                     ? "text-white/70 hover:text-sage"
