@@ -8,6 +8,14 @@ module.exports = {
     ],
   },
   async redirects() {
-    return [{ source: "/index", destination: "/", permanent: true }];
+    return [
+      { source: "/index", destination: "/", permanent: true },
+      { source: "/workshops", destination: "/destinations", permanent: true },
+      {
+        source: "/workshops/:path*",
+        destination: "/destinations/:path*",
+        permanent: true,
+      },
+    ];
   },
 };

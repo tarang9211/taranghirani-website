@@ -20,7 +20,7 @@ const IMG = {
   hero: `${CLOUDINARY_BASE}/_Z9_20250508_TMH_8461_wm_vwr6rk`,
 };
 
-const PAGE_URL = "https://www.taranghirani.com/workshops/panna";
+const PAGE_URL = "https://www.taranghirani.com/destinations/panna";
 const PAGE_TITLE = "Wildlife Photography Workshop — Panna, MP | Tarang Hirani";
 const PAGE_DESCRIPTION =
   "A 4-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris, in-field guidance, and evening post-processing. Nov 26–29, 2026. Limited seats, first come, first served.";
@@ -138,7 +138,7 @@ const NOT_INCLUDED = [
 
 const GOOD_TO_KNOW = [
   "Limited to a total of six participants, offered on a first-come, first-served basis",
-  "A 20% advance is required to confirm your spot",
+  "Your seat is confirmed only once a 20% advance is paid",
   "Rooms on a twin-sharing basis (single room available at extra cost)",
   "Safari permit fees are subject to revision; any changes will be communicated promptly",
 ];
@@ -448,8 +448,16 @@ export default function PannaWorkshopPage() {
                     On enquiry
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-smoke">
-                    Twin sharing. Single room at extra cost (on request). A 20%
-                    advance is required to confirm your spot.
+                    Twin sharing. Single room at extra cost (on request).
+                  </p>
+                </div>
+                <div className="mt-5 border border-sage/40 bg-sage/10 p-4">
+                  <p className={MINI_LABEL}>Reserve your seat</p>
+                  <p className="mt-2 text-sm font-medium leading-relaxed text-charcoal">
+                    Pay a 20% advance to confirm your seat.
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-smoke">
+                    The balance is due before the workshop.
                   </p>
                 </div>
                 <ClaimButton className="mt-6 w-full" />

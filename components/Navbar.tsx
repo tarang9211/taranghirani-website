@@ -6,14 +6,14 @@ import { workshopsByRegion } from "../lib/workshops";
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/workshops", label: "Destinations" },
+  { href: "/destinations", label: "Destinations" },
   { href: "/gallery", label: "Gallery" },
   { href: "/blog", label: "Field Notes" },
 ];
 
 const workshopGroups = workshopsByRegion();
 
-// Promoted to a CTA pill. Swap to the /workshops item to drive the funnel top instead.
+// Promoted to a CTA pill. Swap to the /destinations item to drive the funnel top instead.
 const ctaItem = { href: "/contact", label: "Contact" };
 
 const isActivePath = (currentPath: string, href: string) =>
@@ -108,7 +108,7 @@ const Navbar: React.FC = () => {
         {/* Desktop links */}
         <div className="hidden md:flex items-center space-x-8">
           {navItems.map(({ href, label }) =>
-            href === "/workshops" && workshopGroups.length > 0 ? (
+            href === "/destinations" && workshopGroups.length > 0 ? (
               <div key={href} className="group relative">
                 <Link
                   href={href}
@@ -136,7 +136,7 @@ const Navbar: React.FC = () => {
                         {group.items.map((w) => (
                           <Link
                             key={w.slug}
-                            href={w.href}
+                            href={w.href ?? "#"}
                             className="block rounded px-3 py-2 transition-colors hover:bg-paper"
                             aria-current={
                               pathname === w.href ? "page" : undefined
@@ -210,12 +210,12 @@ const Navbar: React.FC = () => {
                 >
                   {label}
                 </Link>
-                {href === "/workshops" &&
+                {href === "/destinations" &&
                   workshopGroups.flatMap((group) =>
                     group.items.map((w) => (
                       <Link
                         key={w.slug}
-                        href={w.href}
+                        href={w.href ?? "#"}
                         className={`block border-l border-charcoal/10 py-2 pl-4 transition-colors ${
                           pathname === w.href
                             ? "text-charcoal"
