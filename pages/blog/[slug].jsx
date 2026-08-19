@@ -100,6 +100,11 @@ export default function BlogPost({ post, ogImage, prevPost, nextPost }) {
         <meta property="og:url" content={pageUrl} />
         <meta property="article:published_time" content={post.date} />
         {ogImage && <meta property="og:image" content={ogImage} />}
+        {ogImage && <meta property="og:image:width" content="1200" />}
+        {ogImage && <meta property="og:image:height" content="630" />}
+        {ogImage && post.heroImage?.alt && (
+          <meta property="og:image:alt" content={post.heroImage.alt} />
+        )}
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={post.excerpt} />
         {ogImage && <meta name="twitter:image" content={ogImage} />}
