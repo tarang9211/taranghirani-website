@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { Phone, MessageCircle, Mail, Instagram } from "lucide-react";
 import FadeIn from "../../components/FadeIn";
 import ContactForm from "../../components/ContactForm";
@@ -279,7 +280,14 @@ export default function PannaWorkshopPage() {
                         of Indian conservation&apos;s great comeback stories —
                         tigers were lost here around 2009 and carefully
                         reintroduced, and the reserve has since recovered into a
-                        thriving habitat. The Ken river runs through it, cutting
+                        thriving habitat. I&apos;ve written{" "}
+                        <Link
+                          href="/blog/the-panna-story"
+                          className="underline decoration-sage/40 underline-offset-4 transition-colors duration-300 hover:text-sage"
+                        >
+                          the full story of Panna&apos;s tiger recovery
+                        </Link>{" "}
+                        in the journal. The Ken river runs through it, cutting
                         gorges and plateaus that give the landscape a character
                         quite different from the more famous reserves. Beyond
                         tigers, Panna is rich in leopards, sloth bears,
