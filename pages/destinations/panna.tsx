@@ -61,10 +61,16 @@ const JSON_LD = {
     name: "Tarang Hirani",
     url: "https://www.taranghirani.com",
   },
+  performer: {
+    "@type": "Person",
+    name: "Tarang Hirani",
+    url: "https://www.taranghirani.com",
+  },
   offers: {
     "@type": "Offer",
     availability: "https://schema.org/LimitedAvailability",
     url: PAGE_URL,
+    validFrom: "2026-01-01",
   },
 };
 
