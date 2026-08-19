@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import FadeIn from "../FadeIn";
 import ImageLightbox from "../gallery/ImageLightbox";
 
@@ -110,19 +109,6 @@ function QuoteBlock({ text, attribution }) {
         </p>
       )}
       <div className="mt-6 h-px w-12 bg-sage/30 mx-auto" />
-    </FadeIn>
-  );
-}
-
-function CtaBlock({ href, label }) {
-  return (
-    <FadeIn className="my-12 text-center">
-      <Link
-        href={href}
-        className="group inline-flex items-center justify-center gap-3 border border-sage bg-sage px-8 py-4 text-[11px] font-medium uppercase tracking-[0.2em] text-charcoal transition-all duration-300 hover:bg-transparent hover:text-sage"
-      >
-        {label}
-      </Link>
     </FadeIn>
   );
 }
@@ -259,8 +245,6 @@ export default function ContentRenderer({ content }) {
                 attribution={block.attribution}
               />
             );
-          case "cta":
-            return <CtaBlock key={index} href={block.href} label={block.label} />;
           default:
             return null;
         }
