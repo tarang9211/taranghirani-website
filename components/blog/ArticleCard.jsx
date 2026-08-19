@@ -39,7 +39,7 @@ export function FeaturedArticleCard({ post, delay = 0 }) {
             {post.title}
           </h2>
           <p className="mt-4 text-smoke leading-relaxed line-clamp-2 text-base md:text-lg">
-            {post.excerpt}
+            {post.subtitle ?? post.excerpt}
           </p>
           <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-sage border border-sage/40 px-5 py-2.5 rounded-sm transition-colors duration-300 group-hover:border-sage group-hover:bg-sage group-hover:text-white">
             Read Article
@@ -82,7 +82,7 @@ export function ArticleCard({ post, delay = 0 }) {
             {post.title}
           </h3>
           <p className="mt-3 text-smoke leading-relaxed line-clamp-3">
-            {post.excerpt}
+            {post.subtitle ?? post.excerpt}
           </p>
           <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-sage border border-sage/40 px-5 py-2.5 rounded-sm transition-colors duration-300 group-hover:border-sage group-hover:bg-sage group-hover:text-white">
             Read Article

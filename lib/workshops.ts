@@ -21,7 +21,8 @@ export interface Workshop {
   image: string;
   imageAlt: string;
   // A teaser for an upcoming trip whose dates aren't set: rendered as a
-  // non-clickable card, hidden from the home page and the nav dropdown.
+  // non-clickable card and hidden from the home page. Still listed in the
+  // nav dropdown when it has an href (e.g. pointing enquiries at /contact).
   comingSoon?: boolean;
 }
 
@@ -42,6 +43,8 @@ export const UPCOMING_WORKSHOPS: Workshop[] = [
   },
   {
     slug: "panna-feb",
+    // No detail page yet — send interested visitors to the contact form.
+    href: "/contact",
     title: "Wildlife Photography Workshop — Panna",
     region: "India",
     location: "Panna, Madhya Pradesh",
@@ -61,9 +64,7 @@ export const UPCOMING_WORKSHOPS: Workshop[] = [
 export function workshopsByRegion(): { region: Region; items: Workshop[] }[] {
   return REGION_ORDER.map((region) => ({
     region,
-    // Only trips with a live detail page belong in the nav dropdown.
-    items: UPCOMING_WORKSHOPS.filter(
-      (w) => w.region === region && !w.comingSoon,
-    ),
+    // Only trips with somewhere to link to belong in the nav dropdown.
+    items: UPCOMING_WORKSHOPS.filter((w) => w.region === region && w.href),
   })).filter((group) => group.items.length > 0);
 }
