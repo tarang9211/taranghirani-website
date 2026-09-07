@@ -35,8 +35,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div
       className={`${playfair.variable} ${sourceSans.variable} min-h-screen bg-paper text-charcoal font-body flex flex-col`}
     >
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:border focus:border-sage focus:bg-charcoal focus:px-4 focus:py-2 focus:text-sm focus:text-white"
+      >
+        Skip to content
+      </a>
       <Navbar />
-      <main className={`flex-grow ${needsTopPadding ? "pt-24" : ""}`}>
+      <main id="main" className={`flex-grow ${needsTopPadding ? "pt-24" : ""}`}>
         {children}
       </main>
       <Footer />

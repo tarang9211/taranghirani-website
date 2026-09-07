@@ -20,6 +20,12 @@ module.exports = {
         display: ["var(--font-display)", "serif"],
         body: ["var(--font-body)", "sans-serif"],
       },
+      letterSpacing: {
+        // DESIGN.md tracking ladder
+        eyebrow: "0.2em",
+        cta: "0.15em",
+        nav: "0.1em",
+      },
       keyframes: {
         "fade-up": {
           "0%": { opacity: "0", transform: "translateY(24px)" },

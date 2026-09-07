@@ -13,7 +13,7 @@ export default function AboutSection() {
 
   return (
     <section className="bg-charcoal overflow-hidden">
-      {/* Thin separator from Statement */}
+      {/* Thin separator from the work above */}
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
         <div className="h-px bg-white/5" />
       </div>
@@ -24,15 +24,13 @@ export default function AboutSection() {
             {/* Text — left 8 columns */}
             <div
               ref={textRef}
-              className={`lg:col-span-8 transition-all duration-700 delay-150 ${
+              className={`js-reveal lg:col-span-8 max-w-prose transition-all duration-700 delay-150 ${
                 textVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
               }`}
             >
-              <p className="text-sm font-medium uppercase tracking-[0.2em] text-sage">
-                <span className="font-display text-base">02</span>
-                <span className="mx-3 inline-block h-px w-6 bg-sage/40 align-middle" />
+              <p className="text-sm font-medium uppercase tracking-eyebrow text-sage">
                 About
               </p>
               <div className="mt-4 h-px w-16 bg-white/10" />
@@ -41,24 +39,24 @@ export default function AboutSection() {
                 My Journey into the Wild
               </h2>
 
-              <p className="mt-8 text-base md:text-lg leading-relaxed text-gray-400">
+              <p className="mt-8 text-base md:text-lg leading-relaxed text-white/80">
                 I've been fascinated by wildlife since childhood. Starting from
-                various parks in India, seemingly endless plains of Serengeti,
-                stunning landscapes of the Masai Mara, and the dusty savannahs
-                of Amboseli admist the mighty Mt. Kilimanjaro . The camera came
-                later. On a leisure trip to the forests of Central India, I
+                various parks in India, the seemingly endless plains of the
+                Serengeti, the stunning landscapes of the Masai Mara, and the
+                dusty savannahs of Amboseli amidst the mighty Mt. Kilimanjaro.
+                The camera came later. On a leisure trip to the forests of Central India, I
                 decided to document what I'd been watching all my life, and that
                 first roll of images set the course.
               </p>
 
-              <p className="mt-6 text-base md:text-lg leading-relaxed text-gray-400">
+              <p className="mt-6 text-base md:text-lg leading-relaxed text-white/80">
                 Now I spend every spare stretch of daylight in the field,
                 chasing real behaviour rather than staged moments. Some frames
                 are tight portraits; others are <em>small in frame</em> scenes
                 that show how tiny an animal can look in its own vast habitat.
               </p>
 
-              <p className="mt-6 text-base md:text-lg leading-relaxed text-gray-400">
+              <p className="mt-6 text-base md:text-lg leading-relaxed text-white/80">
                 My kit has grown up with me from Nikon DSLRs to the&nbsp;
                 <strong className="font-medium text-white">Z9</strong>, Nikon's
                 mirrorless flagship,&nbsp;letting me work quickly and
@@ -69,7 +67,7 @@ export default function AboutSection() {
             {/* Image — right 4 columns, vertically centered, portrait crop */}
             <div
               ref={imgRef}
-              className={`lg:col-span-4 lg:self-center transition-all duration-700 ${
+              className={`js-reveal lg:col-span-4 lg:self-center transition-all duration-700 ${
                 imgVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"

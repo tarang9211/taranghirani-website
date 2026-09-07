@@ -1,22 +1,13 @@
-import React, { useState, useEffect, useRef, FormEvent } from "react";
-import FadeIn from "./FadeIn";
-import { INSTAGRAM_URL } from "../lib/constants";
+import React, { useState, useEffect, useRef, useId, FormEvent } from "react";
 
 type Status = "idle" | "loading" | "success" | "already" | "error";
 
 const RESET_DELAY = 5000;
 
-interface SectionProps {
-  variant: "section";
-  theme?: never;
-}
-
-interface InlineProps {
+interface EmailSignupProps {
   variant: "inline";
   theme?: "dark" | "light";
 }
-
-type EmailSignupProps = SectionProps | InlineProps;
 
 function useSubscribe() {
   const [status, setStatus] = useState<Status>("idle");
@@ -54,117 +45,9 @@ function useSubscribe() {
   return { status, subscribe };
 }
 
-/* ------------------------------------------------------------------ */
-/*  Section variant — full homepage block                              */
-/* ------------------------------------------------------------------ */
-function SectionSignup() {
-  const { status, subscribe } = useSubscribe();
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const email = new FormData(form).get("email") as string;
-    subscribe(email);
-  }
-
-  return (
-    <section className="bg-charcoal py-24 md:py-32">
-      <div className="mx-auto max-w-3xl px-6 md:px-12 text-center">
-        <FadeIn>
-          <div className="mx-auto h-px w-12 bg-sage" />
-
-          <h2 className="mt-10 font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-white tracking-tight">
-            Stay in the Loop
-          </h2>
-
-          <p className="mt-6 text-base md:text-lg leading-relaxed text-gray-400">
-            Safari dates, field notes, and photography tips.
-            <br className="hidden sm:block" />
-            Straight to your inbox.
-          </p>
-
-          {status === "success" || status === "already" ? (
-            <p className="mt-10 text-sm font-medium uppercase tracking-[0.15em] text-sage">
-              {status === "already"
-                ? "You\u2019re already subscribed!"
-                : "You\u2019re in! Check your inbox."}
-            </p>
-          ) : (
-            <>
-              <form
-                onSubmit={handleSubmit}
-                className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3"
-              >
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  autoComplete="email"
-                  placeholder="Your email"
-                  disabled={status === "loading"}
-                  className="w-full sm:w-72 px-4 py-3 bg-transparent border border-white/15 text-white text-sm placeholder:text-white/30 focus:border-sage focus:outline-none transition-colors duration-300 disabled:opacity-50"
-                />
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className="group inline-flex items-center justify-center gap-2 px-7 py-3 border border-sage text-sage text-xs uppercase tracking-[0.15em] font-medium hover:bg-sage hover:text-charcoal transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {status === "loading" ? (
-                    <span className="inline-block h-3 w-3 border border-sage border-t-transparent rounded-full animate-spin" />
-                  ) : (
-                    <>
-                      Subscribe
-                      <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                        &rarr;
-                      </span>
-                    </>
-                  )}
-                </button>
-              </form>
-
-              {status === "error" && (
-                <p className="mt-4 text-sm text-red-400">
-                  Something went wrong. Please try again.
-                </p>
-              )}
-
-              <p className="mt-5 text-xs text-white/25 tracking-wide">
-                No spam. Unsubscribe anytime.
-              </p>
-            </>
-          )}
-
-          {/* Divider + Instagram */}
-          <div className="mt-12 flex items-center justify-center gap-4">
-            <span className="h-px w-8 bg-white/10" />
-            <span className="text-xs text-white/20 uppercase tracking-widest">
-              or
-            </span>
-            <span className="h-px w-8 bg-white/10" />
-          </div>
-
-          <a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group mt-6 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-sage transition-colors duration-300 hover:text-white"
-          >
-            @tarang.hirani
-            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-              &rarr;
-            </span>
-          </a>
-        </FadeIn>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Inline variant — footer & blog posts                               */
-/* ------------------------------------------------------------------ */
 function InlineSignup({ theme = "dark" }: { theme?: "dark" | "light" }) {
   const { status, subscribe } = useSubscribe();
+  const inputId = useId();
   const isDark = theme === "dark";
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -174,38 +57,47 @@ function InlineSignup({ theme = "dark" }: { theme?: "dark" | "light" }) {
     subscribe(email);
   }
 
-  const labelColor = isDark ? "text-gray-500" : "text-smoke/60";
+  const labelColor = isDark ? "text-white/60" : "text-smoke";
   const inputBorder = isDark ? "border-white/15" : "border-charcoal/15";
   const inputText = isDark
-    ? "text-white placeholder:text-white/30"
-    : "text-charcoal placeholder:text-smoke/40";
-  const inputFocus = "focus:border-sage focus:outline-none";
+    ? "text-white placeholder:text-white/45"
+    : "text-charcoal placeholder:text-smoke/60";
+  const inputFocus =
+    "focus:border-sage focus:outline-none focus:ring-1 focus:ring-sage";
   const btnBorder = isDark
     ? "border-sage text-sage hover:bg-sage hover:text-charcoal"
     : "border-sage text-sage hover:bg-sage hover:text-white";
+  const focusRing = isDark
+    ? "focus:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
+    : "focus:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-2 focus-visible:ring-offset-paper";
 
   if (status === "success" || status === "already") {
     return (
-      <p className="text-xs font-medium uppercase tracking-[0.15em] text-sage">
+      <p
+        role="status"
+        className="text-xs font-medium uppercase tracking-cta text-sage"
+      >
         {status === "already"
-          ? "You\u2019re already subscribed!"
-          : "You\u2019re in \u2014 check your inbox."}
+          ? "You’re already subscribed!"
+          : "You’re in — check your inbox."}
       </p>
     );
   }
 
   return (
     <div>
-      <p
-        className={`text-xs uppercase tracking-[0.15em] font-medium mb-3 ${labelColor}`}
+      <label
+        htmlFor={inputId}
+        className={`mb-3 block text-xs font-medium uppercase tracking-cta ${labelColor}`}
       >
         Get safari updates & field notes
-      </p>
+      </label>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
       >
         <input
+          id={inputId}
           type="email"
           name="email"
           required
@@ -217,7 +109,8 @@ function InlineSignup({ theme = "dark" }: { theme?: "dark" | "light" }) {
         <button
           type="submit"
           disabled={status === "loading"}
-          className={`group inline-flex items-center justify-center px-4 py-2 border text-xs uppercase tracking-[0.15em] font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${btnBorder}`}
+          aria-label="Subscribe"
+          className={`group inline-flex items-center justify-center px-4 py-2 border text-xs uppercase tracking-cta font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${btnBorder} ${focusRing}`}
         >
           {status === "loading" ? (
             <span className="inline-block h-3 w-3 border border-sage border-t-transparent rounded-full animate-spin" />
@@ -229,20 +122,18 @@ function InlineSignup({ theme = "dark" }: { theme?: "dark" | "light" }) {
         </button>
       </form>
       {status === "error" && (
-        <p className="mt-2 text-xs text-red-400">
-          Something went wrong. Try again.
+        <p
+          role="alert"
+          className={`mt-2 text-xs ${isDark ? "text-white/80" : "text-smoke"}`}
+        >
+          Something went wrong and your email wasn&apos;t subscribed &mdash;
+          please try again.
         </p>
       )}
     </div>
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Export                                                              */
-/* ------------------------------------------------------------------ */
 export default function EmailSignup(props: EmailSignupProps) {
-  if (props.variant === "section") {
-    return <SectionSignup />;
-  }
   return <InlineSignup theme={props.theme} />;
 }

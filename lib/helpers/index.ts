@@ -24,7 +24,7 @@ export async function getHeroImage(): Promise<HeroImage | null> {
   const hero = resources.at(0);
   return {
     url: optimizeUrl(hero.secure_url),
-    alt: hero.context?.custom?.alt ?? "Hero image",
+    alt: hero.context?.custom?.alt ?? "Wildlife photograph by Tarang Hirani",
   };
 }
 
@@ -52,7 +52,7 @@ export async function getHeroImages(): Promise<HeroImages> {
 
   const toHeroImage = (img: any, width: number): HeroImage => ({
     url: optimizeUrl(img.secure_url, width),
-    alt: img.context?.custom?.alt ?? "Hero image",
+    alt: img.context?.custom?.alt ?? "Wildlife photograph by Tarang Hirani",
   });
 
   // Fall back to the legacy "hero" tag if specific tags are missing
@@ -83,6 +83,8 @@ export interface GalleryImage {
   width: number;
   /** Original image height in pixels */
   height: number;
+  /** One-line caption (e.g. species · park · year) from Cloudinary context, if authored */
+  caption: string | null;
 }
 
 /**
@@ -119,7 +121,8 @@ export async function listImages(limit?: number): Promise<GalleryImage[]> {
     id: r.public_id,
     url: optimizeUrl(r.secure_url, 1920),
     thumbnailUrl: optimizeUrl(r.secure_url, 800),
-    alt: r.context?.custom?.alt ?? "Wildlife photograph",
+    alt: r.context?.custom?.alt ?? r.context?.custom?.caption ?? "Wildlife photograph",
+    caption: r.context?.custom?.caption ?? null,
     width: r.width,
     height: r.height,
   }));

@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
         {/* Contact details */}
         <div className="flex flex-col items-center gap-4 pt-2">
           <div className="h-px w-12 bg-sage" />
-          <p className="font-display text-[11px] uppercase tracking-[0.2em] text-sage/80">
+          <p className="font-display text-xs uppercase tracking-eyebrow text-sage">
             Get in Touch
           </p>
           <ContactLinks theme="dark" layout="row" />
@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
         {/* Bottom row: copyright + Instagram */}
         <div className="h-px bg-white/5" />
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-xs font-medium tracking-wide text-gray-500">
+          <div className="text-xs font-medium tracking-wide text-white/60">
             <p>&copy; {currentYear} Tarang Hirani</p>
           </div>
 
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center p-2 text-gray-500 hover:text-white transition-colors duration-300"
+              className="flex items-center justify-center p-2 text-white/60 hover:text-white transition-colors duration-300"
               aria-label="Instagram"
             >
               <Instagram size={20} />
