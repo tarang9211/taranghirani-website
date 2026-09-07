@@ -42,20 +42,18 @@ export const UPCOMING_WORKSHOPS: Workshop[] = [
       "A tiger cooling in a forest pool at the water's edge, framed by dense central-India woodland in golden light",
   },
   {
-    slug: "panna-feb",
-    // No detail page yet — send interested visitors to the contact form.
-    href: "/contact",
+    slug: "panna-jan",
+    href: "/destinations/panna-jan",
     title: "Wildlife Photography Workshop — Panna",
     region: "India",
     location: "Panna, Madhya Pradesh",
-    dateLabel: "February",
+    dateLabel: "Jan 21–24, 2027",
     summary:
-      "Dates yet to be announced — a second Panna trip is in the works.",
-    shortSummary: "Dates yet to be announced.",
+      "3 nights / 4 days · 6 safaris · Price on enquiry (twin sharing). Limited seats, first come, first served.",
+    shortSummary: "Limited seats, first come, first served.",
     image: `${CLOUDINARY_BASE}/_Z9_20250508_TMH_8461_wm_vwr6rk`,
     imageAlt:
       "A tiger cooling in a forest pool at the water's edge, framed by dense central-India woodland in golden light",
-    comingSoon: true,
   },
 ];
 
