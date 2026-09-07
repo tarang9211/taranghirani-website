@@ -1,16 +1,21 @@
-import Image from "next/image";
-import { useEffect, useRef, useCallback } from "react";
+import { getImageProps } from "next/image";
+import Head from "next/head";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface HeroProps {
   desktopSrc: string;
   mobileSrc: string;
-  alt: string;
+  desktopAlt: string;
+  mobileAlt: string;
 }
 
-function Hero({ desktopSrc, mobileSrc, alt }: HeroProps) {
+function Hero({ desktopSrc, mobileSrc, desktopAlt, mobileAlt }: HeroProps) {
   const imageRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
+  // SSR assumes the phone-first case; corrected after hydration so each
+  // viewport announces its own photograph.
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -29,9 +34,18 @@ function Hero({ desktopSrc, mobileSrc, alt }: HeroProps) {
   }, []);
 
   useEffect(() => {
-    // Only enable on devices with a pointer (no touch)
-    const mq = window.matchMedia("(hover: hover) and (min-width: 768px)");
-    if (!mq.matches) return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    // Pointer devices only, and never against a reduced-motion preference
+    const pointer = window.matchMedia("(hover: hover) and (min-width: 768px)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!pointer.matches || reducedMotion.matches) return;
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
@@ -40,106 +54,105 @@ function Hero({ desktopSrc, mobileSrc, alt }: HeroProps) {
     };
   }, [handleMouseMove]);
 
-  return (
-    <section className="relative min-h-screen w-full bg-charcoal">
-      {/* Mobile: image on top, text below */}
-      <div className="md:hidden">
-        <div className="relative h-[60vh] w-full overflow-hidden">
-          <Image
-            priority
-            src={mobileSrc}
-            alt={alt}
-            fill
-            sizes="100vw"
-            className="object-cover animate-slow-zoom"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent" />
-        </div>
-        <div className="px-6 -mt-16 relative z-10 pb-16">
-          <div className="w-10 h-px bg-sage mb-6 opacity-0 animate-fade-up" />
-          <h1 className="font-display text-5xl font-semibold text-white tracking-tight leading-[0.95] opacity-0 animate-fade-up">
-            Tarang
-            <br />
-            Hirani
-          </h1>
-          <p className="mt-4 font-display text-xl text-white/80 leading-snug opacity-0 animate-fade-up-delay">
-            Experience the Wild. Capture the Moment.
-          </p>
-          <p
-            className="mt-3 text-sm font-light text-white leading-relaxed opacity-0 animate-fade-up"
-            style={{ animationDelay: "0.4s" }}
-          >
-            Wildlife photography and curated safaris across India and Africa.
-          </p>
-          <a
-            href="#safaris"
-            className="group inline-flex items-center gap-2 mt-6 px-6 py-3 border border-sage text-sage text-xs uppercase tracking-[0.15em] font-medium hover:bg-sage hover:text-charcoal transition-all duration-300 opacity-0 animate-fade-up"
-            style={{ animationDelay: "0.55s" }}
-          >
-            Explore Safaris
-            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-              &rarr;
-            </span>
-          </a>
-        </div>
-      </div>
+  // One art-directed <picture>: phones download only the mobile asset,
+  // desktops only the desktop asset — a single preload each.
+  const {
+    props: { srcSet: desktopSrcSet },
+  } = getImageProps({
+    src: desktopSrc,
+    alt: "",
+    fill: true,
+    priority: true,
+    sizes: "64vw",
+  });
+  const {
+    props: { alt: _alt, ...imgProps },
+  } = getImageProps({
+    src: mobileSrc,
+    alt: "",
+    fill: true,
+    priority: true,
+    sizes: "100vw",
+  });
 
-      {/* Desktop: split layout with mouse-tracked parallax */}
-      <div className="hidden md:grid md:grid-cols-12 min-h-screen">
-        {/* Left — text */}
-        <div className="col-span-5 flex flex-col justify-end px-12 lg:px-20 pb-28">
+  return (
+    <>
+      <Head>
+        <link
+          rel="preload"
+          as="image"
+          imageSrcSet={imgProps.srcSet}
+          imageSizes="100vw"
+          media="(max-width: 767px)"
+        />
+        <link
+          rel="preload"
+          as="image"
+          imageSrcSet={desktopSrcSet}
+          imageSizes="64vw"
+          media="(min-width: 768px)"
+        />
+      </Head>
+      <section className="relative w-full bg-charcoal md:grid md:min-h-screen md:grid-cols-12">
+        {/* Photograph — top on mobile, right seven columns on desktop */}
+        <div className="relative h-[60vh] w-full overflow-hidden md:order-2 md:col-span-7 md:h-auto md:min-h-screen">
+          <div
+            ref={imageRef}
+            className="absolute inset-0 md:inset-[-40px] md:transition-transform md:duration-[800ms] md:ease-out md:will-change-transform"
+          >
+            <picture>
+              <source
+                media="(min-width: 768px)"
+                srcSet={desktopSrcSet}
+                sizes="64vw"
+              />
+              <img
+                {...imgProps}
+                alt={isDesktop ? desktopAlt : mobileAlt}
+                className="animate-slow-zoom object-cover md:animate-none"
+              />
+            </picture>
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent md:hidden" />
+          {/* Left fade into charcoal on desktop */}
+          <div className="absolute inset-y-0 left-0 z-10 hidden w-32 bg-gradient-to-r from-charcoal to-transparent md:block" />
+        </div>
+
+        {/* Name and invitation — below on mobile, left five columns on desktop */}
+        <div className="relative z-10 -mt-16 px-6 pb-16 md:order-1 md:col-span-5 md:mt-0 md:flex md:flex-col md:justify-end md:px-12 md:pb-28 lg:px-20">
           <div
             ref={textRef}
-            className="transition-transform duration-[600ms] ease-out will-change-transform"
+            className="md:transition-transform md:duration-[600ms] md:ease-out md:will-change-transform"
           >
-            <div className="w-10 h-px bg-sage mb-8 opacity-0 animate-fade-up" />
-            <h1 className="font-display text-6xl lg:text-7xl xl:text-8xl font-semibold text-white tracking-tight leading-[0.9] opacity-0 animate-fade-up">
+            <div className="mb-6 h-px w-10 bg-sage opacity-0 animate-fade-up md:mb-8" />
+            <h1 className="font-display text-5xl font-semibold leading-[0.95] tracking-tight text-white opacity-0 animate-fade-up md:text-6xl md:leading-[0.9] lg:text-7xl xl:text-8xl">
               Tarang
               <br />
               Hirani
             </h1>
-            <p className="mt-6 font-display text-xl lg:text-2xl text-white/80 leading-snug opacity-0 animate-fade-up-delay">
+            <p className="mt-4 font-display text-xl leading-snug text-white/80 opacity-0 animate-fade-up-delay md:mt-6 lg:text-2xl">
               Experience the Wild. Capture the Moment.
             </p>
             <p
-              className="mt-4 text-sm lg:text-base font-light text-white leading-relaxed opacity-0 animate-fade-up"
+              className="mt-3 text-sm font-light leading-relaxed text-white opacity-0 animate-fade-up md:mt-4 lg:text-base"
               style={{ animationDelay: "0.4s" }}
             >
               Wildlife photography and curated safaris across India and Africa.
             </p>
             <a
-              href="#safaris"
-              className="group inline-flex items-center gap-2 mt-8 px-7 py-3.5 border border-sage text-sage text-xs uppercase tracking-[0.15em] font-medium hover:bg-sage hover:text-charcoal transition-all duration-300 opacity-0 animate-fade-up"
+              href="#work"
+              className="group mt-6 inline-flex items-center gap-2 border border-sage px-6 py-3 text-xs font-medium uppercase tracking-cta text-sage opacity-0 transition-colors duration-300 animate-fade-up hover:bg-sage hover:text-charcoal md:mt-8 md:px-7 md:py-3.5"
               style={{ animationDelay: "0.55s" }}
             >
-              Explore Safaris
+              See the Work
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                 &rarr;
               </span>
             </a>
           </div>
         </div>
-
-        {/* Right — image, bleeds off edge */}
-        <div className="col-span-7 relative overflow-hidden">
-          <div
-            ref={imageRef}
-            className="absolute inset-[-40px] transition-transform duration-[800ms] ease-out will-change-transform"
-          >
-            <Image
-              priority
-              src={desktopSrc}
-              alt={alt}
-              fill
-              sizes="60vw"
-              className="object-cover"
-            />
-          </div>
-          {/* Left fade into charcoal */}
-          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-charcoal to-transparent z-10" />
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 

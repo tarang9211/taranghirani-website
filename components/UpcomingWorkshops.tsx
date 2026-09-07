@@ -45,13 +45,13 @@ export default function UpcomingWorkshops({
       <div className="mx-auto max-w-5xl px-6 md:px-12 lg:px-20">
         <FadeIn>
           <div className="mb-14 text-center md:mb-20">
-            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
+            <p className="text-xs font-medium uppercase tracking-eyebrow text-sage">
               Upcoming workshops
             </p>
             <h2
               className={`mt-6 font-display text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl ${titleColor}`}
             >
-              Join a fixed-date trip.
+              Join a Fixed-Date Workshop
             </h2>
           </div>
         </FadeIn>
@@ -72,15 +72,15 @@ export default function UpcomingWorkshops({
                   />
                 </div>
                 <div className="p-8 md:p-12 lg:p-14">
-                  {!concise && (
-                    <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-sage">
-                      {w.location}
-                    </p>
-                  )}
+                  <p className="text-xs font-medium uppercase tracking-eyebrow text-sage">
+                    {concise
+                      ? // Keep "workshop" on the card even in the price-free
+                        // home-page variant: the title minus its location suffix.
+                        w.title.split(" — ")[0]
+                      : w.location}
+                  </p>
                   <h3
-                    className={`font-display text-2xl font-semibold tracking-tight md:text-3xl ${
-                      concise ? "" : "mt-5"
-                    } ${titleColor}`}
+                    className={`mt-5 font-display text-2xl font-semibold tracking-tight md:text-3xl ${titleColor}`}
                   >
                     {concise ? w.location : w.title}
                   </h3>
@@ -91,7 +91,7 @@ export default function UpcomingWorkshops({
                   </p>
                   {w.comingSoon ? (
                     <span
-                      className={`mt-8 inline-flex items-center gap-3 border-b pb-1 text-[11px] font-medium uppercase tracking-[0.25em] ${
+                      className={`mt-8 inline-flex items-center gap-3 border-b pb-1 text-xs font-medium uppercase tracking-cta ${
                         isDark
                           ? "border-white/20 text-white/50"
                           : "border-charcoal/20 text-smoke"
@@ -101,7 +101,7 @@ export default function UpcomingWorkshops({
                     </span>
                   ) : (
                     <span
-                      className={`mt-8 inline-flex items-center gap-3 border-b pb-1 text-[11px] font-medium uppercase tracking-[0.25em] transition-colors duration-300 ${ctaColor}`}
+                      className={`mt-8 inline-flex items-center gap-3 border-b pb-1 text-xs font-medium uppercase tracking-cta transition-colors duration-300 ${ctaColor}`}
                     >
                       View workshop
                       <span
@@ -142,7 +142,7 @@ export default function UpcomingWorkshops({
             <div className="mt-14 text-center md:mt-16">
               <Link
                 href="/destinations"
-                className={`group inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.25em] transition-colors duration-300 ${
+                className={`group inline-flex items-center gap-3 text-xs font-medium uppercase tracking-cta transition-colors duration-300 ${
                   isDark
                     ? "text-white/70 hover:text-sage"
                     : "text-smoke hover:text-sage"

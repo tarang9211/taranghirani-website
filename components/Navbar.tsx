@@ -6,7 +6,7 @@ import { workshopsByRegion } from "../lib/workshops";
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/destinations", label: "Destinations" },
+  { href: "/destinations", label: "Workshops" },
   { href: "/gallery", label: "Gallery" },
   { href: "/blog", label: "Field Notes" },
 ];
@@ -27,7 +27,7 @@ const getLinkClasses = (
 ) => {
   const isActive = isActivePath(currentPath, href);
   const baseClasses =
-    "relative inline-flex items-center py-1 font-display tracking-[0.1em] uppercase text-sm transition-colors after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-sage after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100";
+    "relative inline-flex items-center py-1 font-display tracking-nav uppercase text-sm transition-colors after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-sage after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100";
   const inactiveClasses = scrolled
     ? "text-smoke hover:text-charcoal"
     : "text-white/80 hover:text-white";
@@ -38,8 +38,11 @@ const getLinkClasses = (
   return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`;
 };
 
-const ctaClasses =
-  "inline-flex items-center rounded-full bg-sage px-5 py-2 font-display tracking-[0.1em] uppercase text-sm text-charcoal transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:brightness-95";
+// DESIGN.md button: slim rectangle, 1px sage border, no fill, no shadow, no lift
+const getCtaClasses = (scrolled: boolean) =>
+  `inline-flex items-center border border-sage px-5 py-2 font-display tracking-nav uppercase text-sm transition-colors duration-300 hover:bg-sage hover:text-charcoal ${
+    scrolled ? "text-charcoal" : "text-sage"
+  }`;
 
 const Navbar: React.FC = () => {
   const { pathname } = useRouter();
@@ -77,7 +80,7 @@ const Navbar: React.FC = () => {
     setMobileOpen((prev) => !prev);
   }, []);
 
-  const textColor = scrolled || mobileOpen ? "text-charcoal" : "text-white";
+  const wordmarkHidden = isHome && !scrolled && !mobileOpen;
   const textColorMuted =
     scrolled || mobileOpen
       ? "text-smoke/60 hover:text-charcoal"
@@ -87,13 +90,15 @@ const Navbar: React.FC = () => {
     <nav
       className={`fixed top-0 z-50 w-full transition-all duration-500 ${
         scrolled || mobileOpen
-          ? "bg-white/90 backdrop-blur-md shadow-[0_1px_0_rgba(0,0,0,0.06)]"
-          : "bg-transparent"
+          ? "border-b border-black/5 bg-white/90 backdrop-blur-md"
+          : "border-b border-transparent bg-gradient-to-b from-black/50 to-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between py-5 px-6">
         <Link
           href="/"
+          tabIndex={wordmarkHidden ? -1 : undefined}
+          aria-hidden={wordmarkHidden || undefined}
           className={`text-2xl md:text-3xl font-semibold font-display transition-all duration-500 ${
             scrolled || mobileOpen
               ? "text-charcoal hover:text-smoke opacity-100"
@@ -130,7 +135,7 @@ const Navbar: React.FC = () => {
                   <div className="overflow-hidden rounded-lg border border-charcoal/10 bg-white/95 p-2 shadow-lg backdrop-blur-md">
                     {workshopGroups.map((group) => (
                       <div key={group.region} className="mt-1">
-                        <p className="px-3 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.2em] text-sage">
+                        <p className="px-3 pb-1 pt-2 text-xs font-medium uppercase tracking-eyebrow text-sage">
                           {group.region}
                         </p>
                         {group.items.map((w) => (
@@ -168,7 +173,7 @@ const Navbar: React.FC = () => {
           )}
           <Link
             href={ctaItem.href}
-            className={ctaClasses}
+            className={getCtaClasses(scrolled)}
             aria-current={pathname === ctaItem.href ? "page" : undefined}
           >
             {ctaItem.label}
@@ -199,7 +204,7 @@ const Navbar: React.FC = () => {
               <React.Fragment key={href}>
                 <Link
                   href={href}
-                  className={`block py-3 font-display tracking-[0.1em] uppercase text-base transition-colors ${
+                  className={`block py-3 font-display tracking-nav uppercase text-base transition-colors ${
                     isActivePath(pathname, href)
                       ? "text-charcoal font-medium"
                       : "text-smoke hover:text-charcoal"
@@ -234,7 +239,7 @@ const Navbar: React.FC = () => {
             ))}
             <Link
               href={ctaItem.href}
-              className="mt-3 block w-full rounded-full bg-sage px-5 py-3 text-center font-display tracking-[0.1em] uppercase text-base text-charcoal transition-all duration-300 hover:brightness-95"
+              className="mt-3 block w-full border border-sage px-5 py-3 text-center font-display tracking-nav uppercase text-base text-charcoal transition-colors duration-300 hover:bg-sage"
               aria-current={
                 pathname === ctaItem.href ? "page" : undefined
               }

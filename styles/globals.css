@@ -25,6 +25,28 @@
     background-color: #c4956a;
     color: #ffffff;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
+    }
+  }
+
+  /* Scroll-reveal content stays visible when JavaScript never runs */
+  .no-js .js-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 @layer utilities {
