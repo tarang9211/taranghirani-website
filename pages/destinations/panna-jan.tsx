@@ -23,15 +23,15 @@ const IMG = {
 
 const PAGE_URL = "https://www.taranghirani.com/destinations/panna-jan";
 const PAGE_TITLE =
-  "Wildlife Photography Workshop — Panna, Jan 2027 | Tarang Hirani";
+  "Wildlife Photography Workshop in Panna, Jan 2027 | Tarang Hirani";
 const PAGE_DESCRIPTION =
-  "A 4-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris, in-field guidance, and evening post-processing. Jan 21–24, 2027. Limited seats, first come, first served.";
+  "A 4-day wildlife photography workshop in Panna, Madhya Pradesh, with 6 safaris, in-field guidance, and evening post-processing. Jan 21–24, 2027. Limited seats, first come, first served.";
 const OG_IMAGE =
   "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/_Z9_20260212_100758_TMH_website_s3qioq";
 
 // Carries through to the enquiry notification so it's clearly a Panna lead.
 const ENQUIRY_SUBJECT =
-  "Panna Wildlife Photography Workshop — 21–24 Jan 2027";
+  "Panna Wildlife Photography Workshop, 21–24 Jan 2027";
 const ENQUIRY_MESSAGE =
   "Hi Tarang, I'd like to enquire about the Panna wildlife photography workshop (21–24 Jan 2027). Please share availability and next steps.";
 const WHATSAPP_HREF =
@@ -41,7 +41,7 @@ const WHATSAPP_HREF =
 const JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Event",
-  name: "Wildlife Photography Workshop — Panna",
+  name: "Wildlife Photography Workshop in Panna",
   description: PAGE_DESCRIPTION,
   startDate: "2027-01-21",
   endDate: "2027-01-24",
@@ -231,7 +231,7 @@ export default function PannaJanWorkshopPage() {
                   A field workshop
                 </p>
                 <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-white md:text-5xl lg:text-6xl">
-                  Wildlife Photography Workshop — Panna, MP
+                  Wildlife Photography Workshop in Panna, MP
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-[1.7] text-white/85 md:text-lg">
                   Jan 21–24, 2027 · 3 nights / 4 days · 6 safaris · Limited
@@ -278,7 +278,7 @@ export default function PannaJanWorkshopPage() {
                       <p>
                         Panna Tiger Reserve sits in Madhya Pradesh, a short
                         drive from the temple town of Khajuraho. It&apos;s one
-                        of Indian conservation&apos;s great comeback stories —
+                        of Indian conservation&apos;s great comeback stories:
                         tigers were lost here around 2009 and carefully
                         reintroduced, and the reserve has since recovered into a
                         thriving habitat. I&apos;ve written{" "}
@@ -296,8 +296,8 @@ export default function PannaJanWorkshopPage() {
                         India&apos;s best raptor and vulture activity.
                       </p>
                       <p>
-                        Late January is the heart of Panna&apos;s winter — crisp,
-                        misty mornings, soft light through the day, and wildlife
+                        Late January is the heart of Panna&apos;s winter, with
+                        crisp, misty mornings, soft light through the day, and wildlife
                         increasingly drawn to the Ken as the forest dries.
                         It&apos;s a beautiful time to photograph it.
                       </p>
@@ -313,11 +313,11 @@ export default function PannaJanWorkshopPage() {
                       through the best light. Back to the lodge for lunch and a
                       quiet middle of the day. Out again for the evening safari
                       as the light turns. After dinner, a photography and
-                      post-processing session — looking at what came home,
+                      post-processing session: looking at what came home,
                       talking through what worked, and building the edit. The
                       trip opens with an evening safari on arrival day and
-                      closes with a morning safari before departure — six
-                      safaris across the trip.
+                      closes with a morning safari before departure, making
+                      six safaris across the trip.
                     </p>
                   </div>
 
@@ -406,8 +406,8 @@ export default function PannaJanWorkshopPage() {
                     <h2 className={SUBHEAD}>Getting there</h2>
                     <p className={`mt-4 ${BODY_COPY}`}>
                       The nearest airport is Khajuraho (HJR). Flights are not
-                      included. Suggested routing from Pune (timings indicative
-                      — please check schedules closer to the date):
+                      included. Suggested routing from Pune (timings indicative;
+                      please check schedules closer to the date):
                     </p>
                     <ul className="mt-4 space-y-2.5 text-sm leading-[1.6] text-smoke">
                       <li className="flex gap-3">
@@ -502,7 +502,7 @@ export default function PannaJanWorkshopPage() {
               </h2>
               <p className="mt-6 text-base leading-[1.8] text-smoke md:text-lg">
                 Seats are limited and offered on a first-come, first-served
-                basis — reach out early to secure yours. I read every message
+                basis, so reach out early to secure yours. I read every message
                 and reply within 48 hours.
               </p>
             </div>
