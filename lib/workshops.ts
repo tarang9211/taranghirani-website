@@ -106,6 +106,35 @@ export function formatDayDate(iso: string): string {
   return `${MONTHS[m - 1]} ${d}`;
 }
 
+const MONTHS_LONG = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+// "January 21–24, 2027" — full month names for the one on-page mention that
+// should match how people search a specific departure ("january 2027").
+export function formatDateRangeLong(dep: Departure): string {
+  const s = parseISO(dep.startDate);
+  const e = parseISO(dep.endDate);
+  if (s.y === e.y && s.m === e.m) {
+    return `${MONTHS_LONG[s.m - 1]} ${s.d}–${e.d}, ${s.y}`;
+  }
+  if (s.y === e.y) {
+    return `${MONTHS_LONG[s.m - 1]} ${s.d} – ${MONTHS_LONG[e.m - 1]} ${e.d}, ${s.y}`;
+  }
+  return `${MONTHS_LONG[s.m - 1]} ${s.d}, ${s.y} – ${MONTHS_LONG[e.m - 1]} ${e.d}, ${e.y}`;
+}
+
 // "Nov 26–29, 2026" · "Nov 30 – Dec 3, 2026" · "Dec 30, 2026 – Jan 2, 2027"
 export function formatDateRange(dep: Departure): string {
   const s = parseISO(dep.startDate);
