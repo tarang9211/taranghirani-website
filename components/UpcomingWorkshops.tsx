@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import FadeIn from "./FadeIn";
-import { UPCOMING_WORKSHOPS } from "../lib/workshops";
+import { activeDestinations, visibleDepartures } from "../lib/workshops";
 
 type Theme = "dark" | "light";
 
@@ -10,29 +10,23 @@ export default function UpcomingWorkshops({
   theme = "light",
   showViewAll = false,
   concise = false,
-  includeComingSoon = false,
 }: {
   theme?: Theme;
   // Show a link through to the full /destinations page (used on the home page).
   showViewAll?: boolean;
   // Lead with dates + availability only, no pricing (used on the home page).
   concise?: boolean;
-  // Include placeholder "coming soon" trips (the /destinations listing only).
-  includeComingSoon?: boolean;
 }) {
   const isDark = theme === "dark";
 
-  const workshops = UPCOMING_WORKSHOPS.filter(
-    (w) => includeComingSoon || !w.comingSoon,
-  );
+  const destinations = activeDestinations();
 
   const cardBorder = isDark
     ? "border-white/10 hover:border-sage"
     : "border-charcoal/10 hover:border-sage";
-  // No hover affordance for non-clickable "coming soon" placeholders.
-  const staticBorder = isDark ? "border-white/10" : "border-charcoal/10";
   const titleColor = isDark ? "text-white" : "text-charcoal";
   const summaryColor = isDark ? "text-white/60" : "text-smoke";
+  const dateColor = isDark ? "text-white/85" : "text-charcoal/85";
   const ctaColor = isDark
     ? "border-white/30 text-white group-hover:border-sage group-hover:text-sage"
     : "border-charcoal/30 text-charcoal group-hover:border-sage group-hover:text-sage";
@@ -57,84 +51,62 @@ export default function UpcomingWorkshops({
         </FadeIn>
 
         <div className="space-y-10 md:space-y-12">
-          {workshops.map((w, i) => {
-            const body = (
-              <>
+          {destinations.map((dest, i) => (
+            <FadeIn key={dest.slug} delay={i * 80}>
+              <Link
+                href={`/destinations/${dest.slug}`}
+                className={`group block overflow-hidden border transition-colors duration-300 md:grid md:grid-cols-2 ${cardBorder}`}
+              >
                 <div className="relative aspect-[3/2] w-full overflow-hidden md:aspect-auto md:h-full md:min-h-[20rem]">
                   <Image
-                    src={w.image}
-                    alt={w.imageAlt}
+                    src={dest.image}
+                    alt={dest.imageAlt}
                     fill
                     sizes="(min-width: 768px) 50vw, 100vw"
-                    className={`object-cover transition-transform duration-700 ease-out ${
-                      w.comingSoon ? "opacity-60" : "group-hover:scale-[1.03]"
-                    }`}
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                   />
                 </div>
                 <div className="p-8 md:p-12 lg:p-14">
                   <p className="text-xs font-medium uppercase tracking-eyebrow text-sage">
                     {concise
                       ? // Keep "workshop" on the card even in the price-free
-                        // home-page variant: the title minus its location suffix.
-                        w.title.split(" — ")[0]
-                      : w.location}
+                        // home-page variant.
+                        "Wildlife Photography Workshop"
+                      : dest.location}
                   </p>
                   <h3
                     className={`mt-5 font-display text-2xl font-semibold tracking-tight md:text-3xl ${titleColor}`}
                   >
-                    {concise ? w.location : w.title}
+                    {concise
+                      ? dest.location
+                      : `Wildlife Photography Workshop — ${dest.name}`}
                   </h3>
-                  <p
-                    className={`mt-4 text-base leading-[1.75] md:text-lg ${summaryColor}`}
-                  >
-                    {w.dateLabel} · {concise ? w.shortSummary : w.summary}
+                  <p className={`mt-4 text-base md:text-lg ${dateColor}`}>
+                    {(() => {
+                      const count = visibleDepartures(dest).length;
+                      return `${count} upcoming departure${count === 1 ? "" : "s"}`;
+                    })()}
                   </p>
-                  {w.comingSoon ? (
+                  <p
+                    className={`mt-3 text-base leading-[1.75] md:text-lg ${summaryColor}`}
+                  >
+                    {concise ? dest.shortSummary : dest.summary}
+                  </p>
+                  <span
+                    className={`mt-8 inline-flex items-center gap-3 border-b pb-1 text-xs font-medium uppercase tracking-cta transition-colors duration-300 ${ctaColor}`}
+                  >
+                    View workshop
                     <span
-                      className={`mt-8 inline-flex items-center gap-3 border-b pb-1 text-xs font-medium uppercase tracking-cta ${
-                        isDark
-                          ? "border-white/20 text-white/50"
-                          : "border-charcoal/20 text-smoke"
-                      }`}
+                      aria-hidden
+                      className="inline-block transition-transform duration-300 group-hover:translate-x-1"
                     >
-                      Coming soon
+                      &rarr;
                     </span>
-                  ) : (
-                    <span
-                      className={`mt-8 inline-flex items-center gap-3 border-b pb-1 text-xs font-medium uppercase tracking-cta transition-colors duration-300 ${ctaColor}`}
-                    >
-                      View workshop
-                      <span
-                        aria-hidden
-                        className="inline-block transition-transform duration-300 group-hover:translate-x-1"
-                      >
-                        &rarr;
-                      </span>
-                    </span>
-                  )}
+                  </span>
                 </div>
-              </>
-            );
-
-            return (
-              <FadeIn key={w.slug} delay={i * 80}>
-                {w.comingSoon || !w.href ? (
-                  <div
-                    className={`block overflow-hidden border md:grid md:grid-cols-2 ${staticBorder}`}
-                  >
-                    {body}
-                  </div>
-                ) : (
-                  <Link
-                    href={w.href}
-                    className={`group block overflow-hidden border transition-colors duration-300 md:grid md:grid-cols-2 ${cardBorder}`}
-                  >
-                    {body}
-                  </Link>
-                )}
-              </FadeIn>
-            );
-          })}
+              </Link>
+            </FadeIn>
+          ))}
         </div>
 
         {showViewAll && (

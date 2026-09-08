@@ -410,7 +410,7 @@ export default function WorkshopsPage() {
       </section>
 
       {/* UPCOMING WORKSHOPS */}
-      <UpcomingWorkshops theme="light" includeComingSoon />
+      <UpcomingWorkshops theme="light" />
 
       {/* BEGIN */}
       <section
