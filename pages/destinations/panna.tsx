@@ -17,12 +17,15 @@ import {
   DESTINATIONS,
   visibleDepartures,
   formatDateRange,
+  formatDateRangeLong,
 } from "../../lib/workshops";
 import type { Departure } from "../../lib/workshops";
 
 const dest = DESTINATIONS.find((d) => d.slug === "panna")!;
 // Departures shown on this page — expired ones drop out everywhere.
 const departures = visibleDepartures(dest);
+const openDepartures = departures.filter((d) => d.status === "open");
+const nextDeparture = openDepartures[0];
 
 const CLOUDINARY_BASE =
   "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto";
@@ -33,10 +36,16 @@ const IMG = {
 };
 
 const PAGE_URL = "https://www.taranghirani.com/destinations/panna";
-const PAGE_TITLE = "Wildlife Photography Workshop — Panna, MP | Tarang Hirani";
-const PAGE_DESCRIPTION = `A 4-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris with in-field guidance. Departures: ${departures
-  .map(formatDateRange)
-  .join(" and ")}. Limited seats.`;
+// Full state name in title + h1: searchers type "Madhya Pradesh", not "MP".
+const PAGE_TITLE = "Wildlife Photography Workshop in Panna, Madhya Pradesh";
+// Snippet lists only the next bookable date — sold-out departures stay out of
+// the SERP, and the string stays under ~155 chars as departures accumulate.
+const PAGE_DESCRIPTION =
+  "A 4-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris with in-field guidance." +
+  (nextDeparture
+    ? ` Next departure: ${formatDateRange(nextDeparture)}.`
+    : "") +
+  " Limited seats.";
 const OG_IMAGE =
   "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/_Z9_20260212_100758_TMH_website_s3qioq";
 
@@ -57,25 +66,35 @@ const whatsappHrefFor = (dep?: Departure) =>
 // When enquiries opened, for the JSON-LD offers.
 const ENQUIRIES_OPEN = "2026-01-01";
 
-// One schema.org Event per visible departure.
-const JSON_LD = departures.map((dep) => ({
+// One schema.org Event per visible departure, each with its own identity —
+// identical name/url/description across Events makes them indistinguishable
+// to Google. Start/end times match the Day 1 arrival and Day 4 transfer.
+const EVENTS_JSON_LD = departures.map((dep) => ({
   "@context": "https://schema.org",
   "@type": "Event",
-  name: "Wildlife Photography Workshop — Panna",
-  description: PAGE_DESCRIPTION,
-  startDate: dep.startDate,
-  endDate: dep.endDate,
+  "@id": `${PAGE_URL}#${dep.id}`,
+  name: `Wildlife Photography Workshop — Panna (${formatDateRange(dep)})`,
+  description: dep.seasonNote ?? PAGE_DESCRIPTION,
+  startDate: `${dep.startDate}T12:15:00+05:30`,
+  endDate: `${dep.endDate}T11:30:00+05:30`,
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
+  maximumAttendeeCapacity: dep.maxParticipants,
   image: OG_IMAGE,
-  url: PAGE_URL,
+  url: `${PAGE_URL}#${dep.id}`,
   location: {
     "@type": "Place",
     name: "Panna Tiger Reserve",
     address: {
       "@type": "PostalAddress",
+      addressLocality: "Panna",
       addressRegion: "Madhya Pradesh",
       addressCountry: "IN",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 24.72,
+      longitude: 80.02,
     },
   },
   organizer: {
@@ -98,6 +117,27 @@ const JSON_LD = departures.map((dep) => ({
     validFrom: ENQUIRIES_OPEN,
   },
 }));
+
+const BREADCRUMB_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Workshops",
+      item: "https://www.taranghirani.com/destinations",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Panna, Madhya Pradesh",
+      item: PAGE_URL,
+    },
+  ],
+};
+
+const JSON_LD = [...EVENTS_JSON_LD, BREADCRUMB_JSON_LD];
 
 // One itinerary serves every departure: day labels are generic, and the
 // actual calendar dates live on the departure cards above it.
@@ -240,12 +280,10 @@ export default function PannaWorkshopPage() {
           key="twitter:description"
         />
         <meta name="twitter:image" content={OG_IMAGE} key="twitter:image" />
-        {departures.length > 0 && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
-          />
-        )}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
       </Head>
 
       {/* HERO */}
@@ -268,13 +306,23 @@ export default function PannaWorkshopPage() {
                   A field workshop
                 </p>
                 <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-white md:text-5xl lg:text-6xl">
-                  Wildlife Photography Workshop — Panna, MP
+                  Wildlife Photography Workshop — Panna, Madhya Pradesh
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-[1.7] text-white/85 md:text-lg">
                   3 nights / 4 days · 6 safaris · Limited seats · Price on
                   enquiry (twin sharing)
                 </p>
-                <ClaimButton className="mt-8" />
+                {nextDeparture && (
+                  <a
+                    href={`#${nextDeparture.id}`}
+                    className="mt-3 inline-block text-sm text-white/85 underline decoration-sage/60 underline-offset-4 transition-colors duration-300 hover:text-sage md:text-base"
+                  >
+                    Next departure: {formatDateRangeLong(nextDeparture)}
+                  </a>
+                )}
+                <div className="mt-8">
+                  <ClaimButton />
+                </div>
               </div>
             </div>
           </div>
