@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Menu, X, ChevronDown } from "lucide-react";
-import { workshopsByRegion } from "../lib/workshops";
+import { destinationsByCountry } from "../lib/workshops";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -11,7 +11,7 @@ const navItems = [
   { href: "/blog", label: "Field Notes" },
 ];
 
-const workshopGroups = workshopsByRegion();
+const workshopGroups = destinationsByCountry();
 
 // Promoted to a CTA pill. Swap to the /destinations item to drive the funnel top instead.
 const ctaItem = { href: "/contact", label: "Contact" };
@@ -134,24 +134,23 @@ const Navbar: React.FC = () => {
                 <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 pt-4 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                   <div className="overflow-hidden rounded-lg border border-charcoal/10 bg-white/95 p-2 shadow-lg backdrop-blur-md">
                     {workshopGroups.map((group) => (
-                      <div key={group.region} className="mt-1">
+                      <div key={group.country} className="mt-1">
                         <p className="px-3 pb-1 pt-2 text-xs font-medium uppercase tracking-eyebrow text-sage">
-                          {group.region}
+                          {group.country}
                         </p>
-                        {group.items.map((w) => (
+                        {group.items.map((d) => (
                           <Link
-                            key={w.slug}
-                            href={w.href ?? "#"}
+                            key={d.slug}
+                            href={`/destinations/${d.slug}`}
                             className="block rounded px-3 py-2 transition-colors hover:bg-paper"
                             aria-current={
-                              pathname === w.href ? "page" : undefined
+                              pathname === `/destinations/${d.slug}`
+                                ? "page"
+                                : undefined
                             }
                           >
                             <span className="block font-display text-sm text-charcoal">
-                              {w.location}
-                            </span>
-                            <span className="mt-0.5 block text-xs text-smoke">
-                              {w.dateLabel}
+                              {d.location}
                             </span>
                           </Link>
                         ))}
@@ -217,21 +216,22 @@ const Navbar: React.FC = () => {
                 </Link>
                 {href === "/destinations" &&
                   workshopGroups.flatMap((group) =>
-                    group.items.map((w) => (
+                    group.items.map((d) => (
                       <Link
-                        key={w.slug}
-                        href={w.href ?? "#"}
+                        key={d.slug}
+                        href={`/destinations/${d.slug}`}
                         className={`block border-l border-charcoal/10 py-2 pl-4 transition-colors ${
-                          pathname === w.href
+                          pathname === `/destinations/${d.slug}`
                             ? "text-charcoal"
                             : "text-smoke hover:text-charcoal"
                         }`}
-                        aria-current={pathname === w.href ? "page" : undefined}
+                        aria-current={
+                          pathname === `/destinations/${d.slug}`
+                            ? "page"
+                            : undefined
+                        }
                       >
-                        <span className="block text-sm">{w.location}</span>
-                        <span className="block text-xs text-smoke/70">
-                          {w.dateLabel}
-                        </span>
+                        <span className="block text-sm">{d.location}</span>
                       </Link>
                     )),
                   )}
