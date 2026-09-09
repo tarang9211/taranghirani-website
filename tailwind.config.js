@@ -15,6 +15,11 @@ module.exports = {
         smoke: "#525252",
         paper: "#F5F5F3",
         sage: "#C4956A",
+        // Darker tint of the sage accent for accent TEXT on light (paper)
+        // surfaces: sage itself is only 2.45:1 on paper (fails WCAG AA for
+        // text), so labels use bark (5.12:1). Sage stays for hairlines/borders
+        // and for accent text on dark surfaces, where it passes comfortably.
+        bark: "#8C5E30",
       },
       fontFamily: {
         display: ["var(--font-display)", "serif"],

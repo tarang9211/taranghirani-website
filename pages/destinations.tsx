@@ -129,10 +129,10 @@ export default function WorkshopsPage() {
                   one to one.
                 </p>
                 <a
-                  href="#begin"
-                  className="group mt-10 inline-flex items-center gap-3 border-b border-white/40 pb-1 text-[11px] font-medium uppercase tracking-[0.25em] text-white transition-colors duration-500 hover:border-sage hover:text-sage md:mt-12"
+                  href="#workshops"
+                  className="group mt-10 inline-flex items-center gap-3 border-b border-white/40 pb-1 text-[11px] font-medium uppercase tracking-[0.25em] text-white transition-colors duration-500 hover:border-sage hover:text-sage focus-visible:border-sage focus-visible:text-sage focus-visible:outline-none md:mt-12"
                 >
-                  Enquire
+                  See upcoming dates
                   <span
                     aria-hidden
                     className="inline-block transition-transform duration-500 group-hover:translate-x-2"
@@ -175,7 +175,7 @@ export default function WorkshopsPage() {
         <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
           <FadeIn>
             <div className="mb-20 text-center md:mb-28">
-              <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
+              <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-bark">
                 A day on a workshop
               </p>
               <h2 className="mt-6 font-display text-3xl font-semibold tracking-tight text-charcoal md:text-5xl lg:text-6xl">
@@ -188,7 +188,7 @@ export default function WorkshopsPage() {
             {DAY.map(({ n, title, body }, i) => (
               <FadeIn key={n} delay={i * 80}>
                 <div className="grid grid-cols-[auto_1fr] gap-6 md:gap-12">
-                  <span className="pt-2 font-display text-sm tracking-[0.2em] text-sage md:text-base">
+                  <span className="pt-2 font-display text-sm tracking-[0.2em] text-bark md:text-base">
                     {n}
                   </span>
                   <div>
@@ -224,7 +224,7 @@ export default function WorkshopsPage() {
         <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
           <FadeIn>
             <div className="mb-20 text-center md:mb-28">
-              <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
+              <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-bark">
                 Where it happens
               </p>
               <h2 className="mt-6 font-display text-3xl font-semibold tracking-tight text-charcoal md:text-5xl lg:text-6xl">
@@ -236,7 +236,7 @@ export default function WorkshopsPage() {
           <FadeIn>
             <div className="mx-auto grid max-w-3xl grid-cols-2 gap-12 md:gap-24">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-sage">
+                <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-bark">
                   India
                 </p>
                 <ul className="mt-6 space-y-3 font-display text-xl text-charcoal md:text-2xl">
@@ -247,7 +247,7 @@ export default function WorkshopsPage() {
                 </ul>
               </div>
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-sage">
+                <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-bark">
                   Africa
                 </p>
                 <ul className="mt-6 space-y-3 font-display text-xl text-charcoal md:text-2xl">
@@ -270,7 +270,7 @@ export default function WorkshopsPage() {
           <FadeIn>
             <div className="mt-20 grid items-start gap-12 md:mt-28 md:grid-cols-2 md:gap-24">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
+                <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-bark">
                   What is arranged
                 </p>
                 <h2 className="mt-6 font-display text-2xl font-semibold tracking-tight text-charcoal md:text-3xl lg:text-4xl">
@@ -292,7 +292,7 @@ export default function WorkshopsPage() {
           <FadeIn>
             <div className="grid items-start gap-12 md:grid-cols-2 md:gap-24">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
+                <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-bark">
                   The format
                 </p>
                 <h2 className="mt-6 font-display text-2xl font-semibold tracking-tight text-charcoal md:text-3xl lg:text-4xl">
@@ -326,7 +326,7 @@ export default function WorkshopsPage() {
       <section className="bg-paper py-32 md:py-48">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-12">
           <FadeIn>
-            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
+            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-bark">
               What you take with you
             </p>
             <h2 className="mt-6 font-display text-3xl font-semibold leading-[1.1] tracking-tight text-charcoal md:text-5xl lg:text-6xl">
@@ -354,7 +354,7 @@ export default function WorkshopsPage() {
               </div>
 
               <div className="md:col-span-7">
-                <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
+                <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-bark">
                   About Tarang
                 </p>
                 <h2 className="mt-6 font-display text-3xl font-semibold leading-[1.1] tracking-tight text-charcoal md:text-4xl lg:text-5xl">
@@ -384,7 +384,7 @@ export default function WorkshopsPage() {
 
                 <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-12">
                   <div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-sage">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-bark">
                       Awards &amp; Recognitions
                     </p>
                     <ul className="mt-4 space-y-2 font-display text-base text-charcoal">
@@ -393,7 +393,7 @@ export default function WorkshopsPage() {
                     </ul>
                   </div>
                   <div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-sage">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-bark">
                       Exhibitions
                     </p>
                     <ul className="mt-4 space-y-2 font-display text-base text-charcoal">
@@ -420,7 +420,7 @@ export default function WorkshopsPage() {
         <div className="mx-auto max-w-2xl px-6 md:px-12">
           <FadeIn>
             <div className="text-center">
-              <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sage">
+              <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-bark">
                 Enquire
               </p>
               <h2 className="mt-6 font-display text-3xl font-semibold tracking-tight text-charcoal md:text-5xl lg:text-6xl">

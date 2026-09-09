@@ -30,6 +30,9 @@ export default function UpcomingWorkshops({
   const ctaColor = isDark
     ? "border-white/30 text-white group-hover:border-sage group-hover:text-sage"
     : "border-charcoal/30 text-charcoal group-hover:border-sage group-hover:text-sage";
+  // Sage (2.45:1 on paper) fails WCAG AA as text on the light surface, so the
+  // light-theme eyebrows use the darker bark tint; sage is retained on dark.
+  const eyebrowColor = isDark ? "text-sage" : "text-bark";
 
   return (
     <section
@@ -39,7 +42,7 @@ export default function UpcomingWorkshops({
       <div className="mx-auto max-w-5xl px-6 md:px-12 lg:px-20">
         <FadeIn>
           <div className="mb-14 text-center md:mb-20">
-            <p className="text-xs font-medium uppercase tracking-eyebrow text-sage">
+            <p className={`text-xs font-medium uppercase tracking-eyebrow ${eyebrowColor}`}>
               Upcoming workshops
             </p>
             <h2
@@ -67,7 +70,7 @@ export default function UpcomingWorkshops({
                   />
                 </div>
                 <div className="p-8 md:p-12 lg:p-14">
-                  <p className="text-xs font-medium uppercase tracking-eyebrow text-sage">
+                  <p className={`text-xs font-medium uppercase tracking-eyebrow ${eyebrowColor}`}>
                     {concise
                       ? // Keep "workshop" on the card even in the price-free
                         // home-page variant.
