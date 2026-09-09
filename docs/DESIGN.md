@@ -49,7 +49,8 @@ The system exists to frame wildlife photography — typography and layout suppor
 - **Parchment** (#FFFFFF): High-key surface; primary text on dark surfaces
 - **Paper** (#F5F5F3): Default light surface — a warm off-white that reduces glare
 - **Smoke** (#525252): Secondary text on light surfaces only (body, metadata, captions)
-- **Sage** (#C4956A): Single accent — hairlines, thin borders, small uppercase labels. Never a large fill (≤5% of any composition)
+- **Sage** (#C4956A): The warm accent — hairlines, thin borders, and accent text on **dark** surfaces (7.5:1 on charcoal). Never a large fill (≤5% of any composition). Sage is only 2.45:1 on paper, so it must not carry accent *text* on light surfaces.
+- **Bark** (#8C5E30): The same accent, darkened for accent **text on light (paper) surfaces** — eyebrows and small labels — where it reaches 5.1:1 (WCAG AA). One accent hue, two surface-tuned tints; sage still owns hairlines and dark-surface accents.
 
 Text hierarchy on dark uses **white opacity** (100 / 80 / 45–60 / 25–30 / 5–10), not greys.
 Text hierarchy on light uses charcoal at 100% / smoke at 100% / smoke at 50–60% / charcoal at 10–15% (hairlines).
@@ -57,7 +58,7 @@ Text hierarchy on light uses charcoal at 100% / smoke at 100% / smoke at 50–60
 ## Typography
 - **Headlines**: Playfair Display, 600, tracking `-0.01em`, Title Case
 - **Body**: Source Sans 3, 400, 16–18px, leading 1.6
-- **Eyebrows**: Source Sans 3, 500, 14px, tracking `0.20em`, UPPERCASE, in sage
+- **Eyebrows**: Source Sans 3, 500, 14px, tracking `0.20em`, UPPERCASE — bark on light surfaces, sage on dark
 - **CTAs**: Source Sans 3, 500, 12px, tracking `0.15em`, UPPERCASE
 - **Pairing rule**: Serif speaks, sans informs. Never invert.
 
@@ -73,7 +74,7 @@ Text hierarchy on light uses charcoal at 100% / smoke at 100% / smoke at 50–60
 - **Do** pick one surface per composition — charcoal or paper — and stay with it
 - **Do** let photography occupy the majority of any composition that includes an image
 - **Do** maintain generous margins and vertical breathing room
-- **Do** use sage for hairlines, thin borders, and small accent labels only
+- **Do** use sage for hairlines, thin borders, and accent labels on dark surfaces; use bark for accent labels on light (paper) surfaces so text meets WCAG AA
 - **Don't** introduce new hues, gradients (except charcoal-to-transparent overlays for image legibility), or color washes
 - **Don't** use drop shadows, glows, bevels, or textures
 - **Don't** use rounded-pill buttons or mix radii within a composition
