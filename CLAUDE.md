@@ -31,6 +31,14 @@ pages/
 - index.tsx - Home page
 - gallery.tsx - Gallery page
 - blog.tsx - Blog page with blog posts
+- testimonials.tsx - Guest stories page (redirects to / until an entry is published)
+
+### Testimonials
+
+- Data lives in `lib/testimonials.json`, read through `lib/testimonials.ts`. Add entries with `yarn testimonial:add` (guided prompts). Real guest words only; never invent testimonials.
+- With zero published entries the home block and nav item are hidden, `/testimonials` redirects to `/`, and the route is excluded from the sitemap.
+- `yarn testimonial:sample` seeds the handoff placeholders (`sample-*` ids) for local preview only. They must not be committed; builds on Vercel refuse them.
+- After adding an entry run `yarn build` and commit the regenerated `public/sitemap*.xml` with the data file.
 
 ### Non Negotiables
 

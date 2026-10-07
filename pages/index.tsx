@@ -4,6 +4,7 @@ import ImageCarousel from "../components/ImageCarousel";
 import SafariOffering from "../components/SafariOffering";
 import UpcomingWorkshops from "../components/UpcomingWorkshops";
 import AboutMe from "../components/AboutMe";
+import Testimonials from "../components/Testimonials";
 
 import { getHeroImages, listImages } from "../lib/helpers";
 
@@ -68,6 +69,7 @@ export default function Home({
       <ImageCarousel images={carouselImages} />
       <AboutMe />
       <UpcomingWorkshops theme="dark" showViewAll concise />
+      <Testimonials />
       <SafariOffering />
     </div>
   );

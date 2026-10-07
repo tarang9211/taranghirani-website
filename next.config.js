@@ -1,3 +1,10 @@
+// /testimonials is a temporary redirect to the home page until at least one
+// guest story is published (lib/testimonials.ts hides the nav item and home
+// block in the same state; next-sitemap.config.js drops the route). Read from
+// the JSON directly because this file is CommonJS.
+const testimonials = require("./lib/testimonials.json");
+const hasTestimonials = testimonials.some((t) => t.published === true);
+
 module.exports = {
   images: {
     remotePatterns: [
@@ -28,6 +35,9 @@ module.exports = {
         destination: "/destinations/:path*",
         permanent: true,
       },
+      ...(hasTestimonials
+        ? []
+        : [{ source: "/testimonials", destination: "/", permanent: false }]),
     ];
   },
 };
