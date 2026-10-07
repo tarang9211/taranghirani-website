@@ -2,14 +2,14 @@ import React from "react";
 import Link from "next/link";
 import FadeIn from "./FadeIn";
 import TestimonialAvatar from "./TestimonialAvatar";
-import { featuredTestimonials } from "../lib/testimonials";
+import type { Testimonial } from "../lib/testimonials";
 
 // Home-page teaser: up to three guest quotes linking into /testimonials.
-// Renders nothing at all when no testimonials are published, so "Upcoming
-// workshops" flows straight into "How Workshops Run".
-export default function Testimonials() {
-  const items = featuredTestimonials(3);
-  if (items.length === 0) return null;
+// `items` comes from featuredTestimonials(3) in the page's getStaticProps so
+// the data module stays server-side. Renders nothing at all when there are
+// none, so "Upcoming workshops" flows straight into "How Workshops Run".
+export default function Testimonials({ items }: { items: Testimonial[] }) {
+  if (!items || items.length === 0) return null;
 
   return (
     <section
@@ -54,7 +54,7 @@ export default function Testimonials() {
                     &ldquo;{t.short}&rdquo;
                   </blockquote>
                   <figcaption className="flex items-center gap-4">
-                    <TestimonialAvatar src={t.photo} name={t.name} size={48} />
+                    <TestimonialAvatar src={t.photo} size={48} />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold text-white">
                         {t.name}

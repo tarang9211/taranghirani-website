@@ -22,7 +22,8 @@ const HERO_ALT =
   "A male lion mid-roar standing over a lioness lying in the grass of an open savannah";
 
 const PAGE_URL = "https://www.taranghirani.com/testimonials";
-const PAGE_TITLE = "Guest Stories | Tarang Hirani";
+const PAGE_TITLE =
+  "Guest Stories: Wildlife Photography Workshops | Tarang Hirani";
 const PAGE_DESCRIPTION =
   "What guests said after photographing with Tarang Hirani in India and Africa. Six people or fewer, personally led, teaching included.";
 const OG_IMAGE =
@@ -226,7 +227,7 @@ export default function TestimonialsPage({ testimonials, regions }: Props) {
                   className="grid scroll-mt-6 gap-8 py-12 md:grid-cols-3 md:gap-12 md:py-16"
                 >
                   <div className="flex flex-col gap-5 md:col-span-1">
-                    <TestimonialAvatar src={t.photo} name={t.name} size={96} />
+                    <TestimonialAvatar src={t.photo} size={96} />
                     <div>
                       <h2 className="font-display text-xl font-semibold tracking-tight text-white">
                         {t.name}

@@ -3,15 +3,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { destinationsByCountry } from "../lib/workshops";
-import { hasTestimonials } from "../lib/testimonials";
 
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/destinations", label: "Workshops" },
   { href: "/gallery", label: "Gallery" },
-  // Only once at least one guest story is published (data is static, so the
-  // server and client agree).
-  ...(hasTestimonials()
+  // Only once at least one guest story is published. The flag is inlined at
+  // build time from lib/testimonials.json (see next.config.js) so the quotes
+  // themselves never ship in the shared bundle.
+  ...(process.env.NEXT_PUBLIC_HAS_TESTIMONIALS === "true"
     ? [{ href: "/testimonials", label: "Testimonials" }]
     : []),
   { href: "/blog", label: "Field Notes" },
@@ -23,8 +23,7 @@ const workshopGroups = destinationsByCountry();
 const ctaItem = { href: "/contact", label: "Contact" };
 
 const isActivePath = (currentPath: string, href: string) =>
-  currentPath === href ||
-  (href !== "/" && currentPath.startsWith(href + "/"));
+  currentPath === href || (href !== "/" && currentPath.startsWith(href + "/"));
 
 const getLinkClasses = (
   currentPath: string,
@@ -246,9 +245,7 @@ const Navbar: React.FC = () => {
             <Link
               href={ctaItem.href}
               className="mt-3 block w-full border border-sage px-5 py-3 text-center font-display tracking-nav uppercase text-base text-charcoal transition-colors duration-300 hover:bg-sage"
-              aria-current={
-                pathname === ctaItem.href ? "page" : undefined
-              }
+              aria-current={pathname === ctaItem.href ? "page" : undefined}
             >
               {ctaItem.label}
             </Link>

@@ -6,6 +6,9 @@ const testimonials = require("./lib/testimonials.json");
 const hasTestimonials = testimonials.some((t) => t.published === true);
 
 module.exports = {
+  // Inlined at build so the Navbar can show/hide the item without bundling
+  // the testimonial text into every page.
+  env: { NEXT_PUBLIC_HAS_TESTIMONIALS: String(hasTestimonials) },
   images: {
     remotePatterns: [
       {
