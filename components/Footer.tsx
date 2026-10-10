@@ -33,6 +33,13 @@ const Footer: React.FC = () => {
             <p>&copy; {currentYear} Tarang Hirani</p>
           </div>
 
+          <Link
+            href="/terms"
+            className="text-xs font-medium tracking-wide text-white/60 hover:text-white transition-colors duration-300"
+          >
+            Terms &amp; Conditions
+          </Link>
+
           <div className="flex items-center justify-center">
             <Link
               href={INSTAGRAM_URL}

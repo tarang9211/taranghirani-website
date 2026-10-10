@@ -10,5 +10,6 @@ module.exports = {
   siteUrl: "https://www.taranghirani.com",
   generateRobotsTxt: false,
   outDir: "public",
-  exclude: hasTestimonials ? [] : ["/testimonials"],
+  // /terms is noindex, so keep it out of the sitemap too.
+  exclude: ["/terms", ...(hasTestimonials ? [] : ["/testimonials"])],
 };

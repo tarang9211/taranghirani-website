@@ -1,4 +1,5 @@
 import React, { FormEvent, useState } from "react";
+import Link from "next/link";
 import { WHATSAPP_URL } from "../lib/constants";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -442,6 +443,20 @@ export default function ContactForm({
           )}
         </button>
       </div>
+      <p
+        className={`mt-4 text-xs sm:text-right ${
+          isLight ? "text-smoke" : "text-white/50"
+        }`}
+      >
+        By enquiring you agree to our{" "}
+        <Link
+          href="/terms"
+          className="underline underline-offset-2 hover:text-sage transition-colors"
+        >
+          Terms &amp; Conditions
+        </Link>
+        .
+      </p>
     </form>
   );
 }
