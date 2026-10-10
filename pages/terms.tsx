@@ -487,7 +487,7 @@ export default function TermsPage() {
         />
         <meta
           property="og:url"
-          content="https://www.taranghirani.com/terms"
+          content="https://www.asilisafaris.in/terms"
           key="og:url"
         />
         <meta name="twitter:title" content={PAGE_TITLE} key="twitter:title" />
