@@ -1,5 +1,9 @@
 import Head from "next/head";
 
+const PAGE_TITLE = "Terms and Conditions | Tarang Hirani";
+const DESCRIPTION =
+  "Booking, payment, cancellation and participation terms for Asili Safaris wildlife photography trips and workshops led by Tarang Hirani.";
+
 // Wording supplied by Tarang; reproduce verbatim, never edit or paraphrase.
 type Block =
   | { p: string; lead?: string }
@@ -473,10 +477,24 @@ export default function TermsPage() {
   return (
     <>
       <Head>
-        <title>Terms and Conditions | Tarang Hirani</title>
+        <title>{PAGE_TITLE}</title>
+        <meta name="description" content={DESCRIPTION} />
+        <meta property="og:title" content={PAGE_TITLE} key="og:title" />
         <meta
-          name="description"
-          content="Booking, payment, cancellation and participation terms for Asili Safaris wildlife photography trips and workshops led by Tarang Hirani."
+          property="og:description"
+          content={DESCRIPTION}
+          key="og:description"
+        />
+        <meta
+          property="og:url"
+          content="https://www.taranghirani.com/terms"
+          key="og:url"
+        />
+        <meta name="twitter:title" content={PAGE_TITLE} key="twitter:title" />
+        <meta
+          name="twitter:description"
+          content={DESCRIPTION}
+          key="twitter:description"
         />
         <meta name="robots" content="noindex, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
