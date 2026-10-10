@@ -1,10 +1,10 @@
-// Single source of truth for fixed-date workshops: a list of destinations,
-// each with its scheduled departures. Drives the nav dropdown, the home page
-// cards, the /destinations listing, and each destination's detail page, so
-// they never drift apart.
+// Single source of truth for fixed-date workshops: a list of destinations
+// (data in lib/destinations.json, added via `yarn destination:add`), each
+// with its scheduled departures and detail-page copy. Drives the nav
+// dropdown, the home page cards, the /destinations listing, and each
+// destination's detail page, so they never drift apart.
 
-const CLOUDINARY_BASE =
-  "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto";
+import destinationsData from "./destinations.json";
 
 export const COUNTRY_ORDER = ["India", "Kenya"] as const;
 export type Country = (typeof COUNTRY_ORDER)[number];
@@ -36,42 +36,46 @@ export interface Destination {
   image: string;
   imageAlt: string;
   departures: Departure[];
+  page: DestinationPage;
 }
 
-export const DESTINATIONS: Destination[] = [
-  {
-    slug: "panna",
-    name: "Panna",
-    country: "India",
-    location: "Panna, MP",
-    summary:
-      "3 nights / 4 days · 6 safaris · Price on enquiry (twin sharing). Limited seats, first come, first served.",
-    shortSummary: "Limited seats, first come, first served.",
-    image: `${CLOUDINARY_BASE}/_Z9_20250508_TMH_8461_wm_vwr6rk`,
-    imageAlt:
-      "A tiger cooling in a forest pool at the water's edge, framed by dense central-India woodland in golden light",
-    departures: [
-      {
-        id: "nov-2026",
-        startDate: "2026-11-26",
-        endDate: "2026-11-29",
-        status: "sold-out",
-        maxParticipants: 6,
-        seasonNote:
-          "Early in the season — the forest still fresh after the monsoon, soft light, and a quiet, uncrowded park.",
-      },
-      {
-        id: "jan-2027",
-        startDate: "2027-01-21",
-        endDate: "2027-01-24",
-        status: "open",
-        maxParticipants: 6,
-        seasonNote:
-          "The heart of Panna's winter — crisp, misty mornings and wildlife increasingly drawn to the Ken as the forest dries.",
-      },
-    ],
-  },
-];
+// Copy for /destinations/<slug>. Paragraphs accept [text](/path) links.
+export interface DestinationPage {
+  fullLocation: string; // "Panna, Madhya Pradesh" — title, h1, breadcrumb
+  metaLead: string; // meta description, before the next-departure line
+  ogImage: string;
+  heroLine: string;
+  intro: string[];
+  why: string[];
+  howTheDaysRun: string[];
+  itinerary: {
+    day: string;
+    title: string;
+    items: { time: string; text: string }[];
+  }[];
+  included: string[];
+  notIncluded: string[];
+  goodToKnow: string[];
+  // Evergreen facts; group size is appended from the departures.
+  facts: { label: string; value: string }[];
+  price: string;
+  priceNote: string;
+  gettingThere: { intro: string; routes: { label: string; text: string }[] };
+  // schema.org Event details. Times carry the local UTC offset.
+  event: {
+    startTime: string; // "12:15:00+05:30", Day 1 arrival
+    endTime: string; // "11:30:00+05:30", last-day transfer
+    enquiriesOpen: string; // ISO date
+    placeName: string;
+    addressLocality: string;
+    addressRegion: string;
+    addressCountry: string; // ISO 3166 alpha-2, "IN"
+    latitude: number;
+    longitude: number;
+  };
+}
+
+export const DESTINATIONS = destinationsData as Destination[];
 
 const MONTHS = [
   "Jan",

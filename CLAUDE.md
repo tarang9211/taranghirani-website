@@ -40,6 +40,12 @@ pages/
 - `yarn testimonial:sample` seeds the handoff placeholders (`sample-*` ids) for local preview only. They must not be committed; builds on Vercel refuse them.
 - After adding an entry run `yarn build` and commit the regenerated `public/sitemap*.xml` with the data file.
 
+### Destinations
+
+- Data lives in `lib/destinations.json`, typed and read through `lib/workshops.ts`. Every entry renders at `/destinations/<slug>` via the shared template `pages/destinations/[slug].tsx`.
+- Add a destination with `yarn destination:add` (guided prompts). Real trip details only. New dates for an existing destination: edit its `departures` directly; retire a trip with `"status": "expired"`.
+- After adding run `yarn build` and commit the regenerated `public/sitemap*.xml` with the data file.
+
 ### Non Negotiables
 
 - The website must be performant

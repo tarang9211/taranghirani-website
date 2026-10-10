@@ -50,7 +50,9 @@ const getCtaClasses = (scrolled: boolean) =>
   }`;
 
 const Navbar: React.FC = () => {
-  const { pathname } = useRouter();
+  // asPath, not pathname: on dynamic routes pathname is the template
+  // ("/destinations/[slug]"), which would never match a destination link.
+  const pathname = useRouter().asPath.split(/[?#]/)[0];
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isHome = pathname === "/";

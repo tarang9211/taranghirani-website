@@ -13,7 +13,8 @@
     "slide": "tsx scripts/generate-slide.ts",
     "tour-poster": "tsx scripts/generate-tour-poster.ts",
     "testimonial:add": "tsx scripts/add-testimonial.ts",
-    "testimonial:sample": "tsx scripts/add-testimonial.ts --sample"
+    "testimonial:sample": "tsx scripts/add-testimonial.ts --sample",
+    "destination:add": "tsx scripts/add-destination.ts"
   },
   "engines": {
     "node": "22.x"
