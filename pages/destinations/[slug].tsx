@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,215 +20,20 @@ import {
   formatDateRange,
   formatDateRangeLong,
 } from "../../lib/workshops";
-import type { Departure } from "../../lib/workshops";
+import type { Departure, Destination } from "../../lib/workshops";
 
-const dest = DESTINATIONS.find((d) => d.slug === "panna")!;
-// Departures shown on this page — expired ones drop out everywhere.
-const departures = visibleDepartures(dest);
-const openDepartures = departures.filter((d) => d.status === "open");
-const nextDeparture = openDepartures[0];
+// Every destination gets a page, even with no visible departures: it falls
+// back to the "No upcoming dates" state rather than a 404.
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: DESTINATIONS.map((d) => ({ params: { slug: d.slug } })),
+  fallback: false,
+});
 
-const CLOUDINARY_BASE =
-  "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto";
-
-const IMG = {
-  // Single honest central-India cover frame — not represented as Panna.
-  hero: `${CLOUDINARY_BASE}/_Z9_20250508_TMH_8461_wm_vwr6rk`,
-};
-
-const PAGE_URL = "https://www.taranghirani.com/destinations/panna";
-// Full state name in title + h1: searchers type "Madhya Pradesh", not "MP".
-const PAGE_TITLE = "Wildlife Photography Workshop in Panna, Madhya Pradesh";
-// Snippet lists only the next bookable date — sold-out departures stay out of
-// the SERP, and the string stays under ~155 chars as departures accumulate.
-const PAGE_DESCRIPTION =
-  "A 4-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris with in-field guidance." +
-  (nextDeparture
-    ? ` Next departure: ${formatDateRange(nextDeparture)}.`
-    : "") +
-  " Limited seats.";
-const OG_IMAGE =
-  "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/_Z9_20260212_100758_TMH_website_s3qioq";
-
-// Carries through to the enquiry notification so it's clearly a Panna lead
-// for a specific departure.
-const subjectFor = (dep: Departure) =>
-  `Panna Wildlife Photography Workshop — ${formatDateRange(dep)}`;
-const messageFor = (dep: Departure) =>
-  `Hi Tarang, I'd like to enquire about the Panna wildlife photography workshop (${formatDateRange(dep)}). Please share availability and next steps.`;
-const whatsappHrefFor = (dep?: Departure) =>
-  `${WHATSAPP_URL}?text=` +
-  encodeURIComponent(
-    dep
-      ? `I'm interested in the Panna workshop (${formatDateRange(dep)})`
-      : "I'm interested in the Panna workshop",
-  );
-
-// When enquiries opened, for the JSON-LD offers.
-const ENQUIRIES_OPEN = "2026-01-01";
-
-// One schema.org Event per visible departure, each with its own identity —
-// identical name/url/description across Events makes them indistinguishable
-// to Google. Start/end times match the Day 1 arrival and Day 4 transfer.
-const EVENTS_JSON_LD = departures.map((dep) => ({
-  "@context": "https://schema.org",
-  "@type": "Event",
-  "@id": `${PAGE_URL}#${dep.id}`,
-  name: `Wildlife Photography Workshop — Panna (${formatDateRange(dep)})`,
-  description: dep.seasonNote ?? PAGE_DESCRIPTION,
-  startDate: `${dep.startDate}T12:15:00+05:30`,
-  endDate: `${dep.endDate}T11:30:00+05:30`,
-  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-  eventStatus: "https://schema.org/EventScheduled",
-  maximumAttendeeCapacity: dep.maxParticipants,
-  image: OG_IMAGE,
-  url: `${PAGE_URL}#${dep.id}`,
-  location: {
-    "@type": "Place",
-    name: "Panna Tiger Reserve",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Panna",
-      addressRegion: "Madhya Pradesh",
-      addressCountry: "IN",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: 24.72,
-      longitude: 80.02,
-    },
-  },
-  organizer: {
-    "@type": "Person",
-    name: "Tarang Hirani",
-    url: "https://www.taranghirani.com",
-  },
-  performer: {
-    "@type": "Person",
-    name: "Tarang Hirani",
-    url: "https://www.taranghirani.com",
-  },
-  offers: {
-    "@type": "Offer",
-    availability:
-      dep.status === "sold-out"
-        ? "https://schema.org/SoldOut"
-        : "https://schema.org/LimitedAvailability",
-    url: `${PAGE_URL}#${dep.id}`,
-    validFrom: ENQUIRIES_OPEN,
-  },
-}));
-
-const BREADCRUMB_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Workshops",
-      item: "https://www.taranghirani.com/destinations",
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Panna, Madhya Pradesh",
-      item: PAGE_URL,
-    },
-  ],
-};
-
-const JSON_LD = [...EVENTS_JSON_LD, BREADCRUMB_JSON_LD];
-
-// One itinerary serves every departure: day labels are generic, and the
-// actual calendar dates live on the departure cards above it.
-const ITINERARY: {
-  day: string;
-  title: string;
-  items: { time: string; text: string }[];
-}[] = [
-  {
-    day: "Day 1",
-    title: "Arrival",
-    items: [
-      {
-        time: "12:15 pm",
-        text: "Arrive at Khajuraho Airport (HJR), transfer to Naaharbagh",
-      },
-      {
-        time: "2:00 pm",
-        text: "Lunch at Naaharbagh: an introduction to Panna and its history, then camera setup",
-      },
-      { time: "3:00 pm", text: "Evening safari" },
-      { time: "7:00 pm", text: "Return and freshen up" },
-      { time: "8:00 pm", text: "Briefing & dinner" },
-      { time: "9:00 pm", text: "Lights out" },
-    ],
-  },
-  {
-    day: "Days 2–3",
-    title: "Workshop",
-    items: [
-      { time: "4:30 am", text: "Wake up, morning coffee/tea" },
-      { time: "5:00 am", text: "Morning safari, with breakfast in the bush" },
-      { time: "11:30 am", text: "Return to Naaharbagh for lunch" },
-      { time: "3:00 pm", text: "Evening safari" },
-      { time: "7:00 pm", text: "Return and freshen up" },
-      { time: "8:00 pm", text: "Photography & post-processing session" },
-      { time: "9:00 pm", text: "Dinner & lights out" },
-    ],
-  },
-  {
-    day: "Day 4",
-    title: "Morning safari & departure",
-    items: [
-      { time: "4:30 am", text: "Wake up, morning coffee/tea" },
-      { time: "5:00 am", text: "Morning safari, with breakfast in the bush" },
-      { time: "10:30 am", text: "Return to Naaharbagh, freshen up & check out" },
-      {
-        time: "11:30 am",
-        text: "Transfer to Khajuraho Airport (HJR). Trip concludes.",
-      },
-    ],
-  },
-];
-
-const INCLUDED = [
-  "Accommodation at Naaharbagh",
-  "Airport transfers",
-  "All meals (3 per day)",
-  "All safaris",
-  "On-field photography guidance",
-  "Post-processing sessions",
-];
-
-const NOT_INCLUDED = [
-  "Air fare",
-  "Camera fees (paid at the park gate)",
-  "Beverages, alcoholic and non-alcoholic",
-  "Personal expenses such as laundry",
-  "Anything not listed under inclusions",
-];
-
-const GOOD_TO_KNOW = [
-  "Limited to a total of six participants, offered on a first-come, first-served basis",
-  "Your seat is confirmed only once a 20% advance is paid",
-  "Rooms on a twin-sharing basis (single room available at extra cost)",
-  "Safari permit fees are subject to revision; any changes will be communicated promptly",
-];
-
-// Dates intentionally left out: they change per departure and live in the
-// "Dates & availability" section — this card is for the evergreen facts.
-const FACTS = [
-  { label: "Length", value: "3 nights / 4 days" },
-  { label: "Safaris", value: "6 across the trip" },
-  { label: "Base", value: "Naaharbagh, Panna" },
-  { label: "Nearest airport", value: "Khajuraho (HJR)" },
-  {
-    label: "Group size",
-    value: `Limited to ${departures[0]?.maxParticipants ?? 6} participants`,
-  },
-];
+export const getStaticProps: GetStaticProps<{ dest: Destination }> = async ({
+  params,
+}) => ({
+  props: { dest: DESTINATIONS.find((d) => d.slug === params?.slug)! },
+});
 
 // Compact, consistent heading + label styles for the dense brochure body.
 const SUBHEAD =
@@ -235,6 +41,29 @@ const SUBHEAD =
 const MINI_LABEL =
   "text-[11px] font-medium uppercase tracking-[0.25em] text-sage";
 const BODY_COPY = "text-base leading-[1.8] text-smoke";
+
+// Renders [text](/path) inside page copy as an internal link.
+function RichText({ text }: { text: string }) {
+  // split with capture groups yields [plain, label, href, plain, ...]
+  const parts = text.split(/\[([^\]]+)\]\(([^)]+)\)/);
+  return (
+    <>
+      {parts.map((part, i) =>
+        i % 3 === 1 ? (
+          <Link
+            key={i}
+            href={parts[i + 1]}
+            className="underline decoration-sage/40 underline-offset-4 transition-colors duration-300 hover:text-sage"
+          >
+            {part}
+          </Link>
+        ) : i % 3 === 2 ? null : (
+          part
+        ),
+      )}
+    </>
+  );
+}
 
 function ClaimButton({ className = "" }: { className?: string }) {
   return (
@@ -253,46 +82,171 @@ function ClaimButton({ className = "" }: { className?: string }) {
   );
 }
 
-export default function PannaWorkshopPage() {
+export default function DestinationWorkshopPage({
+  dest,
+}: {
+  dest: Destination;
+}) {
+  const { name, page } = dest;
+  // Departures shown on this page — expired ones drop out everywhere.
+  const departures = visibleDepartures(dest);
+  const nextDeparture = departures.find((d) => d.status === "open");
+
   // The departure a "Enquire about these dates" click refers to. Defaults to
   // the soonest open departure so the form is never date-less.
   const [enquiry, setEnquiry] = useState<Departure | undefined>(
-    departures.find((d) => d.status === "open") ?? departures[0],
+    nextDeparture ?? departures[0],
   );
+
+  const pageUrl = `https://www.taranghirani.com/destinations/${dest.slug}`;
+  // Full region name in title + h1: searchers type "Madhya Pradesh", not "MP".
+  const pageTitle = `Wildlife Photography Workshop in ${page.fullLocation}`;
+  // Snippet lists only the next bookable date — sold-out departures stay out
+  // of the SERP, and the string stays under ~155 chars as departures
+  // accumulate.
+  const pageDescription =
+    page.metaLead +
+    (nextDeparture
+      ? ` Next departure: ${formatDateRange(nextDeparture)}.`
+      : "") +
+    " Limited seats.";
+
+  // Carries through to the enquiry notification so it's clearly a lead for
+  // this destination and a specific departure.
+  const subjectFor = (dep: Departure) =>
+    `${name} Wildlife Photography Workshop — ${formatDateRange(dep)}`;
+  const messageFor = (dep: Departure) =>
+    `Hi Tarang, I'd like to enquire about the ${name} wildlife photography workshop (${formatDateRange(dep)}). Please share availability and next steps.`;
+  const whatsappHref =
+    `${WHATSAPP_URL}?text=` +
+    encodeURIComponent(
+      enquiry
+        ? `I'm interested in the ${name} workshop (${formatDateRange(enquiry)})`
+        : `I'm interested in the ${name} workshop`,
+    );
+
+  const { event } = page;
+  // One schema.org Event per visible departure, each with its own identity —
+  // identical name/url/description across Events makes them indistinguishable
+  // to Google. Start/end times match the Day 1 arrival and last-day transfer.
+  const eventsJsonLd = departures.map((dep) => ({
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "@id": `${pageUrl}#${dep.id}`,
+    name: `Wildlife Photography Workshop — ${name} (${formatDateRange(dep)})`,
+    description: dep.seasonNote ?? pageDescription,
+    startDate: `${dep.startDate}T${event.startTime}`,
+    endDate: `${dep.endDate}T${event.endTime}`,
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    eventStatus: "https://schema.org/EventScheduled",
+    maximumAttendeeCapacity: dep.maxParticipants,
+    image: page.ogImage,
+    url: `${pageUrl}#${dep.id}`,
+    location: {
+      "@type": "Place",
+      name: event.placeName,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: event.addressLocality,
+        addressRegion: event.addressRegion,
+        addressCountry: event.addressCountry,
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: event.latitude,
+        longitude: event.longitude,
+      },
+    },
+    organizer: {
+      "@type": "Person",
+      name: "Tarang Hirani",
+      url: "https://www.taranghirani.com",
+    },
+    performer: {
+      "@type": "Person",
+      name: "Tarang Hirani",
+      url: "https://www.taranghirani.com",
+    },
+    offers: {
+      "@type": "Offer",
+      availability:
+        dep.status === "sold-out"
+          ? "https://schema.org/SoldOut"
+          : "https://schema.org/LimitedAvailability",
+      url: `${pageUrl}#${dep.id}`,
+      validFrom: event.enquiriesOpen,
+    },
+  }));
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Workshops",
+        item: "https://www.taranghirani.com/destinations",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: page.fullLocation,
+        item: pageUrl,
+      },
+    ],
+  };
+
+  // Dates intentionally left out: they change per departure and live in the
+  // "Dates & availability" section — this card is for the evergreen facts.
+  const facts = [
+    ...page.facts,
+    {
+      label: "Group size",
+      value: `Limited to ${departures[0]?.maxParticipants ?? 6} participants`,
+    },
+  ];
 
   return (
     <>
       <Head>
-        <title>{PAGE_TITLE}</title>
-        <meta name="description" content={PAGE_DESCRIPTION} />
-        <meta property="og:title" content={PAGE_TITLE} key="og:title" />
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta property="og:title" content={pageTitle} key="og:title" />
         <meta
           property="og:description"
-          content={PAGE_DESCRIPTION}
+          content={pageDescription}
           key="og:description"
         />
-        <meta property="og:url" content={PAGE_URL} key="og:url" />
-        <meta property="og:image" content={OG_IMAGE} key="og:image" />
-        <meta name="twitter:title" content={PAGE_TITLE} key="twitter:title" />
+        <meta property="og:url" content={pageUrl} key="og:url" />
+        <meta property="og:image" content={page.ogImage} key="og:image" />
+        <meta name="twitter:title" content={pageTitle} key="twitter:title" />
         <meta
           name="twitter:description"
-          content={PAGE_DESCRIPTION}
+          content={pageDescription}
           key="twitter:description"
         />
-        <meta name="twitter:image" content={OG_IMAGE} key="twitter:image" />
+        <meta
+          name="twitter:image"
+          content={page.ogImage}
+          key="twitter:image"
+        />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([...eventsJsonLd, breadcrumbJsonLd]),
+          }}
         />
       </Head>
 
       {/* HERO */}
       <section className="relative">
         <div className="relative min-h-[56vh] w-full overflow-hidden md:h-[68vh] md:min-h-0">
+          {/* shortcut: mobile crop tuned for the Panna frame, add a per-destination field if another hero crops badly */}
           <Image
             priority
-            src={IMG.hero}
-            alt="A tiger cooling in a forest pool at the water's edge, framed by dense central-India woodland in golden light"
+            src={dest.image}
+            alt={dest.imageAlt}
             fill
             sizes="100vw"
             className="animate-slow-zoom object-cover object-[62%_bottom] md:object-center"
@@ -306,11 +260,10 @@ export default function PannaWorkshopPage() {
                   A field workshop
                 </p>
                 <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-white md:text-5xl lg:text-6xl">
-                  Wildlife Photography Workshop — Panna, Madhya Pradesh
+                  Wildlife Photography Workshop — {page.fullLocation}
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-[1.7] text-white/85 md:text-lg">
-                  3 nights / 4 days · 6 safaris · Limited seats · Price on
-                  enquiry (twin sharing)
+                  {page.heroLine}
                 </p>
                 {nextDeparture && (
                   <a
@@ -339,21 +292,11 @@ export default function PannaWorkshopPage() {
                 <div className="space-y-12 md:space-y-14">
                   {/* Intro */}
                   <div className={`space-y-4 ${BODY_COPY} md:text-lg`}>
-                    <p>
-                      Four days in one of central India&apos;s quietest tiger
-                      reserves, built entirely around making photographs.
-                      Mornings and evenings in the field, breakfast in the
-                      bush, and unhurried evening sessions where we go through
-                      the day&apos;s frames together. Kept deliberately small,
-                      so the guidance is personal and the jeeps never crowded.
-                    </p>
-                    <p>
-                      This is a workshop, not a sightseeing tour. The aim is to
-                      send you home with images you&apos;re proud of, and with
-                      the habits that made them: reading light, anticipating
-                      behaviour, choosing your position before the moment
-                      arrives.
-                    </p>
+                    {page.intro.map((p) => (
+                      <p key={p}>
+                        <RichText text={p} />
+                      </p>
+                    ))}
                   </div>
 
                   {/* Dates & availability */}
@@ -414,64 +357,34 @@ export default function PannaWorkshopPage() {
                     )}
                   </div>
 
-                  {/* Why Panna */}
+                  {/* Why <destination> */}
                   <div className="border-t border-charcoal/10 pt-12">
-                    <h2 className={SUBHEAD}>Why Panna</h2>
+                    <h2 className={SUBHEAD}>Why {name}</h2>
                     <div className={`mt-4 space-y-4 ${BODY_COPY}`}>
-                      <p>
-                        Panna Tiger Reserve sits in Madhya Pradesh, a short
-                        drive from the temple town of Khajuraho. It&apos;s one
-                        of Indian conservation&apos;s great comeback stories —
-                        tigers were lost here around 2009 and carefully
-                        reintroduced, and the reserve has since recovered into a
-                        thriving habitat. I&apos;ve written{" "}
-                        <Link
-                          href="/blog/the-panna-story"
-                          className="underline decoration-sage/40 underline-offset-4 transition-colors duration-300 hover:text-sage"
-                        >
-                          the full story of Panna&apos;s tiger recovery
-                        </Link>{" "}
-                        in the journal. The Ken river runs through it, cutting
-                        gorges and plateaus that give the landscape a character
-                        quite different from the more famous reserves. Beyond
-                        tigers, Panna is rich in leopards, sloth bears,
-                        crocodiles along the Ken, and some of central
-                        India&apos;s best raptor and vulture activity.
-                      </p>
-                      <p>
-                        The departures run through Panna&apos;s dry, cool
-                        season — from the fresh, green forest just after the
-                        monsoon to the crisp heart of winter, when misty
-                        mornings and a drying forest draw wildlife to the Ken.
-                        Soft light, comfortable temperatures, and a quiet,
-                        uncrowded park. It&apos;s a beautiful time to
-                        photograph it.
-                      </p>
+                      {page.why.map((p) => (
+                        <p key={p}>
+                          <RichText text={p} />
+                        </p>
+                      ))}
                     </div>
                   </div>
 
                   {/* How the days run */}
                   <div className="border-t border-charcoal/10 pt-12">
                     <h2 className={SUBHEAD}>How the days run</h2>
-                    <p className={`mt-4 ${BODY_COPY}`}>
-                      Out before first light for the morning safari, with
-                      breakfast carried into the bush so we stay in the field
-                      through the best light. Back to the lodge for lunch and a
-                      quiet middle of the day. Out again for the evening safari
-                      as the light turns. After dinner, a photography and
-                      post-processing session — looking at what came home,
-                      talking through what worked, and building the edit. The
-                      trip opens with an evening safari on arrival day and
-                      closes with a morning safari before departure — six
-                      safaris across the trip.
-                    </p>
+                    {page.howTheDaysRun.map((p) => (
+                      <p key={p} className={`mt-4 ${BODY_COPY}`}>
+                        <RichText text={p} />
+                      </p>
+                    ))}
                   </div>
 
-                  {/* Itinerary */}
+                  {/* Itinerary — one for every departure: day labels are
+                      generic, the calendar dates live on the cards above. */}
                   <div className="border-t border-charcoal/10 pt-12">
                     <h2 className={SUBHEAD}>The itinerary</h2>
                     <div className="mt-6 space-y-7">
-                      {ITINERARY.map((block) => (
+                      {page.itinerary.map((block) => (
                         <div key={block.day}>
                           <div className="flex flex-wrap items-baseline gap-x-3">
                             <span className="font-display text-sm tracking-[0.15em] text-sage">
@@ -506,7 +419,7 @@ export default function PannaWorkshopPage() {
                       <div>
                         <p className={MINI_LABEL}>Included</p>
                         <ul className="mt-4 space-y-2 text-sm leading-[1.6] text-smoke">
-                          {INCLUDED.map((item) => (
+                          {page.included.map((item) => (
                             <li key={item} className="flex gap-2.5">
                               <span aria-hidden className="text-sage">
                                 —
@@ -519,7 +432,7 @@ export default function PannaWorkshopPage() {
                       <div>
                         <p className={MINI_LABEL}>Not included</p>
                         <ul className="mt-4 space-y-2 text-sm leading-[1.6] text-smoke">
-                          {NOT_INCLUDED.map((item) => (
+                          {page.notIncluded.map((item) => (
                             <li key={item} className="flex gap-2.5">
                               <span aria-hidden className="text-smoke/40">
                                 —
@@ -536,7 +449,7 @@ export default function PannaWorkshopPage() {
                   <div className="border-t border-charcoal/10 pt-12">
                     <h2 className={SUBHEAD}>Good to know</h2>
                     <ul className="mt-5 space-y-2.5 text-sm leading-[1.6] text-smoke">
-                      {GOOD_TO_KNOW.map((item) => (
+                      {page.goodToKnow.map((item) => (
                         <li key={item} className="flex gap-2.5">
                           <span aria-hidden className="text-sage">
                             —
@@ -551,36 +464,20 @@ export default function PannaWorkshopPage() {
                   <div className="border-t border-charcoal/10 pt-12">
                     <h2 className={SUBHEAD}>Getting there</h2>
                     <p className={`mt-4 ${BODY_COPY}`}>
-                      The nearest airport is Khajuraho (HJR). Flights are not
-                      included. Suggested routing from Pune (timings
-                      indicative; please check schedules closer to your
-                      dates):
+                      <RichText text={page.gettingThere.intro} />
                     </p>
                     <ul className="mt-4 space-y-2.5 text-sm leading-[1.6] text-smoke">
-                      <li className="flex gap-3">
-                        <span
-                          aria-hidden
-                          className="font-display text-[11px] uppercase tracking-[0.2em] text-sage"
-                        >
-                          Out
-                        </span>
-                        <span>
-                          Pune (PNQ) → Khajuraho (HJR), morning departure on
-                          Day 1, arriving by 12:15 pm, via Delhi
-                        </span>
-                      </li>
-                      <li className="flex gap-3">
-                        <span
-                          aria-hidden
-                          className="font-display text-[11px] uppercase tracking-[0.2em] text-sage"
-                        >
-                          Return
-                        </span>
-                        <span>
-                          Khajuraho (HJR) → Pune (PNQ), afternoon departure on
-                          Day 4, via Delhi
-                        </span>
-                      </li>
+                      {page.gettingThere.routes.map((route) => (
+                        <li key={route.label} className="flex gap-3">
+                          <span
+                            aria-hidden
+                            className="font-display text-[11px] uppercase tracking-[0.2em] text-sage"
+                          >
+                            {route.label}
+                          </span>
+                          <span>{route.text}</span>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -592,7 +489,7 @@ export default function PannaWorkshopPage() {
               <div className="border border-charcoal/10 bg-white p-6 md:sticky md:top-28 md:p-7">
                 <p className={MINI_LABEL}>The essentials</p>
                 <dl className="mt-5 divide-y divide-charcoal/10">
-                  {FACTS.map((f) => (
+                  {facts.map((f) => (
                     <div
                       key={f.label}
                       className="flex items-baseline justify-between gap-4 py-2.5"
@@ -608,10 +505,10 @@ export default function PannaWorkshopPage() {
                 </dl>
                 <div className="mt-5 border-t border-charcoal/10 pt-5">
                   <p className="font-display text-2xl font-semibold tracking-tight text-charcoal">
-                    On enquiry
+                    {page.price}
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-smoke">
-                    Twin sharing. Single room at extra cost (on request).
+                    {page.priceNote}
                   </p>
                 </div>
                 <div className="mt-5 border border-sage/40 bg-sage/10 p-4">
@@ -666,12 +563,12 @@ export default function PannaWorkshopPage() {
                 subject={
                   enquiry
                     ? subjectFor(enquiry)
-                    : "Panna Wildlife Photography Workshop"
+                    : `${name} Wildlife Photography Workshop`
                 }
                 defaultMessage={
                   enquiry
                     ? messageFor(enquiry)
-                    : "Hi Tarang, I'd like to enquire about the next Panna wildlife photography workshop. Please share upcoming dates and next steps."
+                    : `Hi Tarang, I'd like to enquire about the next ${name} wildlife photography workshop. Please share upcoming dates and next steps.`
                 }
               />
             </div>
@@ -689,10 +586,10 @@ export default function PannaWorkshopPage() {
             <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 md:mt-10 md:gap-x-8">
               <li>
                 <a
-                  href={whatsappHrefFor(enquiry)}
+                  href={whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Chat on WhatsApp at ${PHONE_NUMBER_DISPLAY} about the Panna workshop`}
+                  aria-label={`Chat on WhatsApp at ${PHONE_NUMBER_DISPLAY} about the ${name} workshop`}
                   className="group inline-flex items-center gap-2 text-xs text-smoke transition-colors duration-300 hover:text-sage md:text-sm"
                 >
                   <MessageCircle size={14} strokeWidth={1.5} />
