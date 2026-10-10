@@ -4,8 +4,10 @@ import ImageCarousel from "../components/ImageCarousel";
 import SafariOffering from "../components/SafariOffering";
 import UpcomingWorkshops from "../components/UpcomingWorkshops";
 import AboutMe from "../components/AboutMe";
+import Testimonials from "../components/Testimonials";
 
 import { getHeroImages, listImages } from "../lib/helpers";
+import { featuredTestimonials } from "../lib/testimonials";
 
 // Entity data for search: ties the name to wildlife photography and the
 // Instagram profile. Claims here must stay factual (see PRODUCT.md).
@@ -40,6 +42,7 @@ export async function getStaticProps() {
       heroDesktop: heroImages.desktop,
       heroMobile: heroImages.mobile,
       carouselImages,
+      testimonials: featuredTestimonials(3),
     },
     revalidate: 3600,
   };
@@ -49,6 +52,7 @@ export default function Home({
   heroDesktop,
   heroMobile,
   carouselImages,
+  testimonials,
 }) {
   // The photography leads: work first, then who made it, then the trips.
   return (
@@ -68,6 +72,7 @@ export default function Home({
       <ImageCarousel images={carouselImages} />
       <AboutMe />
       <UpcomingWorkshops theme="dark" showViewAll concise />
+      <Testimonials items={testimonials} />
       <SafariOffering />
     </div>
   );

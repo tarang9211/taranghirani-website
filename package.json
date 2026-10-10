@@ -11,7 +11,9 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "carousel": "tsx scripts/generate-carousel.ts",
     "slide": "tsx scripts/generate-slide.ts",
-    "tour-poster": "tsx scripts/generate-tour-poster.ts"
+    "tour-poster": "tsx scripts/generate-tour-poster.ts",
+    "testimonial:add": "tsx scripts/add-testimonial.ts",
+    "testimonial:sample": "tsx scripts/add-testimonial.ts --sample"
   },
   "engines": {
     "node": "22.x"
