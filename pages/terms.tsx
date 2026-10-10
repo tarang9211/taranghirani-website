@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const PAGE_TITLE = "Terms and Conditions | Tarang Hirani";
+const PAGE_TITLE = "Terms and Conditions | Asili Safaris";
 const DESCRIPTION =
   "Booking, payment, cancellation and participation terms for Asili Safaris wildlife photography trips and workshops led by Tarang Hirani.";
 
