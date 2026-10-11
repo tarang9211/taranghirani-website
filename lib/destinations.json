@@ -196,5 +196,176 @@
         "longitude": 80.02
       }
     }
+  },
+  {
+    "slug": "jim-corbett",
+    "name": "Jim Corbett",
+    "country": "India",
+    "location": "Corbett, Uttarakhand",
+    "summary": "4 nights / 5 days · 6 safaris · Accommodation in the core zone · Price on enquiry (twin sharing). Limited seats, first come, first served.",
+    "shortSummary": "Limited seats, first come, first served.",
+    "image": "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto,w_1920/v1788184512/TMH_0114-20260426_wm_ukoy6q.jpg",
+    "imageAlt": "A tiger sits on a stony riverbank and looks across the water, below a steep slope of green forest",
+    "departures": [
+      {
+        "id": "mar-2027",
+        "startDate": "2027-03-04",
+        "endDate": "2027-03-08",
+        "status": "open",
+        "maxParticipants": 6
+      }
+    ],
+    "page": {
+      "fullLocation": "Jim Corbett, Uttarakhand",
+      "metaLead": "A 5-day wildlife photography workshop in Corbett Tiger Reserve, Uttarakhand, with 6 safaris from Dhikala.",
+      "ogImage": "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/v1788184512/TMH_0114-20260426_wm_ukoy6q.jpg",
+      "heroLine": "4 nights / 5 days · 6 safaris · Accommodation in the core zone · Limited seats · Price on enquiry (twin sharing)",
+      "intro": [
+        "This is a 5-day wildlife photography workshop in Corbett Tiger Reserve, in the state of Uttarakhand. We start and end the trip in Delhi. We stay 3 nights at the government Forest Rest House in Dhikala. Dhikala is in the core zone, the most protected part of the reserve. We go on 6 safaris across the trip. The group is small, so I can give each guest personal help in the field.",
+        "The workshop is for anyone who wants to make better wildlife photographs. You do not need experience. In the jeep, I help you read the light and set your camera. Each evening, we look at your photographs together. We talk about what worked and what to try next. I also teach post-processing, which means editing your photographs on a computer. You go home with better photographs and the habits that helped you make them."
+      ],
+      "why": [
+        "Corbett Tiger Reserve covers about 1,288 sq km. At its centre is the national park, of about 521 sq km. This is the core zone. The forest around the core is the buffer zone, where some human use is allowed. The park opened in 1936 as Hailey National Park. It was the first national park in mainland Asia. Today it has the name of Jim Corbett, a hunter who became a naturalist and author. In 1973, Corbett became one of the first nine reserves of Project Tiger, the national programme to protect tigers. The 2022 national tiger count recorded 260 tigers here. No other Indian tiger reserve recorded more.",
+        "Most of the park is dense forest of sal, a tall tree. Sal and many other trees here are deciduous, which means they lose their leaves in the dry season. Open grasslands cover about 10% of the park. Local people call these grasslands \"chaur\". The Ramganga River runs through the park. It has gharials, mugger crocodiles and otters. A gharial is a fish-eating crocodile with a long, thin snout. Other mammals include leopard, Asian elephant, sloth bear and several types of deer. The park also has records of more than 580 bird species. The departures run in March. When the deciduous trees lose their leaves, you can see further into the forest."
+      ],
+      "howTheDaysRun": [
+        "On the first day, we drive from Delhi to Ramnagar, at the edge of Corbett. The next morning, we drive into Dhikala, and we go on our first safari that evening. On the two full days in Dhikala, we go on a morning safari and an evening safari. Each evening in Corbett, we review your photographs and work on post-processing together. On the last day, we go on one more morning safari. Then we drive back to Delhi. That makes 6 safaris across the trip."
+      ],
+      "itinerary": [
+        {
+          "day": "Day 1",
+          "title": "Delhi to Ramnagar",
+          "items": [
+            {
+              "time": "12:00 pm",
+              "text": "Leave Delhi by road"
+            },
+            {
+              "time": "Evening",
+              "text": "Reach Ramnagar. Night on the edge of Corbett"
+            },
+            {
+              "time": "After dinner",
+              "text": "Post-processing and image review"
+            }
+          ]
+        },
+        {
+          "day": "Day 2",
+          "title": "Into Dhikala",
+          "items": [
+            {
+              "time": "Morning",
+              "text": "Drive from Ramnagar into Dhikala, in the core zone"
+            },
+            {
+              "time": "3:00 pm",
+              "text": "Evening safari, until 6:00 pm"
+            },
+            {
+              "time": "Evening",
+              "text": "Post-processing and image review"
+            }
+          ]
+        },
+        {
+          "day": "Days 3–4",
+          "title": "Dhikala",
+          "items": [
+            {
+              "time": "6:00 am",
+              "text": "Morning safari, until 10:00 am"
+            },
+            {
+              "time": "3:00 pm",
+              "text": "Evening safari, until 6:00 pm"
+            },
+            {
+              "time": "Evening",
+              "text": "Post-processing and image review"
+            }
+          ]
+        },
+        {
+          "day": "Day 5",
+          "title": "Return to Delhi",
+          "items": [
+            {
+              "time": "6:00 am",
+              "text": "Last morning safari, until 10:00 am"
+            },
+            {
+              "time": "2:00 pm",
+              "text": "Check out and drive to Delhi"
+            },
+            {
+              "time": "Evening",
+              "text": "Reach Delhi"
+            }
+          ]
+        }
+      ],
+      "included": [
+        "4 nights' accommodation, twin sharing: 1 night on the edge of Corbett, then 3 nights at the government Forest Rest House (FRH) in Dhikala, in the core zone",
+        "Road transfers from Delhi to Corbett and back",
+        "All meals (3 per day)",
+        "All safaris",
+        "On-field photography guidance",
+        "Post-processing sessions"
+      ],
+      "notIncluded": [
+        "Airfare to and from Delhi",
+        "Beverages, alcoholic and non-alcoholic",
+        "Personal expenses such as laundry",
+        "Anything not listed under inclusions"
+      ],
+      "goodToKnow": [
+        "Price on enquiry. Contact me through the enquiry form for pricing."
+      ],
+      "facts": [
+        {
+          "label": "Length",
+          "value": "4 nights / 5 days"
+        },
+        {
+          "label": "Safaris",
+          "value": "6 across the trip"
+        },
+        {
+          "label": "Base",
+          "value": "Dhikala, Corbett Tiger Reserve"
+        },
+        {
+          "label": "Starts and ends",
+          "value": "Delhi"
+        }
+      ],
+      "price": "On enquiry",
+      "priceNote": "Twin sharing. Single room at extra cost (on request).",
+      "gettingThere": {
+        "intro": "The trip starts and ends in Delhi. Airfare to Delhi is not included. Road travel from Delhi to Corbett and back is included.",
+        "routes": [
+          {
+            "label": "Out",
+            "text": "Your city → Delhi"
+          },
+          {
+            "label": "Return",
+            "text": "Delhi → your city"
+          }
+        ]
+      },
+      "event": {
+        "startTime": "12:00:00+05:30",
+        "endTime": "20:00:00+05:30",
+        "enquiriesOpen": "2026-10-11",
+        "placeName": "Corbett Tiger Reserve",
+        "addressLocality": "Ramnagar",
+        "addressRegion": "Uttarakhand",
+        "addressCountry": "IN",
+        "latitude": 29.55,
+        "longitude": 78.94
+      }
+    }
   }
 ]
