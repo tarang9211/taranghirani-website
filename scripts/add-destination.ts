@@ -10,6 +10,11 @@
 //
 // To add dates to an existing destination, edit its `departures` in
 // lib/destinations.json directly.
+//
+// After the name and country, the script researches the place (needs the
+// `claude` CLI) and offers the results as defaults. Page copy is asked last and
+// is drafted from the research plus the trip details you entered. Press Enter
+// to accept a suggestion.
 
 import * as fs from "fs/promises";
 import * as path from "path";
@@ -22,6 +27,12 @@ import type {
   Destination,
   DestinationPage,
 } from "../lib/workshops";
+import {
+  researchDestination,
+  writeCopy,
+  type Copy,
+  type Research,
+} from "./research-destination";
 
 const DATA_FILE = path.join(process.cwd(), "lib", "destinations.json");
 const STATUSES: readonly DepartureStatus[] = ["open", "sold-out", "expired"];
@@ -104,11 +115,18 @@ async function main() {
     }
   };
   // One item per line, finished by an empty line; at least one required.
-  const askList = async (q: string) => {
+  // With a suggestion, an empty first line accepts it.
+  const askList = async (q: string, suggestion?: string[]) => {
     console.log(`${q} (one per line, finish with an empty line)`);
+    if (suggestion?.length) {
+      console.log("  Suggested:");
+      suggestion.forEach((p) => console.log(`  > ${p}`));
+      console.log("  Press Enter to use these, or type your own.");
+    }
     const items: string[] = [];
     for (;;) {
       const line = await ask(">");
+      if (!line && !items.length && suggestion?.length) return suggestion;
       if (!line && items.length > 0) return items;
       if (line) items.push(line);
     }
@@ -119,7 +137,9 @@ async function main() {
       const raw = await askList(`${q}, as "left | right"`);
       const pairs = raw.map((l) => l.split("|").map((s) => s.trim()));
       if (pairs.every((p) => p.length === 2 && p[0] && p[1])) return pairs;
-      console.log('  Every line needs exactly one "|" with text on both sides.');
+      console.log(
+        '  Every line needs exactly one "|" with text on both sides.',
+      );
     }
   };
 
@@ -146,11 +166,36 @@ async function main() {
       "Country (number; add new ones to COUNTRY_ORDER in lib/workshops.ts first):",
       COUNTRY_ORDER,
     );
+
+    let r: Research | undefined;
+    console.log(
+      `\nResearching ${name} (flora, fauna, history). This can take a few minutes...`,
+    );
+    try {
+      r = await researchDestination(name, country);
+      const show = (title: string, notes: string[]) => {
+        console.log(`\n${title}:`);
+        notes.forEach((n) => console.log(`  - ${n}`));
+      };
+      show("Flora", r.findings.flora);
+      show("Fauna", r.findings.fauna);
+      show("History", r.findings.history);
+      show("Sources", r.sources);
+      console.log(
+        "\nCheck these facts. Suggestions appear as defaults below.\n",
+      );
+    } catch (err) {
+      console.log(
+        `  Research failed, continuing without suggestions: ${err instanceof Error ? err.message : err}\n`,
+      );
+    }
     const location = await askRequired(
       'Short location for cards, e.g. "Panna, MP":',
+      r?.location,
     );
     const fullLocation = await askRequired(
       'Full location for title, h1 and breadcrumb, e.g. "Panna, Madhya Pradesh":',
+      r?.fullLocation,
     );
     const summary = await askRequired(
       'Card summary, e.g. "3 nights / 4 days · 6 safaris · Price on enquiry (twin sharing). Limited seats, first come, first served.":',
@@ -166,7 +211,9 @@ async function main() {
       isCloudinary,
       "Must be an https://res.cloudinary.com/ URL.",
     );
-    const imageAlt = await askRequired("Hero image alt text (what's in the frame):");
+    const imageAlt = await askRequired(
+      "Hero image alt text (what's in the frame):",
+    );
     const ogDefault = image.includes("/upload/f_auto,q_auto/")
       ? image.replace(
           "/upload/f_auto,q_auto/",
@@ -180,28 +227,15 @@ async function main() {
       ogDefault,
     );
 
-    console.log("\n— Page copy");
-    const metaLead = await askRequired(
-      'Meta description lead, ~100 chars, e.g. "A 4-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris with in-field guidance.":',
-    );
-    if (metaLead.length > 110)
-      console.log(
-        "  Note: the next-departure line is appended; keep the lead under ~110 characters.",
-      );
-    const heroLine = await askRequired(
-      'Hero line, e.g. "3 nights / 4 days · 6 safaris · Limited seats · Price on enquiry (twin sharing)":',
-    );
-    const intro = await askList("Intro paragraphs");
-    const why = await askList(`"Why ${name}" paragraphs`);
-    const howTheDaysRun = await askList('"How the days run" paragraphs');
-
     console.log(
       '\n— Itinerary (one block per day or day range, e.g. "Day 1" / "Days 2–3")',
     );
     const itinerary: DestinationPage["itinerary"] = [];
     for (;;) {
       const day = await ask(
-        itinerary.length ? "Next block label (Enter to finish):" : "Block label:",
+        itinerary.length
+          ? "Next block label (Enter to finish):"
+          : "Block label:",
       );
       if (!day) {
         if (itinerary.length) break;
@@ -209,9 +243,9 @@ async function main() {
         continue;
       }
       const title = await askRequired('Block title, e.g. "Arrival":');
-      const items = (await askPairs("Schedule, e.g. 3:00 pm | Evening safari")).map(
-        ([time, text]) => ({ time, text }),
-      );
+      const items = (
+        await askPairs("Schedule, e.g. 3:00 pm | Evening safari")
+      ).map(([time, text]) => ({ time, text }));
       itinerary.push({ day, title, items });
     }
 
@@ -233,9 +267,12 @@ async function main() {
     console.log("\n— Getting there");
     const gettingIntro = await askRequired(
       "Intro (nearest airport, suggested routing):",
+      r?.gettingThereIntro,
     );
     const routes = (
-      await askPairs("Routes, e.g. Out | Pune (PNQ) → Khajuraho (HJR), via Delhi")
+      await askPairs(
+        "Routes, e.g. Out | Pune (PNQ) → Khajuraho (HJR), via Delhi",
+      )
     ).map(([label, text]) => ({ label, text }));
 
     console.log("\n— Search listing details (schema.org Event)");
@@ -258,23 +295,31 @@ async function main() {
     );
     const placeName = await askRequired(
       'Place name, e.g. "Panna Tiger Reserve":',
+      r?.placeName,
     );
-    const addressLocality = await askRequired("Town / locality:");
-    const addressRegion = await askRequired("State / region:");
+    const addressLocality = await askRequired(
+      "Town / locality:",
+      r?.addressLocality,
+    );
+    const addressRegion = await askRequired(
+      "State / region:",
+      r?.addressRegion,
+    );
     const addressCountry = await askValid(
       "Country code (2 letters):",
       (s) => /^[A-Z]{2}$/.test(s),
       'Two capital letters, e.g. "IN".',
       defaults.code,
     );
-    const coord = (q: string, max: number) =>
+    const coord = (q: string, max: number, suggested?: number) =>
       askValid(
         q,
         (s) => s.trim() !== "" && Math.abs(Number(s)) <= max,
         `A number between -${max} and ${max}.`,
+        suggested === undefined ? "" : String(suggested),
       ).then(Number);
-    const latitude = await coord("Latitude:", 90);
-    const longitude = await coord("Longitude:", 180);
+    const latitude = await coord("Latitude:", 90, r?.latitude);
+    const longitude = await coord("Longitude:", 180, r?.longitude);
 
     console.log("\n— Departures");
     const departures: Departure[] = [];
@@ -318,6 +363,58 @@ async function main() {
       });
       if (!(await askYesNo("Add another departure?", false))) break;
     }
+
+    console.log("\n— Page copy");
+    let copy: Copy | undefined;
+    console.log("Writing suggested copy from your trip details...");
+    try {
+      copy = await writeCopy({
+        research: r,
+        trip: {
+          name,
+          country,
+          fullLocation,
+          summary,
+          shortSummary,
+          itinerary,
+          included,
+          notIncluded,
+          goodToKnow,
+          facts,
+          price,
+          priceNote,
+          departures,
+        },
+        toneExamples: existing.map((d) => ({
+          name: d.name,
+          intro: d.page.intro,
+          why: d.page.why,
+          howTheDaysRun: d.page.howTheDaysRun,
+        })),
+      });
+    } catch (err) {
+      console.log(
+        `  Copy suggestions failed, continuing without them: ${err instanceof Error ? err.message : err}`,
+      );
+    }
+    const metaLead = await askRequired(
+      'Meta description lead, ~100 chars, e.g. "A 4-day wildlife photography workshop in Panna, Madhya Pradesh, with 6 safaris and in-field guidance.":',
+      copy?.metaLead,
+    );
+    if (metaLead.length > 110)
+      console.log(
+        "  Note: the next-departure line is appended; keep the lead under ~110 characters.",
+      );
+    const heroLine = await askRequired(
+      'Hero line, e.g. "3 nights / 4 days · 6 safaris · Limited seats · Price on enquiry (twin sharing)":',
+      copy?.heroLine,
+    );
+    const intro = await askList("Intro paragraphs", copy?.intro);
+    const why = await askList(`"Why ${name}" paragraphs`, copy?.why);
+    const howTheDaysRun = await askList(
+      '"How the days run" paragraphs',
+      copy?.howTheDaysRun,
+    );
 
     const entry: Destination = {
       slug,
