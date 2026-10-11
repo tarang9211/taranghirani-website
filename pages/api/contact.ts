@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
 import { recordEnquiryInNotion } from "../../lib/notion";
 import { subscribeToNewsletter } from "../../lib/kit";
+import { parseMobile } from "../../lib/phone";
 
 const TO_ADDRESSES = ["tarang@asilisafaris.in", "tarang9211@gmail.com"];
 const FROM_ADDRESS =
@@ -90,6 +91,15 @@ export default async function handler(
     return res.status(400).json({ error: "One of your fields is too long" });
   }
 
+  const mobile =
+    /^\d+$/.test(trimmed.phone) &&
+    parseMobile(trimmed.countryCode, trimmed.phone);
+  if (!mobile) {
+    return res
+      .status(400)
+      .json({ error: "Please enter a valid mobile number" });
+  }
+
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed.email)) {
     return res
       .status(400)
@@ -104,7 +114,7 @@ export default async function handler(
 
   const resend = new Resend(apiKey);
 
-  const fullPhone = `${trimmed.countryCode} ${trimmed.phone}`;
+  const fullPhone = mobile.formatInternational();
   const subject = subjectField
     ? subjectField
     : type
@@ -146,7 +156,7 @@ export default async function handler(
     </tr>
     <tr>
       <td style="padding:8px 0; color:#525252; font-size:13px; vertical-align:top;">Phone</td>
-      <td style="padding:8px 0; font-size:14px;"><a href="tel:${escapeHtml(trimmed.countryCode + trimmed.phone.replace(/\s/g, ""))}" style="color:#080808;">${escapeHtml(fullPhone)}</a></td>
+      <td style="padding:8px 0; font-size:14px;"><a href="tel:${escapeHtml(mobile.number)}" style="color:#080808;">${escapeHtml(fullPhone)}</a></td>
     </tr>
     ${
       type
