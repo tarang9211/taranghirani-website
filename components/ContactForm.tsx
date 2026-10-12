@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import Link from "next/link";
 import { WHATSAPP_URL } from "../lib/constants";
 
@@ -7,6 +7,9 @@ type Status = "idle" | "loading" | "success" | "error";
 type Source = "contact" | "workshops";
 
 type Theme = "dark" | "light";
+
+const PHONE_ERROR =
+  "Please enter a valid mobile number for the country you picked.";
 
 type FieldErrors = Partial<
   Record<"name" | "email" | "phone" | "message", string>
@@ -65,8 +68,6 @@ function validate(fields: {
 
   if (!fields.phone) {
     errors.phone = "Please enter your phone number.";
-  } else if (!/^[\d\s()-]{4,}$/.test(fields.phone)) {
-    errors.phone = "Please enter a valid phone number.";
   }
 
   if (!fields.message) {
@@ -124,6 +125,9 @@ export default function ContactForm({
   const [submitError, setSubmitError] = useState<string>("");
   const [countryCode, setCountryCode] = useState("+91");
   const [errors, setErrors] = useState<FieldErrors>({});
+  // Numbering rules load on first focus so they stay out of the page bundle.
+  const phoneLib = useRef<typeof import("../lib/phone") | null>(null);
+  const lastPhone = useRef("");
 
   function clearError(field: keyof FieldErrors) {
     setErrors((prev) => {
@@ -158,6 +162,12 @@ export default function ContactForm({
     const subjectField = ((data.get("subject") as string) || "").trim();
 
     const fieldErrors = validate(fields);
+    if (fields.phone && !fieldErrors.phone) {
+      const { parseMobile } = await import("../lib/phone");
+      if (!parseMobile(countryCode, fields.phone)) {
+        fieldErrors.phone = PHONE_ERROR;
+      }
+    }
     if (Object.keys(fieldErrors).length > 0) {
       setErrors(fieldErrors);
       setStatus("idle");
@@ -184,6 +194,7 @@ export default function ContactForm({
       if (res.ok) {
         setStatus("success");
         form.reset();
+        lastPhone.current = "";
         setCountryCode("+91");
 
         // Meta Pixel conversion event — fires only on a genuine submission
@@ -303,7 +314,10 @@ export default function ContactForm({
             <select
               aria-label="Country code"
               value={countryCode}
-              onChange={(e) => setCountryCode(e.target.value)}
+              onChange={(e) => {
+                setCountryCode(e.target.value);
+                clearError("phone");
+              }}
               disabled={status === "loading"}
               className={selectClass}
             >
@@ -324,13 +338,67 @@ export default function ContactForm({
             id="contact-phone"
             type="tel"
             name="phone"
-            inputMode="tel"
+            inputMode="numeric"
             autoComplete="tel-national"
-            placeholder="98765 43210"
+            placeholder="9876543210"
             disabled={status === "loading"}
             aria-invalid={!!errors.phone}
             aria-describedby={errors.phone ? "contact-phone-error" : undefined}
-            onChange={() => clearError("phone")}
+            onFocus={() => {
+              import("../lib/phone").then((m) => (phoneLib.current = m));
+            }}
+            onPaste={(e) => {
+              // A pasted "+<code> <number>" would lose its "+" and merge the
+              // code into the number, so split it: number here, code in the picker.
+              const text = e.clipboardData.getData("text").trim();
+              const parsed =
+                text.startsWith("+") &&
+                phoneLib.current?.parseMobile(countryCode, text);
+              const code = parsed && `+${parsed.countryCallingCode}`;
+              if (!parsed || !COUNTRY_CODES.some((c) => c.code === code)) return;
+              e.preventDefault();
+              e.currentTarget.value = parsed.nationalNumber;
+              lastPhone.current = parsed.nationalNumber;
+              setCountryCode(code);
+              clearError("phone");
+            }}
+            onChange={(e) => {
+              const input = e.currentTarget;
+              const value = input.value.replace(/\D/g, "");
+              // Refuse new input, never remove digits already typed. 15 digits
+              // is the global maximum for any phone number (E.164).
+              if (value.replace(/\D/g, "").length > 15) {
+                input.value = lastPhone.current;
+                setErrors((prev) => ({
+                  ...prev,
+                  phone: "A phone number cannot have more than 15 digits.",
+                }));
+                return;
+              }
+              if (
+                phoneLib.current?.isPastFullNumber(
+                  countryCode,
+                  lastPhone.current,
+                  value,
+                )
+              ) {
+                input.value = lastPhone.current;
+                return;
+              }
+              input.value = value;
+              lastPhone.current = value;
+              clearError("phone");
+            }}
+            onBlur={(e) => {
+              const value = e.currentTarget.value.trim();
+              if (
+                value &&
+                phoneLib.current &&
+                !phoneLib.current.parseMobile(countryCode, value)
+              ) {
+                setErrors((prev) => ({ ...prev, phone: PHONE_ERROR }));
+              }
+            }}
             className={`${inputClass(!!errors.phone)} flex-1`}
           />
         </div>
