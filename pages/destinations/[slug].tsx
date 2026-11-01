@@ -521,6 +521,16 @@ export default function DestinationWorkshopPage({
                     book less than 45 days before the trip, you pay the full
                     amount at booking.
                   </p>
+                  <p className="mt-2 text-xs leading-relaxed text-smoke">
+                    Refer to the{" "}
+                    <Link
+                      href="/terms"
+                      className="underline underline-offset-2 transition-colors hover:text-sage"
+                    >
+                      Terms &amp; Conditions
+                    </Link>
+                    .
+                  </p>
                 </div>
                 <ClaimButton className="mt-6 w-full" />
                 <p className="mt-3 text-center text-[11px] uppercase tracking-[0.15em] text-smoke/70">
