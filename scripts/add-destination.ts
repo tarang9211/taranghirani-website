@@ -255,13 +255,12 @@ async function main() {
     const goodToKnow = await askList("Good to know");
     const facts = (
       await askPairs(
-        "Essentials card facts, e.g. Length | 3 nights / 4 days (group size is added from the departures)",
+        "Essentials card facts, Duration and Safaris first, e.g. Duration | 3 nights, 4 days, then Accommodation | Single (dates, group and pricing are added by the page)",
       )
     ).map(([label, value]) => ({ label, value }));
-    const price = await askRequired("Price shown on the card:", "On enquiry");
-    const priceNote = await askRequired(
-      "Price note:",
-      "Twin sharing. Single room at extra cost (on request).",
+    const price = await askRequired(
+      "Price shown on the card:",
+      "Available on request",
     );
 
     console.log("\n— Getting there");
@@ -382,7 +381,6 @@ async function main() {
           goodToKnow,
           facts,
           price,
-          priceNote,
           departures,
         },
         toneExamples: existing.map((d) => ({
@@ -440,7 +438,6 @@ async function main() {
         goodToKnow,
         facts,
         price,
-        priceNote,
         gettingThere: { intro: gettingIntro, routes },
         event: {
           startTime: `${startClock}:00${offset}`,
