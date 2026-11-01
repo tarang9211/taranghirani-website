@@ -514,10 +514,22 @@ export default function DestinationWorkshopPage({
                 <div className="mt-5 border border-sage/40 bg-sage/10 p-4">
                   <p className={MINI_LABEL}>Reserve your seat</p>
                   <p className="mt-2 text-sm font-medium leading-relaxed text-charcoal">
-                    Pay a 20% advance to confirm your seat.
+                    Pay a 50% advance to confirm your seat.
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-smoke">
-                    The balance is due before the workshop.
+                    The balance is due 45 days before the trip starts. If you
+                    book less than 45 days before the trip, you pay the full
+                    amount at booking.
+                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-smoke">
+                    Refer to the{" "}
+                    <Link
+                      href="/terms"
+                      className="underline underline-offset-2 transition-colors hover:text-sage"
+                    >
+                      Terms &amp; Conditions
+                    </Link>
+                    .
                   </p>
                 </div>
                 <ClaimButton className="mt-6 w-full" />
