@@ -4,7 +4,7 @@
     "name": "Panna",
     "country": "India",
     "location": "Panna, MP",
-    "summary": "3 nights / 4 days · 6 safaris · Price on enquiry (twin sharing). Limited seats, first come, first served.",
+    "summary": "3 nights / 4 days · 5 safaris · Price on enquiry (single room). Limited seats, first come, first served.",
     "shortSummary": "Limited seats, first come, first served.",
     "image": "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto/_Z9_20250508_TMH_8461_wm_vwr6rk",
     "imageAlt": "A tiger cooling in a forest pool at the water's edge, framed by dense central-India woodland in golden light",
@@ -28,9 +28,9 @@
     ],
     "page": {
       "fullLocation": "Panna, Madhya Pradesh",
-      "metaLead": "A 4-day wildlife photography workshop in Panna, Madhya Pradesh — 6 safaris with in-field guidance.",
+      "metaLead": "A 4-day wildlife photography workshop in Panna, Madhya Pradesh, with 5 safaris and in-field guidance.",
       "ogImage": "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/_Z9_20260212_100758_TMH_website_s3qioq",
-      "heroLine": "3 nights / 4 days · 6 safaris · Limited seats · Price on enquiry (twin sharing)",
+      "heroLine": "3 nights / 4 days · 5 safaris · Limited seats · Price on enquiry (single room)",
       "intro": [
         "Four days in one of central India's quietest tiger reserves, built entirely around making photographs. Mornings and evenings in the field, breakfast in the bush, and unhurried evening sessions where we go through the day's frames together. Kept deliberately small, so the guidance is personal and the jeeps never crowded.",
         "This is a workshop, not a sightseeing tour. The aim is to send you home with images you're proud of, and with the habits that made them: reading light, anticipating behaviour, choosing your position before the moment arrives."
@@ -40,7 +40,7 @@
         "The departures run through Panna's dry, cool season — from the fresh, green forest just after the monsoon to the crisp heart of winter, when misty mornings and a drying forest draw wildlife to the Ken. Soft light, comfortable temperatures, and a quiet, uncrowded park. It's a beautiful time to photograph it."
       ],
       "howTheDaysRun": [
-        "Out before first light for the morning safari, with breakfast carried into the bush so we stay in the field through the best light. Back to the lodge for lunch and a quiet middle of the day. Out again for the evening safari as the light turns. After dinner, a photography and post-processing session — looking at what came home, talking through what worked, and building the edit. The trip opens with an evening safari on arrival day and closes with a morning safari before departure — six safaris across the trip."
+        "Out before first light for the morning safari, with breakfast carried into the bush so we stay in the field through the best light. Back to the lodge for lunch and a quiet middle of the day. Out again for the evening safari as the light turns. After dinner, a photography and post-processing session — looking at what came home, talking through what worked, and building the edit. The trip opens with an evening safari on arrival day. On the last day, we have breakfast at the lodge before departure. That makes five safaris across the trip."
       ],
       "itinerary": [
         {
@@ -109,19 +109,15 @@
         },
         {
           "day": "Day 4",
-          "title": "Morning safari & departure",
+          "title": "Departure",
           "items": [
             {
-              "time": "4:30 am",
-              "text": "Wake up, morning coffee/tea"
-            },
-            {
-              "time": "5:00 am",
-              "text": "Morning safari, with breakfast in the bush"
+              "time": "8:00 am",
+              "text": "Breakfast at Naaharbagh"
             },
             {
               "time": "10:30 am",
-              "text": "Return to Naaharbagh, freshen up & check out"
+              "text": "Freshen up & check out"
             },
             {
               "time": "11:30 am",
@@ -148,7 +144,7 @@
       "goodToKnow": [
         "Limited to a total of six participants, offered on a first-come, first-served basis",
         "Your seat is confirmed only once a 20% advance is paid",
-        "Rooms on a twin-sharing basis (single room available at extra cost)",
+        "Single room for each guest (double sharing available on request)",
         "Safari permit fees are subject to revision; any changes will be communicated promptly"
       ],
       "facts": [
@@ -158,7 +154,7 @@
         },
         {
           "label": "Safaris",
-          "value": "6 across the trip"
+          "value": "5 across the trip"
         },
         {
           "label": "Base",
@@ -170,7 +166,7 @@
         }
       ],
       "price": "On enquiry",
-      "priceNote": "Twin sharing. Single room at extra cost (on request).",
+      "priceNote": "Single room. Double sharing available on request.",
       "gettingThere": {
         "intro": "The nearest airport is Khajuraho (HJR). Flights are not included. Suggested routing from Pune (timings indicative; please check schedules closer to your dates):",
         "routes": [
