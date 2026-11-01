@@ -149,24 +149,23 @@
       ],
       "facts": [
         {
-          "label": "Length",
-          "value": "3 nights / 4 days"
+          "label": "Duration",
+          "value": "3 nights, 4 days"
         },
         {
           "label": "Safaris",
           "value": "5 across the trip"
         },
         {
-          "label": "Base",
-          "value": "Naaharbagh, Panna"
+          "label": "Accommodation",
+          "value": "Single"
         },
         {
           "label": "Nearest airport",
           "value": "Khajuraho (HJR)"
         }
       ],
-      "price": "On enquiry",
-      "priceNote": "Single room. Double sharing available on request.",
+      "price": "Available on request",
       "gettingThere": {
         "intro": "The nearest airport is Khajuraho (HJR). Flights are not included. Suggested routing from Pune (timings indicative; please check schedules closer to your dates):",
         "routes": [
@@ -316,16 +315,21 @@
         "Anything not listed under inclusions"
       ],
       "goodToKnow": [
-        "Price on enquiry. Contact me through the enquiry form for pricing."
+        "Price on enquiry. Contact me through the enquiry form for pricing.",
+        "Rooms are twin sharing. A single room is available at extra cost, on request."
       ],
       "facts": [
         {
-          "label": "Length",
-          "value": "4 nights / 5 days"
+          "label": "Duration",
+          "value": "4 nights, 5 days"
         },
         {
           "label": "Safaris",
           "value": "6 across the trip"
+        },
+        {
+          "label": "Accommodation",
+          "value": "Twin sharing"
         },
         {
           "label": "Base",
@@ -336,8 +340,7 @@
           "value": "Delhi"
         }
       ],
-      "price": "On enquiry",
-      "priceNote": "Twin sharing. Single room at extra cost (on request).",
+      "price": "Available on request",
       "gettingThere": {
         "intro": "The trip starts and ends in Delhi. Airfare to Delhi is not included. Road travel from Delhi to Corbett and back is included.",
         "routes": [

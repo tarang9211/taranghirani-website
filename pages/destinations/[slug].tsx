@@ -65,11 +65,13 @@ function RichText({ text }: { text: string }) {
   );
 }
 
-function ClaimButton({ className = "" }: { className?: string }) {
+// Callers set padding and type size, so the hero and the Essentials card can
+// differ without conflicting Tailwind classes.
+function ClaimButton({ className }: { className: string }) {
   return (
     <a
       href="#enquire"
-      className={`group inline-flex items-center justify-center gap-3 border border-sage bg-sage px-8 py-4 text-[11px] font-medium uppercase tracking-[0.2em] text-charcoal transition-all duration-300 hover:bg-transparent hover:text-sage ${className}`}
+      className={`group inline-flex items-center justify-center gap-3 border border-sage bg-sage uppercase text-charcoal transition-all duration-300 hover:bg-transparent hover:text-sage ${className}`}
     >
       Claim your spot
       <span
@@ -197,14 +199,15 @@ export default function DestinationWorkshopPage({
     ],
   };
 
-  // Dates intentionally left out: they change per departure and live in the
-  // "Dates & availability" section — this card is for the evergreen facts.
+  // Dates show the next open departure. The row is left out when none is open.
   const facts = [
-    ...page.facts,
-    {
-      label: "Group size",
-      value: `Limited to ${departures[0]?.maxParticipants ?? 6} participants`,
-    },
+    ...(nextDeparture
+      ? [{ label: "Dates", value: formatDateRange(nextDeparture) }]
+      : []),
+    ...page.facts.slice(0, 2),
+    { label: "Group", value: "Small group expedition" },
+    ...page.facts.slice(2),
+    { label: "Pricing", value: page.price },
   ];
 
   return (
@@ -274,7 +277,7 @@ export default function DestinationWorkshopPage({
                   </a>
                 )}
                 <div className="mt-8">
-                  <ClaimButton />
+                  <ClaimButton className="px-8 py-4 text-[11px] font-medium tracking-[0.2em]" />
                 </div>
               </div>
             </div>
@@ -486,55 +489,35 @@ export default function DestinationWorkshopPage({
 
             {/* ESSENTIALS CARD — sticky, keeps the enquiry CTA in view */}
             <aside className="order-1 md:order-2">
-              <div className="border border-charcoal/10 bg-white p-6 md:sticky md:top-28 md:p-7">
-                <p className={MINI_LABEL}>The essentials</p>
-                <dl className="mt-5 divide-y divide-charcoal/10">
+              <div className="bg-forest px-7 pb-7 pt-9 md:sticky md:top-28">
+                <p className="text-base font-semibold uppercase tracking-[0.25em] text-sage">
+                  Essentials
+                </p>
+                <dl className="mt-7 divide-y divide-white/15 border-y border-white/15">
                   {facts.map((f) => (
                     <div
                       key={f.label}
-                      className="flex items-baseline justify-between gap-4 py-2.5"
+                      className="flex items-baseline justify-between gap-4 py-3 text-base leading-[23px]"
                     >
-                      <dt className="text-xs uppercase tracking-[0.12em] text-smoke/70">
-                        {f.label}
-                      </dt>
-                      <dd className="text-right text-sm font-medium text-charcoal">
-                        {f.value}
-                      </dd>
+                      <dt className="text-white/65">{f.label}</dt>
+                      <dd className="text-right text-white">{f.value}</dd>
                     </div>
                   ))}
                 </dl>
-                <div className="mt-5 border-t border-charcoal/10 pt-5">
-                  <p className="font-display text-2xl font-semibold tracking-tight text-charcoal">
-                    {page.price}
-                  </p>
-                  <p className="mt-1 text-xs leading-relaxed text-smoke">
-                    {page.priceNote}
-                  </p>
-                </div>
-                <div className="mt-5 border border-sage/40 bg-sage/10 p-4">
-                  <p className={MINI_LABEL}>Reserve your seat</p>
-                  <p className="mt-2 text-sm font-medium leading-relaxed text-charcoal">
-                    Pay a 50% advance to confirm your seat.
-                  </p>
-                  <p className="mt-1 text-xs leading-relaxed text-smoke">
-                    The balance is due 45 days before the trip starts. If you
-                    book less than 45 days before the trip, you pay the full
-                    amount at booking.
-                  </p>
-                  <p className="mt-2 text-xs leading-relaxed text-smoke">
-                    Refer to the{" "}
-                    <Link
-                      href="/terms"
-                      className="underline underline-offset-2 transition-colors hover:text-sage"
-                    >
-                      Terms &amp; Conditions
-                    </Link>
-                    .
-                  </p>
-                </div>
-                <ClaimButton className="mt-6 w-full" />
-                <p className="mt-3 text-center text-[11px] uppercase tracking-[0.15em] text-smoke/70">
-                  Limited seats · first come, first served
+                <ClaimButton className="mt-6 w-full py-[15px] text-[13px] font-semibold tracking-[0.3em]" />
+                <p className="mt-4 text-center text-sm leading-5 text-white/85">
+                  A 50% advance confirms your seat. The balance is due 45 days
+                  before the trip starts. See the{" "}
+                  <Link
+                    href="/terms"
+                    className="text-white underline decoration-sage underline-offset-4 transition-colors hover:text-sage"
+                  >
+                    terms and conditions
+                  </Link>
+                  .
+                </p>
+                <p className="mt-4 text-center text-[13px] text-white/55">
+                  Limited seats · First come, first served
                 </p>
               </div>
             </aside>

@@ -20,6 +20,9 @@ module.exports = {
         // text), so labels use bark (5.12:1). Sage stays for hairlines/borders
         // and for accent text on dark surfaces, where it passes comfortably.
         bark: "#8C5E30",
+        // Deep forest green: dark surface for the destination Essentials card.
+        // White text is ~14:1 on it, sage ~5.4:1.
+        forest: "#182D09",
       },
       fontFamily: {
         display: ["var(--font-display)", "serif"],

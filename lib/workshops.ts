@@ -56,10 +56,10 @@ export interface DestinationPage {
   included: string[];
   notIncluded: string[];
   goodToKnow: string[];
-  // Evergreen facts; group size is appended from the departures.
+  // Evergreen Essentials card rows. The page adds Dates, Group and Pricing.
+  // The first two (Duration, Safaris) sit above Group.
   facts: { label: string; value: string }[];
   price: string;
-  priceNote: string;
   gettingThere: { intro: string; routes: { label: string; text: string }[] };
   // schema.org Event details. Times carry the local UTC offset.
   event: {
