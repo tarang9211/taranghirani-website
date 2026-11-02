@@ -345,9 +345,8 @@ export default function DestinationWorkshopPage({
                                 )}
                               </div>
                               {soldOut && (
-                                <a
-                                  href="#enquire"
-                                  onClick={() => setEnquiry(dep)}
+                                <Link
+                                  href="/contact"
                                   className="group mt-auto flex items-center justify-between gap-4 bg-rust px-6 py-4 text-white transition-colors duration-300 hover:bg-rust/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-charcoal focus-visible:ring-offset-2"
                                 >
                                   <span className="text-xs font-semibold uppercase tracking-[0.2em]">
@@ -362,7 +361,7 @@ export default function DestinationWorkshopPage({
                                       &rarr;
                                     </span>
                                   </span>
-                                </a>
+                                </Link>
                               )}
                             </div>
                           );
