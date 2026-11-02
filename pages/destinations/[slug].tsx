@@ -116,14 +116,19 @@ export default function DestinationWorkshopPage({
   // Carries through to the enquiry notification so it's clearly a lead for
   // this destination and a specific departure.
   const subjectFor = (dep: Departure) =>
-    `${name} Wildlife Photography Workshop — ${formatDateRange(dep)}`;
+    `${name} Wildlife Photography Workshop — ${formatDateRange(dep)}` +
+    (dep.status === "sold-out" ? " (waitlist)" : "");
   const messageFor = (dep: Departure) =>
-    `Hi Tarang, I'd like to enquire about the ${name} wildlife photography workshop (${formatDateRange(dep)}). Please share availability and next steps.`;
+    dep.status === "sold-out"
+      ? `Hi Tarang, the ${name} wildlife photography workshop (${formatDateRange(dep)}) is sold out. Please add me to the waitlist.`
+      : `Hi Tarang, I'd like to enquire about the ${name} wildlife photography workshop (${formatDateRange(dep)}). Please share availability and next steps.`;
   const whatsappHref =
     `${WHATSAPP_URL}?text=` +
     encodeURIComponent(
       enquiry
-        ? `I'm interested in the ${name} workshop (${formatDateRange(enquiry)})`
+        ? enquiry.status === "sold-out"
+          ? `Please add me to the waitlist for the ${name} workshop (${formatDateRange(enquiry)})`
+          : `I'm interested in the ${name} workshop (${formatDateRange(enquiry)})`
         : `I'm interested in the ${name} workshop`,
     );
 
@@ -229,11 +234,7 @@ export default function DestinationWorkshopPage({
           content={pageDescription}
           key="twitter:description"
         />
-        <meta
-          name="twitter:image"
-          content={page.ogImage}
-          key="twitter:image"
-        />
+        <meta name="twitter:image" content={page.ogImage} key="twitter:image" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -313,38 +314,53 @@ export default function DestinationWorkshopPage({
                             <div
                               key={dep.id}
                               id={dep.id}
-                              className="scroll-mt-24 border border-charcoal/10 bg-white p-6"
+                              className="flex scroll-mt-24 flex-col border border-charcoal/10 bg-white"
                             >
-                              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                              <div className="p-6">
                                 <h3 className="font-display text-lg font-semibold tracking-tight text-charcoal">
                                   {formatDateRange(dep)}
                                 </h3>
-                                {soldOut && (
-                                  <span className="border border-charcoal/20 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.15em] text-smoke">
-                                    Sold out
-                                  </span>
+                                {dep.seasonNote && (
+                                  <p className="mt-3 text-sm leading-[1.7] text-smoke">
+                                    {dep.seasonNote}
+                                  </p>
+                                )}
+                                <p className="mt-3 text-xs uppercase tracking-[0.12em] text-smoke/70">
+                                  Limited to {dep.maxParticipants} participants
+                                </p>
+                                {!soldOut && (
+                                  <a
+                                    href="#enquire"
+                                    onClick={() => setEnquiry(dep)}
+                                    className="group mt-5 inline-flex items-center gap-2 border-b border-charcoal/30 pb-1 text-[11px] font-medium uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 hover:border-sage hover:text-sage"
+                                  >
+                                    Enquire about these dates
+                                    <span
+                                      aria-hidden
+                                      className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                                    >
+                                      &rarr;
+                                    </span>
+                                  </a>
                                 )}
                               </div>
-                              {dep.seasonNote && (
-                                <p className="mt-3 text-sm leading-[1.7] text-smoke">
-                                  {dep.seasonNote}
-                                </p>
-                              )}
-                              <p className="mt-3 text-xs uppercase tracking-[0.12em] text-smoke/70">
-                                Limited to {dep.maxParticipants} participants
-                              </p>
-                              {!soldOut && (
+                              {soldOut && (
                                 <a
                                   href="#enquire"
                                   onClick={() => setEnquiry(dep)}
-                                  className="group mt-5 inline-flex items-center gap-2 border-b border-charcoal/30 pb-1 text-[11px] font-medium uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 hover:border-sage hover:text-sage"
+                                  className="group mt-auto flex items-center justify-between gap-4 bg-rust px-6 py-4 text-white transition-colors duration-300 hover:bg-rust/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-charcoal focus-visible:ring-offset-2"
                                 >
-                                  Enquire about these dates
-                                  <span
-                                    aria-hidden
-                                    className="inline-block transition-transform duration-300 group-hover:translate-x-1"
-                                  >
-                                    &rarr;
+                                  <span className="text-xs font-semibold uppercase tracking-[0.2em]">
+                                    Sold out
+                                  </span>
+                                  <span className="inline-flex items-center gap-2 text-sm font-medium">
+                                    Join the waitlist
+                                    <span
+                                      aria-hidden
+                                      className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                                    >
+                                      &rarr;
+                                    </span>
                                   </span>
                                 </a>
                               )}
