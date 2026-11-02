@@ -75,6 +75,11 @@ export interface DestinationPage {
   };
 }
 
+// Site copy never uses em dashes; fail the build if one slips into the data.
+// shortcut: checks destinations.json only, not template strings in .tsx; move to a lint rule if dashes reappear there.
+const emDash = JSON.stringify(destinationsData).match(/.{0,40}—.{0,40}/);
+if (emDash) throw new Error(`Em dash in lib/destinations.json: "${emDash[0]}"`);
+
 export const DESTINATIONS = destinationsData as Destination[];
 
 const MONTHS = [

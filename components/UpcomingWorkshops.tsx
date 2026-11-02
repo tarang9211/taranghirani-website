@@ -82,7 +82,7 @@ export default function UpcomingWorkshops({
                   >
                     {concise
                       ? dest.location
-                      : `Wildlife Photography Workshop — ${dest.name}`}
+                      : `Wildlife Photography Workshop in ${dest.name}`}
                   </h3>
                   <p className={`mt-4 text-base md:text-lg ${dateColor}`}>
                     {(() => {

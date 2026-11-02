@@ -116,7 +116,7 @@ export default function DestinationWorkshopPage({
   // Carries through to the enquiry notification so it's clearly a lead for
   // this destination and a specific departure.
   const subjectFor = (dep: Departure) =>
-    `${name} Wildlife Photography Workshop — ${formatDateRange(dep)}` +
+    `${name} Wildlife Photography Workshop, ${formatDateRange(dep)}` +
     (dep.status === "sold-out" ? " (waitlist)" : "");
   const messageFor = (dep: Departure) =>
     dep.status === "sold-out"
@@ -140,7 +140,7 @@ export default function DestinationWorkshopPage({
     "@context": "https://schema.org",
     "@type": "Event",
     "@id": `${pageUrl}#${dep.id}`,
-    name: `Wildlife Photography Workshop — ${name} (${formatDateRange(dep)})`,
+    name: `Wildlife Photography Workshop in ${name} (${formatDateRange(dep)})`,
     description: dep.seasonNote ?? pageDescription,
     startDate: `${dep.startDate}T${event.startTime}`,
     endDate: `${dep.endDate}T${event.endTime}`,
@@ -264,7 +264,7 @@ export default function DestinationWorkshopPage({
                   A field workshop
                 </p>
                 <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-white md:text-5xl lg:text-6xl">
-                  Wildlife Photography Workshop — {page.fullLocation}
+                  Wildlife Photography Workshop in {page.fullLocation}
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-[1.7] text-white/85 md:text-lg">
                   {page.heroLine}
@@ -370,7 +370,7 @@ export default function DestinationWorkshopPage({
                       </div>
                     ) : (
                       <p className={`mt-4 ${BODY_COPY}`}>
-                        No upcoming dates at the moment — enquire below and
+                        No upcoming dates at the moment. Enquire below and
                         I&apos;ll let you know when the next departure opens.
                       </p>
                     )}
@@ -557,7 +557,7 @@ export default function DestinationWorkshopPage({
               </h2>
               <p className="mt-6 text-base leading-[1.8] text-smoke md:text-lg">
                 Seats are limited and offered on a first-come, first-served
-                basis — reach out early to secure yours. I read every message
+                basis. Reach out early to secure yours. I read every message
                 and reply within 48 hours.
               </p>
             </div>
