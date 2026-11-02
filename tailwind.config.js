@@ -23,6 +23,8 @@ module.exports = {
         // Deep forest green: dark surface for the destination Essentials card.
         // White text is ~14:1 on it, sage ~5.4:1.
         forest: "#182D09",
+        // Burnt orange for the sold-out departure band. White text is ~4.9:1.
+        rust: "#B5541C",
       },
       fontFamily: {
         display: ["var(--font-display)", "serif"],
