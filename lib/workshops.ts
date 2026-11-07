@@ -55,12 +55,12 @@ export interface DestinationPage {
   }[];
   included: string[];
   notIncluded: string[];
-  goodToKnow: string[];
+  goodToKnow?: string[]; // section hidden when absent
   // Evergreen Essentials card rows. The page adds Dates, Group and Pricing.
   // The first two (Duration, Safaris) sit above Group.
   facts: { label: string; value: string }[];
   price: string;
-  gettingThere: { intro: string; routes: { label: string; text: string }[] };
+  gettingThere?: { intro: string; routes: { label: string; text: string }[] }; // section hidden when absent
   // schema.org Event details. Times carry the local UTC offset.
   event: {
     startTime: string; // "12:15:00+05:30", Day 1 arrival

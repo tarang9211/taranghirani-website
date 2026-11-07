@@ -366,5 +366,155 @@
         "longitude": 78.94
       }
     }
+  },
+  {
+    "slug": "kanha",
+    "name": "Kanha",
+    "country": "India",
+    "location": "Kanha, MP",
+    "summary": "4 nights / 5 days · 6 safaris · Price on enquiry. Only 3 seats, first come, first served.",
+    "shortSummary": "Only 3 seats, first come, first served.",
+    "image": "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto,w_1920/v1782058098/_Z9_20260425_TMH_8130_wm_daxkvo.jpg",
+    "imageAlt": "A tigress among tall sal trees",
+    "departures": [
+      {
+        "id": "feb-2027",
+        "startDate": "2027-02-03",
+        "endDate": "2027-02-07",
+        "status": "open",
+        "maxParticipants": 3
+      }
+    ],
+    "page": {
+      "fullLocation": "Kanha, Madhya Pradesh",
+      "metaLead": "A 5-day wildlife photography workshop in Kanha, Madhya Pradesh, with 6 safaris and just 3 guests.",
+      "ogImage": "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto,w_1920/v1782058098/_Z9_20260425_TMH_8130_wm_daxkvo.jpg",
+      "heroLine": "4 nights / 5 days · 6 safaris · Up to 3 guests · Single room (twin sharing on request)",
+      "intro": [
+        "Five days in Kanha Tiger Reserve, all about one thing: making better wildlife photographs. You fly into Nagpur, and I take care of the drive to Kanha and back. We stay four nights, and your room and all your meals are covered. Over the trip, we go on six safaris, which are drives through the park to find and photograph wildlife. There are only three guests, so I can work with each of you in the field.",
+        "You don't need any experience. Out on safari, I'll help you read the light and pick your camera settings. In the evenings, we go through your photographs together and talk about what worked and what to try next. I'll help you with the post-processing of your images, turning your RAW files into frames you'll cherish for a long time. By the end of the trip, you'll have stronger images and a process you can repeat on your own."
+      ],
+      "why": [
+        "Kanha has been guarded for almost a century. It became a wildlife sanctuary in 1933 and a national park in 1955. In 1973, it was one of the first nine reserves of Project Tiger, India's programme to save its tigers. Today its core holds 917 sq km of tall sal forest, bamboo hills and wide grass meadows in the Mandla district of Madhya Pradesh. A buffer zone of 1,134 sq km surrounds it, where people live and work at the edge of the wild.",
+        "The meadows hold Kanha's greatest comeback. The hard-ground barasingha, a swamp deer and the state animal of Madhya Pradesh, lives in the wild here and nowhere else. In 1967, only 66 were left. Today there are about 1,100. Barasingha, other deer and gaur, the Indian bison, graze out in the open, so you get room to work and a clear line of sight. The tiger, the leopard, the sloth bear and the dhole, India's wild dog, move through the same forest. And overhead, there are about 300 species of birds.",
+        "We go in February, in the dry season. The trees on the hills drop their leaves, and the forest opens up. Light reaches deeper into the trees, and so does your view."
+      ],
+      "howTheDaysRun": [
+        "On Day 1, you land in Nagpur and we drive to Kanha together. We check in at the lodge in the afternoon, chat about Kanha and its history, and get your camera set up. Then we meet at 8:00 pm for a briefing and dinner.",
+        "Days 2–4 are the full workshop days. We wake up at 5:30 am and head out on the morning safari at 6:00 am, with breakfast packed to eat in the forest. We're back at the lodge by 11:30 am for lunch. The evening safari starts at 3:00 pm, and we get back around 7:00 pm. At 8:00 pm, we sit down together to go through the day's photographs and edit them. Dinner is at 9:00 pm. That's two safaris a day, six in all.",
+        "On Day 5, we have breakfast, check out, and leave for Nagpur Airport at 11:30 am."
+      ],
+      "itinerary": [
+        {
+          "day": "Day 1",
+          "title": "Nagpur to Kanha",
+          "items": [
+            {
+              "time": "Morning",
+              "text": "Land in Nagpur (NAG) and drive to Kanha"
+            },
+            {
+              "time": "Afternoon",
+              "text": "Check in at the lodge, hear about Kanha and its history, and set up your camera"
+            },
+            {
+              "time": "7:00 pm",
+              "text": "Freshen up"
+            },
+            {
+              "time": "8:00 pm",
+              "text": "Briefing & dinner"
+            },
+            {
+              "time": "9:00 pm",
+              "text": "Lights out"
+            }
+          ]
+        },
+        {
+          "day": "Days 2–4",
+          "title": "Workshop days",
+          "items": [
+            {
+              "time": "5:30 am",
+              "text": "Wake up with coffee or tea"
+            },
+            {
+              "time": "6:00 am",
+              "text": "Morning safari, with breakfast in the forest"
+            },
+            {
+              "time": "11:30 am",
+              "text": "Back at the lodge for lunch"
+            },
+            {
+              "time": "3:00 pm",
+              "text": "Evening safari"
+            },
+            {
+              "time": "7:00 pm",
+              "text": "Back at the lodge, freshen up"
+            },
+            {
+              "time": "8:00 pm",
+              "text": "Photography & post-processing session"
+            },
+            {
+              "time": "9:00 pm",
+              "text": "Dinner & lights out"
+            }
+          ]
+        },
+        {
+          "day": "Day 5",
+          "title": "Departure",
+          "items": [
+            {
+              "time": "8:00 am",
+              "text": "Breakfast at the lodge"
+            },
+            {
+              "time": "10:30 am",
+              "text": "Freshen up & check out"
+            },
+            {
+              "time": "11:30 am",
+              "text": "Leave for Nagpur Airport (NAG). End of the trip."
+            }
+          ]
+        }
+      ],
+      "included": [
+        "Transfers between Nagpur Airport and Kanha",
+        "6 safaris",
+        "4 nights at the lodge (single room, twin sharing on request)",
+        "All meals",
+        "Photography help in the field",
+        "Feedback on your photographs",
+        "Post-processing (editing) sessions"
+      ],
+      "notIncluded": [
+        "Flights",
+        "Anything not listed above"
+      ],
+      "facts": [
+        {
+          "label": "4 nights 5 days",
+          "value": "6 safaris"
+        }
+      ],
+      "price": "Pricing on inquiry",
+      "event": {
+        "startTime": "10:00:00+05:30",
+        "endTime": "10:00:00+05:30",
+        "enquiriesOpen": "2026-11-07",
+        "placeName": "Kanha Tiger Reserve",
+        "addressLocality": "Mandla",
+        "addressRegion": "Madhya Pradesh",
+        "addressCountry": "IN",
+        "latitude": 22.23,
+        "longitude": 80.65
+      }
+    }
   }
 ]
