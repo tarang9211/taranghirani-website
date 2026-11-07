@@ -464,40 +464,44 @@ export default function DestinationWorkshopPage({
                   </div>
 
                   {/* Good to know */}
-                  <div className="border-t border-charcoal/10 pt-12">
-                    <h2 className={SUBHEAD}>Good to know</h2>
-                    <ul className="mt-5 space-y-2.5 text-sm leading-[1.6] text-smoke">
-                      {page.goodToKnow.map((item) => (
-                        <li key={item} className="flex gap-2.5">
-                          <span aria-hidden className="text-sage">
-                            —
-                          </span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {page.goodToKnow && (
+                    <div className="border-t border-charcoal/10 pt-12">
+                      <h2 className={SUBHEAD}>Good to know</h2>
+                      <ul className="mt-5 space-y-2.5 text-sm leading-[1.6] text-smoke">
+                        {page.goodToKnow.map((item) => (
+                          <li key={item} className="flex gap-2.5">
+                            <span aria-hidden className="text-sage">
+                              —
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
                   {/* Getting there */}
-                  <div className="border-t border-charcoal/10 pt-12">
-                    <h2 className={SUBHEAD}>Getting there</h2>
-                    <p className={`mt-4 ${BODY_COPY}`}>
-                      <RichText text={page.gettingThere.intro} />
-                    </p>
-                    <ul className="mt-4 space-y-2.5 text-sm leading-[1.6] text-smoke">
-                      {page.gettingThere.routes.map((route) => (
-                        <li key={route.label} className="flex gap-3">
-                          <span
-                            aria-hidden
-                            className="font-display text-[11px] uppercase tracking-[0.2em] text-sage"
-                          >
-                            {route.label}
-                          </span>
-                          <span>{route.text}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {page.gettingThere && (
+                    <div className="border-t border-charcoal/10 pt-12">
+                      <h2 className={SUBHEAD}>Getting there</h2>
+                      <p className={`mt-4 ${BODY_COPY}`}>
+                        <RichText text={page.gettingThere.intro} />
+                      </p>
+                      <ul className="mt-4 space-y-2.5 text-sm leading-[1.6] text-smoke">
+                        {page.gettingThere.routes.map((route) => (
+                          <li key={route.label} className="flex gap-3">
+                            <span
+                              aria-hidden
+                              className="font-display text-[11px] uppercase tracking-[0.2em] text-sage"
+                            >
+                              {route.label}
+                            </span>
+                            <span>{route.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </FadeIn>
             </div>
