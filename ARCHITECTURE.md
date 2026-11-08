@@ -9,7 +9,7 @@ The framework and runtime stack used to build the site.
 - **Next.js 14** (Pages Router) — pages live in `pages/`, serverless API routes in `pages/api/`
 - **React 18** + **TypeScript 5**
 - **Tailwind CSS 3** — utility styling; tokens defined in `tailwind.config.js`. See `DESIGN.md` for the design system.
-- **Cloudinary** — image hosting and delivery, via `next-cloudinary` and the `cloudinary` SDK
+- **Cloudinary** — image hosting and delivery, via `next/image` and the `cloudinary` SDK
 - **Sharp** + **Satori** — image optimisation and OG image generation
 - **next-sitemap** — sitemap.xml generation
 - **Lucide React** — icon set
