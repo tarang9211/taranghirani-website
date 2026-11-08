@@ -1,6 +1,6 @@
 # taranghirani.com
 
-Personal site and workshop pages for Tarang Hirani, wildlife photographer. Next.js 14 (Pages Router), Tailwind, Cloudinary, deployed on Vercel. See `ARCHITECTURE.md` for infrastructure and `docs/DESIGN.md` for the design system.
+Personal site and workshop pages for Tarang Hirani, wildlife photographer. Next.js 16 (Pages Router), Tailwind, Cloudinary, deployed on Vercel. See `ARCHITECTURE.md` for infrastructure and `docs/DESIGN.md` for the design system.
 
 ## Running locally
 

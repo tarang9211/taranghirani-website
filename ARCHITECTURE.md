@@ -6,7 +6,7 @@ This document describes the infrastructure and tooling behind taranghirani.com �
 
 The framework and runtime stack used to build the site.
 
-- **Next.js 14** (Pages Router) — pages live in `pages/`, serverless API routes in `pages/api/`
+- **Next.js 16** (Pages Router, Turbopack) — pages live in `pages/`, serverless API routes in `pages/api/`
 - **React 18** + **TypeScript 5**
 - **Tailwind CSS 3** — utility styling; tokens defined in `tailwind.config.js`. See `DESIGN.md` for the design system.
 - **Cloudinary** — image hosting and delivery, via `next/image` and the `cloudinary` SDK

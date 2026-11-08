@@ -20,7 +20,7 @@ Ensure the user experience of the website is of high quality.
 
 Technologies Used:
 
-- Next JS 14
+- Next JS 16
 - Cloudinary
 - Vercel
 - Yarn
