@@ -17,7 +17,7 @@ const META_PIXEL_ID = "1764170624923526";
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const { asPath } = router;
-  const canonicalUrl = `${SITE_URL}${asPath === "/" ? "" : asPath.split("?")[0]}`;
+  const canonicalUrl = `${SITE_URL}${asPath === "/" ? "" : asPath.split(/[?#]/)[0]}`;
 
   // Fire a Meta Pixel PageView on every client-side navigation. The base pixel
   // code only tracks the initial load, so this covers SPA route changes.

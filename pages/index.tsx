@@ -11,11 +11,10 @@ import { featuredTestimonials } from "../lib/testimonials";
 import {
   EMAIL,
   FOUNDER_JSON_LD,
-  FOUNDER_NAME,
   INSTAGRAM_URL,
   LOGO_URL,
   ORGANIZATION_ID,
-  PHONE_NUMBER_DISPLAY,
+  PHONE_TEL,
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_TAGLINE,
@@ -32,7 +31,7 @@ const JSON_LD = [
     "@type": "WebSite",
     "@id": `${SITE_URL}/#website`,
     name: SITE_NAME,
-    alternateName: ["Asili", FOUNDER_NAME],
+    alternateName: "Asili",
     url: SITE_URL,
     publisher: { "@id": ORGANIZATION_ID },
   },
@@ -48,7 +47,7 @@ const JSON_LD = [
     image:
       "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/_Z9_20251231_TMH_2311_wm_wyiafz",
     email: EMAIL,
-    telephone: PHONE_NUMBER_DISPLAY.replace(/\s/g, ""),
+    telephone: PHONE_TEL.replace("tel:", ""),
     address: {
       "@type": "PostalAddress",
       addressLocality: "Pune",

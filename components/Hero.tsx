@@ -127,13 +127,13 @@ function Hero({ desktopSrc, mobileSrc, desktopAlt, mobileAlt }: HeroProps) {
           >
             {/* The logo is the h1; its alt text keeps the brand name as the heading text. */}
             <h1 className="opacity-0 animate-fade-up">
-              {/* Pre-sized at 3x and served as-is: the optimiser's recompression
-                  softens the copper texture. */}
+              {/* Pre-sized to 3x the largest display width (130px) and served
+                  as-is: the optimiser's recompression softens the copper texture. */}
               <Image
-                src="/brand/asili-safaris-wordmark-900.webp"
+                src="/brand/asili-safaris-wordmark-400.webp"
                 alt={SITE_NAME}
-                width={900}
-                height={244}
+                width={400}
+                height={108}
                 loading="eager"
                 unoptimized
                 className="h-auto w-[96px] md:w-[110px] xl:w-[130px]"

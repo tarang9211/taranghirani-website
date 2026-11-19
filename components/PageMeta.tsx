@@ -1,13 +1,19 @@
+import type { ReactNode } from "react";
 import Head from "next/head";
 import { SITE_NAME } from "../lib/constants";
 
 interface Props {
-  // Page-specific part of the title. The brand suffix is added here.
+  // Page-specific part of the title.
   title: string;
   description: string;
+  // Appends " | Asili Safaris". Off for keyword-first titles that would
+  // otherwise run past what search results show.
+  brandSuffix?: boolean;
   image?: string;
   imageAlt?: string;
   type?: "website" | "article";
+  // Extra head tags for this page (JSON-LD, robots, article metadata).
+  children?: ReactNode;
 }
 
 // Per-page title, description and social tags. Keys match the defaults in
@@ -17,11 +23,13 @@ interface Props {
 export default function PageMeta({
   title,
   description,
+  brandSuffix = true,
   image,
   imageAlt,
   type,
+  children,
 }: Props) {
-  const fullTitle = `${title} | ${SITE_NAME}`;
+  const fullTitle = brandSuffix ? `${title} | ${SITE_NAME}` : title;
   return (
     <Head>
       <title>{fullTitle}</title>
@@ -44,6 +52,7 @@ export default function PageMeta({
       {image && imageAlt && (
         <meta property="og:image:alt" content={imageAlt} key="og:image:alt" />
       )}
+      {children}
     </Head>
   );
 }

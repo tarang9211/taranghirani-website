@@ -19,8 +19,8 @@ export const WHATSAPP_URL = "https://wa.me/919175347045";
 export const EMAIL = "tarang@asilisafaris.in";
 export const EMAIL_MAILTO = "mailto:tarang@asilisafaris.in";
 
-// Schema.org references. The Organization is defined in full on the home page
-// (ORGANIZATION_JSON_LD); other pages point at it by @id.
+// Schema.org references. The Organization node is defined in full in the home
+// page JSON-LD (pages/index.tsx); other pages point at it by @id.
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 export const FOUNDER_ID = `${SITE_URL}/#founder`;
 

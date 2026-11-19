@@ -1,13 +1,12 @@
 import React, { useMemo, useState } from "react";
 import type { GetStaticProps } from "next";
-import Head from "next/head";
+import PageMeta from "../components/PageMeta";
 import Image from "next/image";
 import Link from "next/link";
 import FadeIn from "../components/FadeIn";
 import TestimonialAvatar from "../components/TestimonialAvatar";
 import {
   ORGANIZATION_REF,
-  SITE_NAME,
   SITE_URL,
   WHATSAPP_URL,
 } from "../lib/constants";
@@ -28,7 +27,7 @@ const HERO_ALT =
   "A male lion mid-roar standing over a lioness lying in the grass of an open savannah";
 
 const PAGE_URL = `${SITE_URL}/testimonials`;
-const PAGE_TITLE = `Guest Stories: Wildlife Photography Workshops | ${SITE_NAME}`;
+const PAGE_TITLE = "Guest Stories: Wildlife Photography Workshops";
 const PAGE_DESCRIPTION =
   "What guests said after wildlife photography experiences with Asili Safaris in India and Africa. Six people or fewer, led by Tarang Hirani, teaching included.";
 const OG_IMAGE =
@@ -121,33 +120,16 @@ export default function TestimonialsPage({ testimonials, regions }: Props) {
 
   return (
     <div className="bg-charcoal text-parchment">
-      <Head>
-        <title>{PAGE_TITLE}</title>
-        <meta
-          name="description"
-          content={PAGE_DESCRIPTION}
-          key="description"
-        />
-        <meta property="og:title" content={PAGE_TITLE} key="og:title" />
-        <meta
-          property="og:description"
-          content={PAGE_DESCRIPTION}
-          key="og:description"
-        />
-        <meta property="og:url" content={PAGE_URL} key="og:url" />
-        <meta property="og:image" content={OG_IMAGE} key="og:image" />
-        <meta name="twitter:title" content={PAGE_TITLE} key="twitter:title" />
-        <meta
-          name="twitter:description"
-          content={PAGE_DESCRIPTION}
-          key="twitter:description"
-        />
-        <meta name="twitter:image" content={OG_IMAGE} key="twitter:image" />
+      <PageMeta
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        image={OG_IMAGE}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdGraph(JSON_LD) }}
         />
-      </Head>
+      </PageMeta>
 
       {/* HERO */}
       <section className="relative">

@@ -1,4 +1,4 @@
-import Head from "next/head";
+import PageMeta from "../../components/PageMeta";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -16,7 +16,6 @@ import {
   FOUNDER_NAME,
   LOGO_URL,
   ORGANIZATION_REF,
-  SITE_NAME,
   SITE_URL,
 } from "../../lib/constants";
 
@@ -75,7 +74,6 @@ function formatDate(dateStr) {
 }
 
 export default function BlogPost({ post, ogImage, prevPost, nextPost }) {
-  const pageTitle = `${post.title} | ${SITE_NAME}`;
   const pageUrl = `${SITE_URL}/blog/${post.slug}`;
 
   const jsonLd = {
@@ -100,37 +98,21 @@ export default function BlogPost({ post, ogImage, prevPost, nextPost }) {
 
   return (
     <>
-      <Head>
-        <title>{pageTitle}</title>
-        <meta name="description" content={post.excerpt} key="description" />
-        <meta property="og:title" content={pageTitle} key="og:title" />
-        <meta
-          property="og:description"
-          content={post.excerpt}
-          key="og:description"
-        />
-        <meta property="og:type" content="article" key="og:type" />
+      <PageMeta
+        title={post.title}
+        description={post.excerpt}
+        type="article"
+        image={ogImage}
+        imageAlt={post.heroImage?.alt}
+      >
         <meta property="article:published_time" content={post.date} />
-        {ogImage && <meta property="og:image" content={ogImage} key="og:image" />}
         {ogImage && <meta property="og:image:width" content="1200" />}
         {ogImage && <meta property="og:image:height" content="630" />}
-        {ogImage && post.heroImage?.alt && (
-          <meta property="og:image:alt" content={post.heroImage.alt} />
-        )}
-        <meta name="twitter:title" content={pageTitle} key="twitter:title" />
-        <meta
-          name="twitter:description"
-          content={post.excerpt}
-          key="twitter:description"
-        />
-        {ogImage && (
-          <meta name="twitter:image" content={ogImage} key="twitter:image" />
-        )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </Head>
+      </PageMeta>
 
       {/* Header */}
       <section className="bg-charcoal pt-32 pb-12 md:pt-36 md:pb-16">

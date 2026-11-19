@@ -1,10 +1,10 @@
-import Head from "next/head";
+import PageMeta from "../components/PageMeta";
 import Image from "next/image";
 import FadeIn from "../components/FadeIn";
 import ContactLinks from "../components/ContactLinks";
 import ContactForm from "../components/ContactForm";
 import UpcomingWorkshops from "../components/UpcomingWorkshops";
-import { ORGANIZATION_REF, SITE_NAME, SITE_URL } from "../lib/constants";
+import { ORGANIZATION_REF, SITE_URL } from "../lib/constants";
 
 const CLOUDINARY_BASE =
   "https://res.cloudinary.com/duiyn8wll/image/upload/f_auto,q_auto";
@@ -18,7 +18,7 @@ const IMG = {
 };
 
 const PAGE_URL = `${SITE_URL}/destinations`;
-const PAGE_TITLE = `Wildlife Photography Safaris and Workshops | ${SITE_NAME}`;
+const PAGE_TITLE = "Wildlife Photography Safaris and Workshops";
 const PAGE_DESCRIPTION =
   "Days in the field with a working photographer and expedition leader. India and Africa. Small groups and one to one.";
 const OG_IMAGE =
@@ -75,33 +75,16 @@ const DAY = [
 export default function WorkshopsPage() {
   return (
     <>
-      <Head>
-        <title>{PAGE_TITLE}</title>
-        <meta
-          name="description"
-          content={PAGE_DESCRIPTION}
-          key="description"
-        />
-        <meta property="og:title" content={PAGE_TITLE} key="og:title" />
-        <meta
-          property="og:description"
-          content={PAGE_DESCRIPTION}
-          key="og:description"
-        />
-        <meta property="og:url" content={PAGE_URL} key="og:url" />
-        <meta property="og:image" content={OG_IMAGE} key="og:image" />
-        <meta name="twitter:title" content={PAGE_TITLE} key="twitter:title" />
-        <meta
-          name="twitter:description"
-          content={PAGE_DESCRIPTION}
-          key="twitter:description"
-        />
-        <meta name="twitter:image" content={OG_IMAGE} key="twitter:image" />
+      <PageMeta
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        image={OG_IMAGE}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
-      </Head>
+      </PageMeta>
 
       {/* HERO */}
       <section className="relative">

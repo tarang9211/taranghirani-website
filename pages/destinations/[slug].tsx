@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { GetStaticPaths, GetStaticProps } from "next";
-import Head from "next/head";
+import PageMeta from "../../components/PageMeta";
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, MessageCircle, Mail, Instagram } from "lucide-react";
@@ -220,35 +220,19 @@ export default function DestinationWorkshopPage({
 
   return (
     <>
-      <Head>
-        <title>{pageTitle}</title>
-        <meta
-          name="description"
-          content={pageDescription}
-          key="description"
-        />
-        <meta property="og:title" content={pageTitle} key="og:title" />
-        <meta
-          property="og:description"
-          content={pageDescription}
-          key="og:description"
-        />
-        <meta property="og:url" content={pageUrl} key="og:url" />
-        <meta property="og:image" content={page.ogImage} key="og:image" />
-        <meta name="twitter:title" content={pageTitle} key="twitter:title" />
-        <meta
-          name="twitter:description"
-          content={pageDescription}
-          key="twitter:description"
-        />
-        <meta name="twitter:image" content={page.ogImage} key="twitter:image" />
+      <PageMeta
+        title={pageTitle}
+        description={pageDescription}
+        image={page.ogImage}
+        brandSuffix={false}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: jsonLdGraph([...eventsJsonLd, breadcrumbJsonLd]),
           }}
         />
-      </Head>
+      </PageMeta>
 
       {/* HERO */}
       <section className="relative">
