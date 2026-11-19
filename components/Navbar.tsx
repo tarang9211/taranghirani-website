@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { destinationsByCountry } from "../lib/workshops";
+import { SITE_NAME } from "../lib/constants";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -106,15 +108,23 @@ const Navbar: React.FC = () => {
           href="/"
           tabIndex={wordmarkHidden ? -1 : undefined}
           aria-hidden={wordmarkHidden || undefined}
-          className={`text-2xl md:text-3xl font-semibold font-display transition-all duration-500 ${
+          className={`block transition-all duration-500 ${
             scrolled || mobileOpen
-              ? "text-charcoal hover:text-smoke opacity-100"
+              ? "opacity-100 hover:opacity-80"
               : isHome
-                ? "text-white opacity-0 pointer-events-none"
-                : "text-white hover:text-white/80 opacity-100"
+                ? "opacity-0 pointer-events-none"
+                : "opacity-100 hover:opacity-80"
           }`}
         >
-          Tarang Hirani
+          {/* Logo mark only, pre-sized at 4x and served as-is to stay sharp. */}
+          <Image
+            src="/brand/asili-safaris-mark-nav.png"
+            alt={SITE_NAME}
+            width={159}
+            height={144}
+            unoptimized
+            className="h-8 w-auto md:h-9"
+          />
         </Link>
 
         {/* Desktop links */}

@@ -8,28 +8,63 @@ import Testimonials from "../components/Testimonials";
 
 import { getHeroImages, listImages } from "../lib/helpers";
 import { featuredTestimonials } from "../lib/testimonials";
+import {
+  EMAIL,
+  FOUNDER_JSON_LD,
+  INSTAGRAM_URL,
+  LOGO_URL,
+  ORGANIZATION_ID,
+  PHONE_TEL,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_URL,
+} from "../lib/constants";
+import { jsonLdGraph } from "../lib/jsonLd";
 
-// Entity data for search: ties the name to wildlife photography and the
-// Instagram profile. Claims here must stay factual (see PRODUCT.md).
-const JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "ProfilePage",
-  mainEntity: {
-    "@type": "Person",
-    name: "Tarang Hirani",
-    jobTitle: "Wildlife Photographer",
-    url: "https://www.taranghirani.com",
+// Entity data for search. The WebSite name is what Google shows as the site
+// name in results; the Organization is the business, with the founder as the
+// person behind it. Claims here must stay factual (see PRODUCT.md).
+const JSON_LD = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    name: SITE_NAME,
+    alternateName: "Asili",
+    url: SITE_URL,
+    publisher: { "@id": ORGANIZATION_ID },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": ["Organization", "TravelAgency"],
+    "@id": ORGANIZATION_ID,
+    name: SITE_NAME,
+    slogan: SITE_TAGLINE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    logo: { "@type": "ImageObject", url: LOGO_URL },
     image:
       "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/_Z9_20251231_TMH_2311_wm_wyiafz",
-    sameAs: ["https://www.instagram.com/tarang.hirani/"],
+    email: EMAIL,
+    telephone: PHONE_TEL.replace("tel:", ""),
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Pune",
+      addressRegion: "Maharashtra",
+      addressCountry: "IN",
+    },
+    areaServed: ["India", "Africa"],
+    sameAs: [INSTAGRAM_URL],
     knowsAbout: [
       "Wildlife photography",
+      "Wildlife safaris",
       "Tiger photography",
-      "Safari photography",
+      "Photography workshops",
     ],
-    worksFor: { "@type": "Organization", name: "Asili Safaris" },
+    founder: FOUNDER_JSON_LD,
   },
-};
+];
 
 export async function getStaticProps() {
   const [heroImages, carouselImages] = await Promise.all([
@@ -60,7 +95,7 @@ export default function Home({
       <Head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdGraph(JSON_LD) }}
         />
       </Head>
       <Hero

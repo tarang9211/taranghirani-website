@@ -1,4 +1,4 @@
-import Head from "next/head";
+import PageMeta from "../../components/PageMeta";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -11,6 +11,13 @@ import ContentRenderer from "../../components/blog/ContentRenderer";
 import ShareStrip from "../../components/blog/ShareStrip";
 import EmailSignup from "../../components/EmailSignup";
 import FadeIn from "../../components/FadeIn";
+import {
+  FOUNDER_ID,
+  FOUNDER_NAME,
+  LOGO_URL,
+  ORGANIZATION_REF,
+  SITE_URL,
+} from "../../lib/constants";
 
 export async function getStaticPaths() {
   const posts = getAllPosts();
@@ -67,8 +74,7 @@ function formatDate(dateStr) {
 }
 
 export default function BlogPost({ post, ogImage, prevPost, nextPost }) {
-  const pageTitle = `${post.title} | Tarang Hirani`;
-  const pageUrl = `https://www.taranghirani.com/blog/${post.slug}`;
+  const pageUrl = `${SITE_URL}/blog/${post.slug}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -78,12 +84,13 @@ export default function BlogPost({ post, ogImage, prevPost, nextPost }) {
     datePublished: post.date,
     author: {
       "@type": "Person",
-      name: "Tarang Hirani",
-      url: "https://www.taranghirani.com",
+      "@id": FOUNDER_ID,
+      name: FOUNDER_NAME,
+      url: SITE_URL,
     },
     publisher: {
-      "@type": "Person",
-      name: "Tarang Hirani",
+      ...ORGANIZATION_REF,
+      logo: { "@type": "ImageObject", url: LOGO_URL },
     },
     url: pageUrl,
     ...(ogImage && { image: ogImage }),
@@ -91,28 +98,21 @@ export default function BlogPost({ post, ogImage, prevPost, nextPost }) {
 
   return (
     <>
-      <Head>
-        <title>{pageTitle}</title>
-        <meta name="description" content={post.excerpt} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={post.excerpt} />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content={pageUrl} />
+      <PageMeta
+        title={post.title}
+        description={post.excerpt}
+        type="article"
+        image={ogImage}
+        imageAlt={post.heroImage?.alt}
+      >
         <meta property="article:published_time" content={post.date} />
-        {ogImage && <meta property="og:image" content={ogImage} />}
         {ogImage && <meta property="og:image:width" content="1200" />}
         {ogImage && <meta property="og:image:height" content="630" />}
-        {ogImage && post.heroImage?.alt && (
-          <meta property="og:image:alt" content={post.heroImage.alt} />
-        )}
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={post.excerpt} />
-        {ogImage && <meta name="twitter:image" content={ogImage} />}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </Head>
+      </PageMeta>
 
       {/* Header */}
       <section className="bg-charcoal pt-32 pb-12 md:pt-36 md:pb-16">

@@ -31,7 +31,7 @@ export default function AboutSection() {
               }`}
             >
               <p className="text-sm font-medium uppercase tracking-eyebrow text-sage">
-                About
+                Tarang Hirani
               </p>
               <div className="mt-4 h-px w-16 bg-white/10" />
 

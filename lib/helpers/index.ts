@@ -24,7 +24,7 @@ export async function getHeroImage(): Promise<HeroImage | null> {
   const hero = resources.at(0);
   return {
     url: optimizeUrl(hero.secure_url),
-    alt: hero.context?.custom?.alt ?? "Wildlife photograph by Tarang Hirani",
+    alt: hero.context?.custom?.alt ?? "Wildlife photograph from an Asili Safaris trip",
   };
 }
 
@@ -52,7 +52,7 @@ export async function getHeroImages(): Promise<HeroImages> {
 
   const toHeroImage = (img: any, width: number): HeroImage => ({
     url: optimizeUrl(img.secure_url, width),
-    alt: img.context?.custom?.alt ?? "Wildlife photograph by Tarang Hirani",
+    alt: img.context?.custom?.alt ?? "Wildlife photograph from an Asili Safaris trip",
   });
 
   // Fall back to the legacy "hero" tag if specific tags are missing

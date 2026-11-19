@@ -7,6 +7,7 @@ import {
   EMAIL,
   EMAIL_MAILTO,
   INSTAGRAM_URL,
+  INSTAGRAM_HANDLE,
 } from "../lib/constants";
 
 type Theme = "dark" | "light";
@@ -63,7 +64,7 @@ const buildItems = (includeInstagram: boolean): ContactItem[] => {
       external: true,
       icon: Instagram,
       label: "Instagram",
-      value: "@tarang.hirani",
+      value: INSTAGRAM_HANDLE,
       ariaLabel: "Follow on Instagram",
     });
   }

@@ -1,5 +1,6 @@
 import React from "react";
 import FadeIn from "./FadeIn";
+import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from "../lib/constants";
 
 export default function InstagramCTA() {
   return (
@@ -7,16 +8,16 @@ export default function InstagramCTA() {
       <div className="mx-auto max-w-3xl px-6 md:px-12 text-center">
         <FadeIn>
           <p className="font-display text-xl md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed tracking-tight">
-            Follow my journey &mdash; field notes, behind-the-scenes, and
-            photography tips.
+            Follow along for field notes, behind-the-scenes and photography
+            tips.
           </p>
           <a
-            href="https://www.instagram.com/tarang.hirani/"
+            href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="group mt-10 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-sage transition-colors duration-300 hover:text-white"
           >
-            @tarang.hirani
+            {INSTAGRAM_HANDLE}
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
               &rarr;
             </span>

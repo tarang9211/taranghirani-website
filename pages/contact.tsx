@@ -1,4 +1,4 @@
-import Head from "next/head";
+import PageMeta from "../components/PageMeta";
 import FadeIn from "../components/FadeIn";
 import ContactLinks from "../components/ContactLinks";
 import ContactForm from "../components/ContactForm";
@@ -6,14 +6,10 @@ import ContactForm from "../components/ContactForm";
 export default function ContactPage() {
   return (
     <>
-      <Head>
-        <title>Contact | Tarang Hirani</title>
-        <meta
-          name="description"
-          content="Get in touch with Tarang Hirani to enquire about wildlife safaris in India and Africa, prints, collaborations, or commissions. Send a message or reach out on WhatsApp."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      <PageMeta
+        title="Contact"
+        description="Get in touch with Asili Safaris to enquire about wildlife photography experiences in India and Africa, prints, collaborations or commissions. Send a message or reach out on WhatsApp."
+      />
 
       <section className="bg-paper min-h-screen pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="mx-auto max-w-2xl px-6 md:px-12">

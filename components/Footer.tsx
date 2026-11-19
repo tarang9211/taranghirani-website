@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Instagram } from "lucide-react";
-import { INSTAGRAM_URL } from "../lib/constants";
+import { INSTAGRAM_URL, SITE_NAME } from "../lib/constants";
 import EmailSignup from "./EmailSignup";
 import ContactLinks from "./ContactLinks";
 
@@ -30,7 +30,9 @@ const Footer: React.FC = () => {
         <div className="h-px bg-white/5" />
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-xs font-medium tracking-wide text-white/60">
-            <p>&copy; {currentYear} Tarang Hirani</p>
+            <p>
+              &copy; {currentYear} {SITE_NAME}
+            </p>
           </div>
 
           <Link
