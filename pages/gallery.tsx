@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
+import PageMeta from "../components/PageMeta";
+import { INSTAGRAM_DM_URL } from "../lib/constants";
 import Link from "next/link";
 import ImageLightbox from "../components/gallery/ImageLightbox";
 import MasonryGrid from "../components/gallery/MasonryGrid";
@@ -167,14 +168,10 @@ export default function Gallery({ images }: GalleryProps) {
 
   return (
     <>
-      <Head>
-        <title>Gallery | Tarang Hirani</title>
-        <meta
-          name="description"
-          content="Wildlife photography portfolio featuring big cats, birds, and wild places across India and Africa. Immersive storytelling from the wild."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      <PageMeta
+        title="Wildlife Photography Gallery"
+        description="Wildlife photographs from Asili Safaris trips across India and Africa: big cats, birds and the wild places they live in."
+      />
 
       {/* Gallery Header */}
       <section className="bg-charcoal pt-32 pb-12 md:pt-36 md:pb-20">
@@ -231,7 +228,7 @@ export default function Gallery({ images }: GalleryProps) {
             across Africa and India for those who want to see the wild up close.
           </p>
           <Link
-            href="https://ig.me/m/tarang.hirani"
+            href={INSTAGRAM_DM_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-10 inline-flex items-center gap-2 font-display text-sm uppercase tracking-[0.15em] text-charcoal transition-colors duration-300 hover:text-sage group"

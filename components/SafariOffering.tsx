@@ -1,5 +1,6 @@
 import React from "react";
 import FadeIn from "./FadeIn";
+import { INSTAGRAM_DM_URL } from "../lib/constants";
 
 export default function SafariOffering() {
   return (
@@ -23,7 +24,7 @@ export default function SafariOffering() {
             included
           </p>
           <a
-            href="https://ig.me/m/tarang.hirani"
+            href={INSTAGRAM_DM_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="group mt-10 inline-flex items-center gap-2 border border-sage px-7 py-3.5 text-xs font-medium uppercase tracking-cta text-sage transition-colors duration-300 hover:bg-sage hover:text-charcoal"

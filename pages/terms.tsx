@@ -478,17 +478,12 @@ export default function TermsPage() {
     <>
       <Head>
         <title>{PAGE_TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        <meta name="description" content={DESCRIPTION} key="description" />
         <meta property="og:title" content={PAGE_TITLE} key="og:title" />
         <meta
           property="og:description"
           content={DESCRIPTION}
           key="og:description"
-        />
-        <meta
-          property="og:url"
-          content="https://www.asilisafaris.in/terms"
-          key="og:url"
         />
         <meta name="twitter:title" content={PAGE_TITLE} key="twitter:title" />
         <meta

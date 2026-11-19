@@ -1,4 +1,5 @@
-import Head from "next/head";
+import PageMeta from "../../components/PageMeta";
+import { INSTAGRAM_URL, INSTAGRAM_HANDLE } from "../../lib/constants";
 import Link from "next/link";
 import { getAllPosts } from "../../lib/blog/posts";
 import {
@@ -19,24 +20,7 @@ export default function BlogIndex({ posts }) {
 
   return (
     <>
-      <Head>
-        <title>Field Notes | Tarang Hirani</title>
-        <meta
-          name="description"
-          content="Stories from the field. Reflections on wildlife photography, conservation, and the wild places that shape us."
-        />
-        <meta property="og:title" content="Field Notes | Tarang Hirani" />
-        <meta
-          property="og:description"
-          content="Stories from the field. Reflections on wildlife photography, conservation, and the wild places that shape us."
-        />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:title" content="Field Notes | Tarang Hirani" />
-        <meta
-          name="twitter:description"
-          content="Stories from the field. Reflections on wildlife photography, conservation, and the wild places that shape us."
-        />
-      </Head>
+      <PageMeta title="Field Notes" description="Stories from the field. Reflections on wildlife photography, conservation, and the wild places that shape us." />
 
       {/* Header */}
       <section className="bg-charcoal pt-32 pb-12 md:pt-36 md:pb-20">
@@ -94,12 +78,12 @@ export default function BlogIndex({ posts }) {
             don&apos;t make it to the journal. Follow along on Instagram.
           </p>
           <Link
-            href="https://www.instagram.com/tarang.hirani/?hl=en"
+            href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-10 inline-flex items-center gap-2 font-display text-sm uppercase tracking-[0.15em] text-charcoal transition-colors duration-300 hover:text-sage group"
           >
-            @tarang.hirani
+            {INSTAGRAM_HANDLE}
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
               &rarr;
             </span>

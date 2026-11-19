@@ -1,4 +1,5 @@
-import { getImageProps } from "next/image";
+import Image, { getImageProps } from "next/image";
+import { SITE_NAME } from "../lib/constants";
 import Head from "next/head";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -124,11 +125,19 @@ function Hero({ desktopSrc, mobileSrc, desktopAlt, mobileAlt }: HeroProps) {
             ref={textRef}
             className="md:transition-transform md:duration-[600ms] md:ease-out md:will-change-transform"
           >
-            <div className="mb-6 h-px w-10 bg-sage opacity-0 animate-fade-up md:mb-8" />
-            <h1 className="font-display text-5xl font-semibold leading-[0.95] tracking-tight text-white opacity-0 animate-fade-up md:text-6xl md:leading-[0.9] lg:text-7xl xl:text-8xl">
-              Tarang
-              <br />
-              Hirani
+            {/* The logo is the h1; its alt text keeps the brand name as the heading text. */}
+            <h1 className="opacity-0 animate-fade-up">
+              {/* Pre-sized at 3x and served as-is: the optimiser's recompression
+                  softens the copper texture. */}
+              <Image
+                src="/brand/asili-safaris-wordmark-900.webp"
+                alt={SITE_NAME}
+                width={900}
+                height={244}
+                loading="eager"
+                unoptimized
+                className="h-auto w-[96px] md:w-[110px] xl:w-[130px]"
+              />
             </h1>
             <p className="mt-4 font-display text-xl leading-snug text-white/80 opacity-0 animate-fade-up-delay md:mt-6 lg:text-2xl">
               Experience the Wild. Capture the Moment.
@@ -137,7 +146,8 @@ function Hero({ desktopSrc, mobileSrc, desktopAlt, mobileAlt }: HeroProps) {
               className="mt-3 text-sm font-light leading-relaxed text-white opacity-0 animate-fade-up md:mt-4 lg:text-base"
               style={{ animationDelay: "0.4s" }}
             >
-              Wildlife photography and curated safaris across India and Africa.
+              Photography-led wildlife experiences across India and Africa,
+              led by Tarang Hirani.
             </p>
             <a
               href="#work"

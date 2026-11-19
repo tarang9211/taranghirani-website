@@ -7,7 +7,7 @@ import { parseMobile } from "../../lib/phone";
 const TO_ADDRESSES = ["tarang@asilisafaris.in", "tarang9211@gmail.com"];
 const FROM_ADDRESS =
   process.env.CONTACT_FROM_ADDRESS ||
-  "Tarang Hirani Website <onboarding@resend.dev>";
+  "Asili Safaris <onboarding@resend.dev>";
 
 const MAX_LEN = {
   name: 120,
@@ -222,11 +222,11 @@ export default async function handler(
         "",
         "Thanks for reaching out — your message has landed with me and I'll be in touch within 24 hours.",
         "",
-        "In the meantime, feel free to browse my work at taranghirani.com or reach me on Instagram @tarang.hirani.",
+        "In the meantime, feel free to browse our trips and work at taranghirani.com or reach us on Instagram @asili.safaris.",
         "",
         "Warm regards,",
         "Tarang Hirani",
-        "Wildlife Photographer",
+        "Asili Safaris",
       ].join("\n");
 
       const ackHtml = `<!doctype html>
@@ -234,16 +234,16 @@ export default async function handler(
   <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#C4956A; margin:0 0 16px;">Message Received</p>
   <p style="font-size:16px; line-height:1.6; margin:0 0 16px;">Hi ${escapeHtml(trimmed.name)},</p>
   <p style="font-size:16px; line-height:1.6; margin:0 0 16px;">Thanks for reaching out — your message has landed with me and I'll be in touch <strong>within 24 hours</strong>.</p>
-  <p style="font-size:16px; line-height:1.6; margin:0 0 24px;">In the meantime, feel free to browse my work at <a href="https://www.taranghirani.com" style="color:#C4956A;">taranghirani.com</a> or reach me on Instagram <a href="https://instagram.com/tarang.hirani" style="color:#C4956A;">@tarang.hirani</a>.</p>
+  <p style="font-size:16px; line-height:1.6; margin:0 0 24px;">In the meantime, feel free to browse our trips and work at <a href="https://www.taranghirani.com" style="color:#C4956A;">taranghirani.com</a> or reach us on Instagram <a href="https://instagram.com/asili.safaris" style="color:#C4956A;">@asili.safaris</a>.</p>
   <p style="font-size:16px; line-height:1.6; margin:0;">Warm regards,<br/>Tarang Hirani</p>
-  <p style="font-size:13px; color:#525252; margin:4px 0 0;">Wildlife Photographer</p>
+  <p style="font-size:13px; color:#525252; margin:4px 0 0;">Asili Safaris</p>
 </body></html>`;
 
       const { error: ackError } = await resend.emails.send({
         from: FROM_ADDRESS,
         to: trimmed.email,
         replyTo: TO_ADDRESSES[0],
-        subject: "Thanks for reaching out — Tarang Hirani",
+        subject: "Thanks for reaching out to Asili Safaris",
         text: ackText,
         html: ackHtml,
       });

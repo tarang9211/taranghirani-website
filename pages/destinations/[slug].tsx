@@ -12,8 +12,14 @@ import {
   EMAIL,
   EMAIL_MAILTO,
   INSTAGRAM_URL,
+  INSTAGRAM_HANDLE,
   WHATSAPP_URL,
+  FOUNDER_ID,
+  FOUNDER_NAME,
+  ORGANIZATION_REF,
+  SITE_URL,
 } from "../../lib/constants";
+import { jsonLdGraph } from "../../lib/jsonLd";
 import {
   DESTINATIONS,
   visibleDepartures,
@@ -100,7 +106,7 @@ export default function DestinationWorkshopPage({
     nextDeparture ?? departures[0],
   );
 
-  const pageUrl = `https://www.taranghirani.com/destinations/${dest.slug}`;
+  const pageUrl = `${SITE_URL}/destinations/${dest.slug}`;
   // Full region name in title + h1: searchers type "Madhya Pradesh", not "MP".
   const pageTitle = `Wildlife Photography Workshop in ${page.fullLocation}`;
   // Snippet lists only the next bookable date — sold-out departures stay out
@@ -164,15 +170,12 @@ export default function DestinationWorkshopPage({
         longitude: event.longitude,
       },
     },
-    organizer: {
-      "@type": "Person",
-      name: "Tarang Hirani",
-      url: "https://www.taranghirani.com",
-    },
+    organizer: ORGANIZATION_REF,
+    // The founder leads every trip in person.
     performer: {
       "@type": "Person",
-      name: "Tarang Hirani",
-      url: "https://www.taranghirani.com",
+      "@id": FOUNDER_ID,
+      name: FOUNDER_NAME,
     },
     offers: {
       "@type": "Offer",
@@ -193,7 +196,7 @@ export default function DestinationWorkshopPage({
         "@type": "ListItem",
         position: 1,
         name: "Workshops",
-        item: "https://www.taranghirani.com/destinations",
+        item: `${SITE_URL}/destinations`,
       },
       {
         "@type": "ListItem",
@@ -219,7 +222,11 @@ export default function DestinationWorkshopPage({
     <>
       <Head>
         <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
+        <meta
+          name="description"
+          content={pageDescription}
+          key="description"
+        />
         <meta property="og:title" content={pageTitle} key="og:title" />
         <meta
           property="og:description"
@@ -238,7 +245,7 @@ export default function DestinationWorkshopPage({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([...eventsJsonLd, breadcrumbJsonLd]),
+            __html: jsonLdGraph([...eventsJsonLd, breadcrumbJsonLd]),
           }}
         />
       </Head>
@@ -651,7 +658,7 @@ export default function DestinationWorkshopPage({
                   <span className="font-display uppercase tracking-[0.15em]">
                     Instagram
                   </span>
-                  <span className="tracking-wide">@tarang.hirani</span>
+                  <span className="tracking-wide">{INSTAGRAM_HANDLE}</span>
                 </a>
               </li>
             </ul>

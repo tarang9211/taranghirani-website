@@ -4,6 +4,12 @@ import Head from "next/head";
 import Script from "next/script";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
+import {
+  SITE_NAME,
+  SITE_URL,
+  SITE_TAGLINE,
+  SITE_DESCRIPTION,
+} from "../lib/constants";
 
 const GA_MEASUREMENT_ID = "G-JBM6SPGXWS";
 const META_PIXEL_ID = "1764170624923526";
@@ -11,7 +17,7 @@ const META_PIXEL_ID = "1764170624923526";
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const { asPath } = router;
-  const canonicalUrl = `https://www.taranghirani.com${asPath === "/" ? "" : asPath.split("?")[0]}`;
+  const canonicalUrl = `${SITE_URL}${asPath === "/" ? "" : asPath.split("?")[0]}`;
 
   // Fire a Meta Pixel PageView on every client-side navigation. The base pixel
   // code only tracks the initial load, so this covers SPA route changes.
@@ -26,10 +32,9 @@ export default function MyApp({ Component, pageProps }) {
   }, [router.events]);
 
   const meta = {
-    title: "Tarang Hirani | Wildlife Photographer",
-    description:
-      "Wildlife photography portfolio featuring big cats, birds, and wild places across India and Africa. Immersive storytelling from the wild.",
-    url: "https://www.taranghirani.com",
+    title: `${SITE_TAGLINE} | ${SITE_NAME}`,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
     image:
       "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/_Z9_20251231_TMH_2311_wm_wyiafz",
   };
@@ -43,15 +48,20 @@ export default function MyApp({ Component, pageProps }) {
           content="RTlg1RFRuCDiwJq2fNrrZP_qVqUzIEJe4vkH2xLrTXU"
         />
         <title>{meta.title}</title>
-        <meta name="description" content={meta.description} />
+        <meta
+          name="description"
+          content={meta.description}
+          key="description"
+        />
         <meta property="og:type" content="website" key="og:type" />
+        <meta property="og:site_name" content={SITE_NAME} key="og:site_name" />
         <meta property="og:title" content={meta.title} key="og:title" />
         <meta
           property="og:description"
           content={meta.description}
           key="og:description"
         />
-        <meta property="og:url" content={meta.url} key="og:url" />
+        <meta property="og:url" content={canonicalUrl} key="og:url" />
         <meta property="og:image" content={meta.image} key="og:image" />
         <meta
           name="twitter:card"
@@ -65,7 +75,7 @@ export default function MyApp({ Component, pageProps }) {
           key="twitter:description"
         />
         <meta name="twitter:image" content={meta.image} key="twitter:image" />
-        <link rel="canonical" href={canonicalUrl} />
+        <link rel="canonical" href={canonicalUrl} key="canonical" />
       </Head>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}

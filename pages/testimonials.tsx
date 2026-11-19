@@ -5,7 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import FadeIn from "../components/FadeIn";
 import TestimonialAvatar from "../components/TestimonialAvatar";
-import { WHATSAPP_URL } from "../lib/constants";
+import {
+  ORGANIZATION_REF,
+  SITE_NAME,
+  SITE_URL,
+  WHATSAPP_URL,
+} from "../lib/constants";
+import { jsonLdGraph } from "../lib/jsonLd";
 import {
   hasTestimonials,
   publishedTestimonials,
@@ -21,11 +27,10 @@ const HERO_IMAGE = `${CLOUDINARY_BASE}/DSC_0959_hshxmc`;
 const HERO_ALT =
   "A male lion mid-roar standing over a lioness lying in the grass of an open savannah";
 
-const PAGE_URL = "https://www.taranghirani.com/testimonials";
-const PAGE_TITLE =
-  "Guest Stories: Wildlife Photography Workshops | Tarang Hirani";
+const PAGE_URL = `${SITE_URL}/testimonials`;
+const PAGE_TITLE = `Guest Stories: Wildlife Photography Workshops | ${SITE_NAME}`;
 const PAGE_DESCRIPTION =
-  "What guests said after photographing with Tarang Hirani in India and Africa. Six people or fewer, personally led, teaching included.";
+  "What guests said after wildlife photography experiences with Asili Safaris in India and Africa. Six people or fewer, led by Tarang Hirani, teaching included.";
 const OG_IMAGE =
   "https://res.cloudinary.com/duiyn8wll/image/upload/w_1200,h_630,c_fill,f_jpg,q_auto/DSC_0959_hshxmc";
 
@@ -38,11 +43,7 @@ const JSON_LD = [
     name: "Guest Stories",
     url: PAGE_URL,
     description: PAGE_DESCRIPTION,
-    about: {
-      "@type": "Person",
-      name: "Tarang Hirani",
-      url: "https://www.taranghirani.com",
-    },
+    about: ORGANIZATION_REF,
   },
   {
     "@context": "https://schema.org",
@@ -52,7 +53,7 @@ const JSON_LD = [
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://www.taranghirani.com",
+        item: SITE_URL,
       },
       {
         "@type": "ListItem",
@@ -122,7 +123,11 @@ export default function TestimonialsPage({ testimonials, regions }: Props) {
     <div className="bg-charcoal text-parchment">
       <Head>
         <title>{PAGE_TITLE}</title>
-        <meta name="description" content={PAGE_DESCRIPTION} />
+        <meta
+          name="description"
+          content={PAGE_DESCRIPTION}
+          key="description"
+        />
         <meta property="og:title" content={PAGE_TITLE} key="og:title" />
         <meta
           property="og:description"
@@ -140,7 +145,7 @@ export default function TestimonialsPage({ testimonials, regions }: Props) {
         <meta name="twitter:image" content={OG_IMAGE} key="twitter:image" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdGraph(JSON_LD) }}
         />
       </Head>
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { SITE_NAME } from "../../lib/constants";
 
 interface ShareStripProps {
   url: string;
@@ -16,7 +17,7 @@ export default function ShareStrip({ url, title }: ShareStripProps) {
     setCanNativeShare(isMobile && typeof navigator.share === "function");
   }, []);
 
-  const text = `${title} — by Tarang Hirani`;
+  const text = `${title} | ${SITE_NAME}`;
 
   const nativeShare = async () => {
     try {
