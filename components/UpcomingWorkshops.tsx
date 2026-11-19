@@ -2,7 +2,11 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import FadeIn from "./FadeIn";
-import { activeDestinations, visibleDepartures } from "../lib/workshops";
+import {
+  activeDestinations,
+  homePageDestinations,
+  visibleDepartures,
+} from "../lib/workshops";
 
 type Theme = "dark" | "light";
 
@@ -19,7 +23,7 @@ export default function UpcomingWorkshops({
 }) {
   const isDark = theme === "dark";
 
-  const destinations = activeDestinations();
+  const destinations = concise ? homePageDestinations() : activeDestinations();
 
   const cardBorder = isDark
     ? "border-white/10 hover:border-sage"

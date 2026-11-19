@@ -182,6 +182,16 @@ export function activeDestinations(): Destination[] {
   return DESTINATIONS.filter((d) => visibleDepartures(d).length > 0);
 }
 
+// Home page cards: only trips still for sale. Sold-out departures are dropped,
+// and so is any destination left with none. Other surfaces keep sold-out
+// dates visible for the waitlist.
+export function homePageDestinations(): Destination[] {
+  return DESTINATIONS.map((d) => ({
+    ...d,
+    departures: d.departures.filter((dep) => dep.status === "open"),
+  })).filter((d) => d.departures.length > 0);
+}
+
 // Active destinations grouped by country, in display order, skipping empty
 // countries. Drives the Workshops nav dropdown and the listing cards.
 export function destinationsByCountry(): {
