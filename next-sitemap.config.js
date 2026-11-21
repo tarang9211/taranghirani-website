@@ -7,7 +7,7 @@ const hasTestimonials = testimonials.some((t) => t.published === true);
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: "https://www.taranghirani.com",
+  siteUrl: "https://www.asilisafaris.in",
   generateRobotsTxt: false,
   outDir: "public",
   // /terms is noindex, so keep it out of the sitemap too.
