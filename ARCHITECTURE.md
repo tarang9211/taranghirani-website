@@ -17,9 +17,11 @@ The framework and runtime stack used to build the site.
 
 ## Domain
 
-- **Registrar:** Squarespace Domains. `taranghirani.com` is registered and renewed here.
-- **DNS:** Managed at Vercel. Squarespace points the nameservers at Vercel so DNS records (A, CNAME, TXT, MX) are edited in the Vercel dashboard, not at Squarespace.
-- **Practical implication:** for anything DNS-related (email auth, subdomains, verification records), go to **Vercel → Project → Domains → DNS Records**. Squarespace is only touched for renewal, WHOIS, or transfers.
+- **Canonical domain:** `www.asilisafaris.in` (since November 2026). `taranghirani.com`, `www.taranghirani.com` and the bare `asilisafaris.in` all 308-redirect to it page for page. The redirects live in `next.config.js` (host-based) and are mirrored in Vercel → Project → Settings → Domains. Keep `taranghirani.com` on the Vercel project and keep renewing it: old links and Google's index still point there.
+- **Email on asilisafaris.in:** Google Workspace (MX `smtp.google.com`). `tarang@asilisafaris.in` is the public address.
+- **Registrar:** Squarespace Domains for both domains. `asilisafaris.in` expires 2027-08-08.
+- **DNS:** Managed at **Squarespace**, not Vercel (checked November 2026). `taranghirani.com` uses Squarespace's Google-era nameservers (`ns-cloud-a*.googledomains.com`) and `asilisafaris.in` uses `nsb*.squarespacedns.com`. Each domain has its apex `A` record and its `www` `CNAME` pointing at Vercel. Vercel only serves the site and does the redirects. It doesn't hold the DNS.
+- **Practical implication:** for anything DNS-related (email auth, subdomains, verification records), go to **Squarespace → Domains → (domain) → DNS**. Don't delete the `taranghirani.com` A/CNAME records: the redirects to `www.asilisafaris.in` need that domain to keep reaching Vercel.
 
 ## Vercel
 
@@ -31,9 +33,9 @@ Vercel handles three responsibilities for this site.
 - Preview deployments are created automatically for pull requests.
 - Build settings use Next.js defaults — there is no `vercel.json`; build-time configuration lives in `next.config.js`.
 
-### 2. DNS for taranghirani.com
+### 2. Domains
 
-As described in the Domain section above, all DNS records are managed in the Vercel dashboard.
+Both domains are attached to the project under Settings → Domains. DNS itself lives at Squarespace (see the Domain section above).
 
 ### 3. Environment variables & secrets
 
@@ -44,17 +46,19 @@ As described in the Domain section above, all DNS records are managed in the Ver
 
 Two services work together. **Kit** handles outbound email (newsletters, broadcasts, automations). **ImprovMX** handles inbound email to `safaris@taranghirani.com`.
 
+> **Being retired.** `safaris@taranghirani.com` is to be deleted once nothing depends on it: Kit's sender moves to `tarang@asilisafaris.in` (with Kit's DNS records added for `asilisafaris.in`), the Facebook page and any Resend `CONTACT_FROM_ADDRESS` stop using it, and the alias is removed in ImprovMX. Keep the `taranghirani.com` MX records until the alias is gone. Update this section when that's done.
+
 ### Outbound — Kit (formerly ConvertKit)
 
 - Newsletter capture and broadcasts run through Kit.
 - The signup form on the site posts to the serverless route at `pages/api/subscribe.ts`, which calls Kit's v4 API (`https://api.kit.com/v4/`) using `KIT_API_SECRET` and subscribes the email to the form identified by `KIT_FORM_ID`.
 - Sender address `safaris@taranghirani.com` is configured in the Kit dashboard.
-- Deliverability is set up via DNS records that Kit provides (DKIM CNAME, SPF TXT, return-path CNAME). These are added in Vercel's DNS panel.
+- Deliverability is set up via DNS records that Kit provides (DKIM CNAME, SPF TXT, return-path CNAME). These are added in the Squarespace DNS panel.
 
 ### Inbound alias — ImprovMX
 
 - `safaris@taranghirani.com` is **not** a real mailbox. It's a free alias provided by ImprovMX that forwards incoming mail to the personal inbox.
-- Set up by pointing the MX records for `taranghirani.com` at ImprovMX (`mx1.improvmx.com`, `mx2.improvmx.com`) in Vercel's DNS panel, plus the ImprovMX SPF include.
+- Set up by pointing the MX records for `taranghirani.com` at ImprovMX (`mx1.improvmx.com`, `mx2.improvmx.com`) in the Squarespace DNS panel, plus the ImprovMX SPF include.
 - Aliases are managed at improvmx.com.
 
 ### Why both?
@@ -66,7 +70,7 @@ Kit can send *from* `safaris@taranghirani.com`, but doesn't provide a mailbox to
 | Need to change…              | Go to            |
 | ---------------------------- | ---------------- |
 | Renew the domain             | Squarespace      |
-| Edit a DNS record            | Vercel           |
+| Edit a DNS record            | Squarespace      |
 | Add an env var / secret      | Vercel           |
 | Deploy or roll back          | Vercel / GitHub  |
 | Edit a newsletter or form    | Kit              |

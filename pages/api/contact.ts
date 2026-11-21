@@ -134,7 +134,7 @@ export default async function handler(
     trimmed.message,
     "",
     "—",
-    "Sent from the contact form on taranghirani.com",
+    "Sent from the contact form on asilisafaris.in",
   ].join("\n");
 
   const html = `<!doctype html>
@@ -173,7 +173,7 @@ export default async function handler(
   </table>
   <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#525252; margin:0 0 8px;">Message</p>
   <div style="font-size:15px; line-height:1.6; white-space:pre-wrap; padding:16px; background:#F5F5F3; border-left:2px solid #C4956A;">${escapeHtml(trimmed.message)}</div>
-  <p style="font-size:11px; color:#999; margin-top:24px;">Sent from the contact form on taranghirani.com</p>
+  <p style="font-size:11px; color:#999; margin-top:24px;">Sent from the contact form on asilisafaris.in</p>
 </body></html>`;
 
   try {
@@ -222,7 +222,7 @@ export default async function handler(
         "",
         "Thanks for reaching out — your message has landed with me and I'll be in touch within 24 hours.",
         "",
-        "In the meantime, feel free to browse our trips and work at taranghirani.com or reach us on Instagram @asili.safaris.",
+        "In the meantime, feel free to browse our trips and work at asilisafaris.in or reach us on Instagram @asili.safaris.",
         "",
         "Warm regards,",
         "Tarang Hirani",
@@ -234,7 +234,7 @@ export default async function handler(
   <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#C4956A; margin:0 0 16px;">Message Received</p>
   <p style="font-size:16px; line-height:1.6; margin:0 0 16px;">Hi ${escapeHtml(trimmed.name)},</p>
   <p style="font-size:16px; line-height:1.6; margin:0 0 16px;">Thanks for reaching out — your message has landed with me and I'll be in touch <strong>within 24 hours</strong>.</p>
-  <p style="font-size:16px; line-height:1.6; margin:0 0 24px;">In the meantime, feel free to browse our trips and work at <a href="https://www.taranghirani.com" style="color:#C4956A;">taranghirani.com</a> or reach us on Instagram <a href="https://instagram.com/asili.safaris" style="color:#C4956A;">@asili.safaris</a>.</p>
+  <p style="font-size:16px; line-height:1.6; margin:0 0 24px;">In the meantime, feel free to browse our trips and work at <a href="https://www.asilisafaris.in" style="color:#C4956A;">asilisafaris.in</a> or reach us on Instagram <a href="https://instagram.com/asili.safaris" style="color:#C4956A;">@asili.safaris</a>.</p>
   <p style="font-size:16px; line-height:1.6; margin:0;">Warm regards,<br/>Tarang Hirani</p>
   <p style="font-size:13px; color:#525252; margin:4px 0 0;">Asili Safaris</p>
 </body></html>`;

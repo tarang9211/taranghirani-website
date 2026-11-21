@@ -19,6 +19,23 @@ module.exports = {
   },
   async redirects() {
     return [
+      // Domain move: www.asilisafaris.in is the canonical host. The old domain
+      // and the bare apex go there page for page in one 308 hop. These run
+      // inside the app, so they hold even if a Vercel domain-level redirect is
+      // missing or still set to 307. Keep them indefinitely: old links and
+      // Google's index point at taranghirani.com.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "(www\\.)?taranghirani\\.com" }],
+        destination: "https://www.asilisafaris.in/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "asilisafaris\\.in" }],
+        destination: "https://www.asilisafaris.in/:path*",
+        permanent: true,
+      },
       { source: "/index", destination: "/", permanent: true },
       { source: "/workshops", destination: "/destinations", permanent: true },
       // The Jan 2027 departure merged into the single Panna page; keep old

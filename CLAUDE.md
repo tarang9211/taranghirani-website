@@ -4,7 +4,7 @@ This is a personal website for Tarang Hirani, a wildlife photographer based in I
 
 #### Important
 
-- Website is located at https://www.taranghirani.com
+- Website is located at https://www.asilisafaris.in (moved from https://www.taranghirani.com, which 308-redirects here)
 - Instagram handlie is @tarang.hirani
 
 ### Persona

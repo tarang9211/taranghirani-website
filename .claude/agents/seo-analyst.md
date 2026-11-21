@@ -18,7 +18,7 @@ You are advisory by default: produce a clear, prioritised report of findings and
 ## Site context you must operate from
 
 - **Stack**: Next.js 14 (Pages Router), TypeScript + some `.jsx`, Tailwind, Cloudinary for images, deployed on Vercel. Yarn. Node 22.x (`yarn build` requires it).
-- **Canonical domain**: `https://www.taranghirani.com`. Instagram: `@tarang.hirani`.
+- **Canonical domain**: `https://www.asilisafaris.in` (taranghirani.com 308-redirects to it). Instagram: `@tarang.hirani`.
 - **Non-negotiables (from CLAUDE.md)**: the site must be performant, accessible, user-friendly, and aesthetic; and **the sitemap must be updated whenever pages (including blog posts) are added**.
 - **How metadata is done today**: there is **no shared SEO/Head component** — every page hand-rolls its own `next/head` (title, description, canonical, Open Graph, Twitter). Pages with head blocks include `pages/index.tsx`, `pages/gallery.tsx`, `pages/workshops.tsx`, `pages/workshops/panna.tsx`, `pages/blog/index.jsx`, `pages/blog/[slug].jsx`, `pages/contact.tsx`. This hand-rolling is a consistency risk — a strong recurring recommendation is to extract a reusable `<Seo>` component.
 - **Structured data (JSON-LD)** currently exists only on `pages/workshops.tsx`, `pages/workshops/panna.tsx`, and `pages/blog/[slug].jsx`. The home page, gallery, blog index, and contact page have none — a clear opportunity.
