@@ -31,12 +31,12 @@ export default function AboutSection() {
               }`}
             >
               <p className="text-sm font-medium uppercase tracking-eyebrow text-sage">
-                Tarang Hirani
+                Tarang Hirani &middot; Wildlife photographer and trip leader
               </p>
               <div className="mt-4 h-px w-16 bg-white/10" />
 
               <h2 className="mt-8 font-display text-3xl font-semibold text-white md:text-4xl tracking-tight">
-                My Journey into the Wild
+                Where did it all start?
               </h2>
 
               <p className="mt-8 text-base md:text-lg leading-relaxed text-white/80">
