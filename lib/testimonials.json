@@ -36,5 +36,18 @@
     "workshopHref": "/destinations/jim-corbett",
     "featured": true,
     "published": true
+  },
+  {
+    "id": "ananya-2026",
+    "name": "Ananya",
+    "place": "Panna, MP",
+    "region": "India",
+    "when": "October 2026",
+    "year": "2026",
+    "short": "Highly recommend Asili to anyone looking to experience the wild, and especially to those who want to come back a better photographer.",
+    "full": "I've taken two trips with Asili so far, and Panna was truly life changing. Three days away from my usual corporate routine, immersed in the jungle. The safaris were exceptionally well organised, with a wonderful driver and sightings that I'll remember for a lifetime. Highly recommend Asili to anyone looking to experience the wild, and especially to those who want to come back a better photographer.",
+    "workshopHref": "/destinations/panna",
+    "featured": true,
+    "published": true
   }
 ]
