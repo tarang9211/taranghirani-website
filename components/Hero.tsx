@@ -125,7 +125,6 @@ function Hero({ desktopSrc, mobileSrc, desktopAlt, mobileAlt }: HeroProps) {
             ref={textRef}
             className="md:transition-transform md:duration-[600ms] md:ease-out md:will-change-transform"
           >
-            {/* The logo is the h1; its alt text keeps the brand name as the heading text. */}
             <h1 className="opacity-0 animate-fade-up">
               {/* Pre-sized to 3x the largest display width (130px) and served
                   as-is: the optimiser's recompression softens the copper texture. */}
@@ -137,9 +136,12 @@ function Hero({ desktopSrc, mobileSrc, desktopAlt, mobileAlt }: HeroProps) {
                 loading="eager"
                 unoptimized
                 className="h-auto w-[96px] md:w-[110px] xl:w-[130px]"
-              />
+              />{" "}
+              <span className="mt-4 block font-display text-xl font-normal leading-snug text-white/80 md:mt-6 lg:text-2xl">
+                Wildlife expeditions in India and Africa
+              </span>
             </h1>
-            <p className="mt-4 font-display text-xl leading-snug text-white/80 opacity-0 animate-fade-up-delay md:mt-6 lg:text-2xl">
+            <p className="mt-2 font-display text-lg leading-snug text-white/60 opacity-0 animate-fade-up-delay md:mt-3 lg:text-xl">
               Experience the Wild. Capture the Moment.
             </p>
             <p

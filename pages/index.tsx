@@ -1,4 +1,4 @@
-import Head from "next/head";
+import PageMeta from "../components/PageMeta";
 import Hero from "../components/Hero";
 import ImageCarousel from "../components/ImageCarousel";
 import SafariOffering from "../components/SafariOffering";
@@ -66,6 +66,10 @@ const JSON_LD = [
   },
 ];
 
+const PAGE_TITLE = "Wildlife Expeditions in India and Africa";
+const DESCRIPTION =
+  "Small-group wildlife photography expeditions in India and Africa, led by photographer Tarang Hirani, with hands-on teaching in the field.";
+
 export async function getStaticProps() {
   const [heroImages, carouselImages] = await Promise.all([
     getHeroImages(),
@@ -92,12 +96,15 @@ export default function Home({
   // The photography leads: work first, then who made it, then the trips.
   return (
     <div className="bg-charcoal text-parchment">
-      <Head>
+      <PageMeta
+        title={PAGE_TITLE}
+        description={DESCRIPTION}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdGraph(JSON_LD) }}
         />
-      </Head>
+      </PageMeta>
       <Hero
         desktopSrc={heroDesktop.url}
         mobileSrc={heroMobile.url}
