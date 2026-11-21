@@ -1,6 +1,6 @@
 // Brand. One source of truth so a later domain move is a one-line change.
 export const SITE_NAME = "Asili Safaris";
-export const SITE_URL = "https://www.taranghirani.com";
+export const SITE_URL = "https://www.asilisafaris.in";
 export const SITE_TAGLINE = "Wildlife Photography Experiences";
 export const SITE_DESCRIPTION =
   "Photography-led wildlife experiences in India and Africa. Small groups of six or fewer, led by wildlife photographer Tarang Hirani, with teaching in the field.";

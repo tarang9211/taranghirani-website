@@ -17,6 +17,8 @@ The framework and runtime stack used to build the site.
 
 ## Domain
 
+- **Canonical domain:** `www.asilisafaris.in` (since November 2026). `taranghirani.com`, `www.taranghirani.com` and the bare `asilisafaris.in` all 308-redirect to it page for page. The redirects live in `next.config.js` (host-based) and are mirrored in Vercel → Project → Settings → Domains. Keep `taranghirani.com` on the Vercel project and keep renewing it: old links and Google's index still point there.
+- **Email on asilisafaris.in:** Google Workspace (MX `smtp.google.com`). `tarang@asilisafaris.in` is the public address.
 - **Registrar:** Squarespace Domains. `taranghirani.com` is registered and renewed here.
 - **DNS:** Managed at Vercel. Squarespace points the nameservers at Vercel so DNS records (A, CNAME, TXT, MX) are edited in the Vercel dashboard, not at Squarespace.
 - **Practical implication:** for anything DNS-related (email auth, subdomains, verification records), go to **Vercel → Project → Domains → DNS Records**. Squarespace is only touched for renewal, WHOIS, or transfers.
@@ -43,6 +45,8 @@ As described in the Domain section above, all DNS records are managed in the Ver
 ## Email
 
 Two services work together. **Kit** handles outbound email (newsletters, broadcasts, automations). **ImprovMX** handles inbound email to `safaris@taranghirani.com`.
+
+> **Being retired.** `safaris@taranghirani.com` is to be deleted once nothing depends on it: Kit's sender moves to `tarang@asilisafaris.in` (with Kit's DNS records added for `asilisafaris.in`), the Facebook page and any Resend `CONTACT_FROM_ADDRESS` stop using it, and the alias is removed in ImprovMX. Keep the `taranghirani.com` MX records until the alias is gone. Update this section when that's done.
 
 ### Outbound — Kit (formerly ConvertKit)
 

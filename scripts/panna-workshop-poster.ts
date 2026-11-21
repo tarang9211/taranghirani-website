@@ -361,7 +361,7 @@ async function buildOverlay(
                           letterSpacing: 2,
                         },
                         children:
-                          "or email safaris@taranghirani.com to reserve",
+                          "or email tarang@asilisafaris.in to reserve",
                       },
                     },
                   ],
